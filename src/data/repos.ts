@@ -31,19 +31,35 @@ export type Job = {
 export const experience: Job[] = [
   {
     role: 'Backend Engineer & Tech Lead',
-    company: 'TODO — empresa actual',
-    period: 'TODO — 2023 — Present',
+    company: 'Naowee',
+    period: '2025 — Present',
     summary:
-      'TODO — una línea de impacto. Ej: Designed the microservices architecture and lead the backend team building a domain platform on AWS.',
-    tags: ['Go', 'Kotlin', 'AWS', 'Kafka'],
+      'Tech lead of the development team. I designed the platform architecture all projects build on, the CI/CD tooling that speeds up developer deployments, and the team’s delivery flows and processes — while staying hands-on with backend. Building social-impact initiatives for Colombian sport.',
+    tags: ['Go', 'Kotlin', 'AWS', 'CI/CD'],
   },
   {
-    role: 'Backend Engineer',
-    company: 'TODO — empresa anterior (orquestador de pagos)',
-    period: 'TODO — 2021 — 2023',
+    role: 'Backend Developer',
+    company: 'Yuno',
+    period: '2023 — 2025',
     summary:
-      'TODO — una línea de impacto. Ej: Built high-throughput microservices for a payment-orchestration platform.',
-    tags: ['Go', 'Microservices', 'Payments'],
+      'Backend developer across two payment teams. On core-payment, built payment orchestrations — Google Pay, PIX, cards — and features like installments. On checkout-payment, owned backend for the mobile SDKs: logging and event pipelines for production debugging, plus backend-driven checkout styling. Part of the payment on-call rotation for production incidents.',
+    tags: ['Go', 'Kotlin', 'Vert.x', 'Payments'],
+  },
+  {
+    role: 'Instrumentation Engineer — Dams & Civil Infrastructure',
+    company: 'Celsia Energía',
+    period: '2019 — 2023',
+    summary:
+      'Owned the dam-safety instrumentation & control program for hydroelectric plants — modernizing geodetic and hydroclimatological monitoring (sensors, processing and communications) and managing engineering projects end to end.',
+    tags: ['Instrumentation', 'Data', 'Control', 'Project Mgmt'],
+  },
+  {
+    role: 'Automation Instructor & Research Engineer',
+    company: 'SENA — CEAI',
+    period: '2016 — 2018',
+    summary:
+      'Taught industrial automation — pneumatics, hydraulics, electrical and PLC-based process control — and led applied research on PID controller-tuning methodologies for continuous process plants.',
+    tags: ['PLC', 'Process Control', 'Research', 'Teaching'],
   },
 ];
 
