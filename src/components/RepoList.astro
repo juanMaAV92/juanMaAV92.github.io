@@ -1,0 +1,26 @@
+---
+import type { Repo } from '../data/repos';
+
+interface Props {
+  items: Repo[];
+}
+const { items } = Astro.props;
+---
+
+<ul class="repo-list">
+  {items.map((repo) => (
+    <li class="repo reveal" data-featured={repo.featured}>
+      <a class="repo-link" href={repo.url} target="_blank" rel="noopener">
+        <div class="repo-top">
+          <span class="arrow" aria-hidden="true">▸</span>
+          <span class="repo-name">{repo.name}</span>
+          <span class="tags">
+            {repo.tags.map((t) => <span class="tag">{t}</span>)}
+          </span>
+          <span class="goto" aria-hidden="true">↗</span>
+        </div>
+        <p class="repo-desc">{repo.description}</p>
+      </a>
+    </li>
+  ))}
+</ul>
