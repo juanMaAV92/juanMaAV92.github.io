@@ -1,0 +1,490 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/hanken-grotesk';
+import '@fontsource/jetbrains-mono/500.css';
+
+const release = 'https://github.com/juanMaAV92/pdf-tool/releases/latest';
+const repo = 'https://github.com/juanMaAV92/pdf-tool';
+const canonical = 'https://juanmaav92.github.io/pdf-tool';
+
+const features = [
+  { icon: '🗜️', name: 'Comprimir PDF', desc: 'Reduce el peso de un PDF hasta el tamaño en MB que tú elijas.' },
+  { icon: '🔗', name: 'Unir PDFs', desc: 'Combina varios documentos en uno solo, en el orden que quieras.' },
+  { icon: '✂️', name: 'Dividir PDF', desc: 'Sepáralo por rangos de páginas, una página por archivo o cada N páginas.' },
+  { icon: '🖼️', name: 'Imágenes a PDF', desc: 'Combina varias imágenes (JPG/PNG) en un solo PDF, en el orden que elijas.' },
+  { icon: '🔒', name: 'Proteger PDF', desc: 'Añade o quita la contraseña de un documento en segundos.' },
+  { icon: '💧', name: 'Marca de agua', desc: 'Marca un documento como «Confidencial» o «Borrador», o deja tu sello en cada página para proteger su autoría.' },
+];
+
+const faqs = [
+  { q: '¿Es gratis de verdad?', a: 'Sí. PDF Tool es 100% gratuito, de código abierto (licencia MIT) y sin anuncios ni límites de uso.' },
+  { q: '¿Mis archivos se suben a algún servidor?', a: 'No, nunca. Todo el procesamiento ocurre dentro de tu ordenador. Tus documentos no salen de tu equipo en ningún momento.' },
+  { q: '¿Funciona sin conexión a internet?', a: 'Sí. Una vez instalada, no necesita internet para nada. Puedes usarla en avión, en el campo o donde quieras.' },
+  { q: '¿Por qué mi sistema muestra un aviso al abrirla?', a: 'Porque la app no está firmada con un certificado de pago. Es completamente segura —el código es abierto y cualquiera puede revisarlo—, solo hay que autorizarla una vez. Abajo te explico el paso exacto para macOS y Windows.' },
+  { q: '¿En qué sistemas funciona?', a: 'En macOS y Windows. Descarga el archivo correspondiente a tu sistema y listo.' },
+  { q: '¿Cómo se actualiza?', a: 'Cuando publico una versión nueva, la app te avisa con un aviso dentro de ella. Tus ajustes se guardan aparte, así que se conservan al actualizar.' },
+];
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'PDF Tool',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'macOS, Windows',
+  description: 'App de escritorio gratuita y de código abierto para comprimir, unir, dividir, proteger y marcar PDFs — sin subir nada a internet.',
+  url: canonical,
+  downloadUrl: release,
+  softwareLicense: 'MIT',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/pdf-tool/icon.png" />
+    <title>PDF Tool · Edita tus PDFs sin subir nada a internet</title>
+    <meta name="description" content="App de escritorio gratis y de código abierto para comprimir, unir, dividir, proteger y marcar tus PDFs. Todo ocurre en tu equipo — tus archivos nunca salen de tu ordenador. macOS y Windows." />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#0c0a0b" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content="PDF Tool · Edita tus PDFs sin subir nada a internet" />
+    <meta property="og:description" content="Comprime, une, divide, protege y marca tus PDFs desde tu propio ordenador. Gratis, open source y sin anuncios." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://juanmaav92.github.io/pdf-tool/screenshot.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PDF Tool · Edita tus PDFs sin subir nada a internet" />
+    <meta name="twitter:description" content="Comprime, une, divide, protege y marca tus PDFs desde tu propio ordenador. Gratis, open source y sin anuncios." />
+    <meta name="twitter:image" content="https://juanmaav92.github.io/pdf-tool/screenshot.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  </head>
+
+  <body>
+    <div class="bg" aria-hidden="true">
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+      <div class="grain"></div>
+    </div>
+
+    <!-- ── NAV ─────────────────────────────────────── -->
+    <header class="nav">
+      <a class="brand" href="#top">
+        <img src="/pdf-tool/icon.png" alt="PDF Tool" width="30" height="30" />
+        <span>PDF Tool</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/" class="ghost">← Portfolio</a>
+        <a href={release} class="btn btn-sm">Descargar</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ── HERO ──────────────────────────────────── -->
+      <section class="hero">
+        <p class="eyebrow rise" style="--d: 0ms">App de escritorio · macOS &amp; Windows</p>
+        <h1 class="rise" style="--d: 90ms">Tus PDFs, <em>resueltos</em><br />— sin subir nada a internet.</h1>
+        <p class="lede rise" style="--d: 180ms">
+          Comprime, une, divide, protege y marca tus documentos —y conviértelos desde imágenes—
+          desde tu propio ordenador. Gratis, de código abierto y sin anuncios.
+        </p>
+        <div class="cta rise" style="--d: 270ms">
+          <a class="btn btn-lg" href={release}>
+            <svg viewBox="0 0 384 512" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+            Descargar para macOS
+          </a>
+          <a class="btn btn-lg" href={release}>
+            <svg viewBox="0 0 448 512" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>
+            Descargar para Windows
+          </a>
+        </div>
+        <ul class="trust rise" style="--d: 360ms">
+          <li>100% gratis</li>
+          <li>Sin anuncios</li>
+          <li>Código abierto</li>
+          <li>Funciona sin internet</li>
+        </ul>
+      </section>
+
+      <!-- ── SHOWCASE ──────────────────────────────── -->
+      <section class="showcase rise" style="--d: 420ms">
+        <div class="frame">
+          <img src="/pdf-tool/screenshot.png" alt="Pantalla de inicio de PDF Tool con sus seis herramientas" width="1958" height="1352" loading="eager" />
+        </div>
+      </section>
+
+      <!-- ── PRIVACY BAND ──────────────────────────── -->
+      <section class="privacy reveal">
+        <div class="lock" aria-hidden="true">🔐</div>
+        <div>
+          <h2>Tus archivos nunca salen de tu ordenador.</h2>
+          <p>
+            La mayoría de las webs para editar PDFs <strong>suben tus documentos a sus servidores</strong>.
+            PDF Tool no: todo el trabajo ocurre dentro de tu equipo, en local. Ideal para contratos,
+            facturas, documentos personales o cualquier cosa que prefieras no compartir con nadie.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── FEATURES ──────────────────────────────── -->
+      <section class="block">
+        <h2 class="section-title reveal">Todo lo que necesitas hacer con un PDF</h2>
+        <p class="section-sub reveal">Seis herramientas, una sola app. Sin pestañas, sin registros, sin esperas.</p>
+        <div class="grid">
+          {features.map((f, i) => (
+            <article class="card reveal" style={`--i: ${i}`}>
+              <span class="card-ic" aria-hidden="true">{f.icon}</span>
+              <h3>{f.name}</h3>
+              <p>{f.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── INSTALL ───────────────────────────────── -->
+      <section class="block install">
+        <h2 class="section-title reveal">Instalarla es rápido</h2>
+        <p class="section-sub reveal">Elige tu sistema. Solo hay que autorizarla la primera vez.</p>
+        <div class="tabs reveal" role="tablist">
+          <button class="tab is-active" data-tab="mac" role="tab" aria-selected="true">🍎 macOS</button>
+          <button class="tab" data-tab="win" role="tab" aria-selected="false">🪟 Windows</button>
+        </div>
+
+        <ol class="steps reveal" data-panel="mac">
+          <li><span class="n">1</span><p>Descarga el archivo <code>.dmg</code> y ábrelo.</p></li>
+          <li><span class="n">2</span><p>Arrastra <strong>PDF Tool</strong> a la carpeta <em>Aplicaciones</em>.</p></li>
+          <li><span class="n">3</span><p>Ábrela desde <em>Aplicaciones</em>. macOS la bloqueará con un aviso del tipo <em>«Se ha bloqueado “pdf-tool” para proteger tu Mac»</em>. Es normal: la app no está firmada, pero es segura. Cierra ese aviso.</p></li>
+          <li><span class="n">4</span><p>Ve a <strong>Menú Apple () → Ajustes del Sistema → Privacidad y Seguridad</strong> y baja hasta la sección <strong>Seguridad</strong>.</p></li>
+          <li><span class="n">5</span><p>Verás el mensaje de que se bloqueó <em>“pdf-tool”</em>. Pulsa <strong>Abrir igualmente</strong> y confirma con tu contraseña o Touch ID. <span class="hint">Solo la primera vez — después se abre con doble clic como cualquier app.</span></p></li>
+        </ol>
+
+        <ol class="steps is-hidden" data-panel="win">
+          <li><span class="n">1</span><p>Descarga el <strong>instalador</strong> (<code>.exe</code>) y ejecútalo.</p></li>
+          <li><span class="n">2</span><p>Si aparece <strong>SmartScreen</strong>: pulsa <em>Más información</em> → <strong>Ejecutar de todas formas</strong>. <span class="hint">El aviso sale porque el instalador no está firmado; es seguro.</span></p></li>
+        </ol>
+
+        <a class="btn btn-lg install-cta reveal" href={release}>⬇️ Ir a la página de descargas</a>
+      </section>
+
+      <!-- ── FAQ ───────────────────────────────────── -->
+      <section class="block faq">
+        <h2 class="section-title reveal">Preguntas frecuentes</h2>
+        <div class="faq-list">
+          {faqs.map((f) => (
+            <details class="reveal">
+              <summary>{f.q}<span class="chev" aria-hidden="true">+</span></summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── FINAL CTA ─────────────────────────────── -->
+      <section class="final reveal">
+        <h2>Descárgala gratis.<br />Sin cuentas, sin anuncios, sin esperas.</h2>
+        <div class="cta">
+          <a class="btn btn-lg" href={release}>⬇️ Descargar PDF Tool</a>
+          <a class="btn btn-ghost btn-lg" href={repo} target="_blank" rel="noopener">Ver el código en GitHub</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── CONTACTO ──────────────────────────────── -->
+    <section class="contact-band reveal">
+      <p class="cb-eyebrow">¿Tienes una idea?</p>
+      <h2>Si necesitas una web, una app o un backend a medida, hablemos.</h2>
+      <p class="cb-sub">Cuéntame qué tienes en mente y vemos cómo darle forma juntos.</p>
+      <a class="btn btn-lg" href="/#contacto">Contáctame →</a>
+    </section>
+
+    <footer class="foot">
+      <span>Hecho con 🐍 Python + <a href="https://flet.dev" target="_blank" rel="noopener">Flet</a> · Licencia MIT</span>
+      <span>Por <a href="/">Juan Manuel Armero Viveros</a></span>
+    </footer>
+
+    <script>
+      // Tabs de instalación
+      const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
+      const panels = document.querySelectorAll<HTMLElement>('.steps');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+          tabs.forEach((t) => {
+            const on = t === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', String(on));
+          });
+          panels.forEach((p) => p.classList.toggle('is-hidden', p.dataset.panel !== target));
+        });
+      });
+
+      // Scroll reveal (mismo patrón que la home)
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #0c0a0b;
+        --panel: #161214;
+        --line: rgba(255, 255, 255, 0.08);
+        --ink: #f6f1ef;
+        --body: #c2b9b6;
+        --muted: #8a807d;
+        --red: #ff5b52;
+        --red-deep: #e23b34;
+        --display: 'Fraunces Variable', Georgia, serif;
+        --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg); color: var(--body); font-family: var(--sans);
+        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      a { color: inherit; }
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+
+    <style>
+      /* ── FONDO ─────────────────────────────────── */
+      .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+      .glow { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; }
+      .glow-1 { width: 620px; height: 620px; top: -200px; right: -120px;
+        background: radial-gradient(circle, rgba(255, 91, 82, 0.5), transparent 70%); }
+      .glow-2 { width: 520px; height: 520px; bottom: -160px; left: -140px;
+        background: radial-gradient(circle, rgba(255, 120, 80, 0.22), transparent 70%); }
+      .grain {
+        position: absolute; inset: 0; opacity: 0.035; mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      /* ── LAYOUT ────────────────────────────────── */
+      main { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+      .block { padding: 5rem 0; }
+      .section-title {
+        font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.1; letter-spacing: -0.01em;
+      }
+      .section-sub { color: var(--muted); margin-top: 0.7rem; font-size: 1.02rem; max-width: 48ch; }
+
+      /* ── NAV ───────────────────────────────────── */
+      .nav {
+        position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; max-width: 1080px; margin: 0 auto;
+        padding: 0.85rem 1.5rem;
+        backdrop-filter: blur(10px); background: rgba(12, 10, 11, 0.6);
+        border-bottom: 1px solid var(--line);
+      }
+      .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none;
+        font-family: var(--display); font-weight: 500; color: var(--ink); font-size: 1.1rem; }
+      .brand img { border-radius: 7px; }
+      .nav-links { display: flex; align-items: center; gap: 1.1rem; }
+      .ghost { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+      .ghost:hover { color: var(--ink); }
+
+      /* ── BOTONES ───────────────────────────────── */
+      .btn {
+        display: inline-flex; align-items: center; gap: 0.55rem; text-decoration: none;
+        font-weight: 600; font-size: 0.92rem; border-radius: 10px;
+        padding: 0.65rem 1.1rem; color: #fff;
+        background: linear-gradient(180deg, var(--red), var(--red-deep));
+        box-shadow: 0 6px 22px rgba(226, 59, 52, 0.32); border: 1px solid rgba(255, 140, 130, 0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(226, 59, 52, 0.45); filter: brightness(1.06); }
+      .btn-sm { padding: 0.45rem 0.9rem; font-size: 0.85rem; border-radius: 8px; }
+      .btn-lg { padding: 0.85rem 1.4rem; font-size: 1rem; border-radius: 12px; }
+      .btn-ghost {
+        background: transparent; color: var(--ink); box-shadow: none;
+        border: 1px solid var(--line);
+      }
+      .btn-ghost:hover { border-color: rgba(255, 91, 82, 0.5); background: rgba(255, 91, 82, 0.06); }
+
+      /* ── HERO ──────────────────────────────────── */
+      .hero {
+        text-align: center; max-width: 760px; margin: 0 auto;
+        padding: 5rem 0 3rem; display: flex; flex-direction: column; align-items: center;
+      }
+      .eyebrow {
+        font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--red); margin-bottom: 1.1rem;
+      }
+      .hero h1 {
+        font-family: var(--display); font-weight: 440; color: var(--ink);
+        font-size: clamp(2.3rem, 5.5vw, 3.9rem); line-height: 1.06; letter-spacing: -0.02em;
+      }
+      .hero h1 em { font-style: italic; color: var(--red); font-weight: 500; }
+      .lede { margin: 1.4rem auto 2rem; font-size: 1.1rem; color: var(--body); max-width: 52ch; }
+      .cta { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
+      .trust {
+        list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.3rem;
+        margin-top: 1.8rem; font-size: 0.85rem; color: var(--muted);
+      }
+      .trust li { display: flex; align-items: center; gap: 0.45rem; }
+      .trust li::before { content: '✓'; color: var(--red); font-weight: 700; }
+
+      /* ── SHOWCASE ──────────────────────────────── */
+      .showcase { padding: 1rem 0 3rem; }
+      .frame {
+        position: relative; max-width: 940px; margin: 0 auto;
+        border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 91, 82, 0.06),
+          0 0 90px rgba(255, 91, 82, 0.12);
+      }
+      .frame img {
+        width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center;
+      }
+
+      /* ── PRIVACY ───────────────────────────────── */
+      .privacy {
+        display: flex; gap: 1.5rem; align-items: flex-start;
+        background: linear-gradient(135deg, rgba(255, 91, 82, 0.08), rgba(255, 91, 82, 0.02));
+        border: 1px solid rgba(255, 91, 82, 0.18); border-radius: 16px;
+        padding: 2rem; margin: 1rem 0;
+      }
+      .privacy .lock { font-size: 2.2rem; line-height: 1; flex-shrink: 0; }
+      .privacy h2 { font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+      .privacy p { color: var(--body); max-width: 66ch; }
+      .privacy strong { color: var(--ink); }
+
+      /* ── FEATURES ──────────────────────────────── */
+      .grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.4rem;
+      }
+      .card {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+        padding: 1.5rem; transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      }
+      .card:hover { transform: translateY(-4px); border-color: rgba(255, 91, 82, 0.4);
+        background: #1c1618; }
+      .card-ic { font-size: 1.7rem; display: block; margin-bottom: 0.8rem; }
+      .card h3 { font-family: var(--display); font-weight: 500; color: var(--ink);
+        font-size: 1.15rem; margin-bottom: 0.4rem; }
+      .card p { color: var(--muted); font-size: 0.92rem; }
+
+      /* ── INSTALL ───────────────────────────────── */
+      .tabs { display: inline-flex; gap: 0.4rem; margin: 2.2rem 0 1.8rem;
+        background: var(--panel); padding: 0.35rem; border-radius: 11px; border: 1px solid var(--line); }
+      .tab {
+        font-family: var(--sans); font-size: 0.92rem; font-weight: 600; color: var(--muted);
+        background: transparent; border: 0; border-radius: 8px; padding: 0.5rem 1.1rem;
+        cursor: pointer; transition: color 0.2s, background 0.2s;
+      }
+      .tab.is-active { color: #fff; background: linear-gradient(180deg, var(--red), var(--red-deep)); }
+      .steps { list-style: none; display: flex; flex-direction: column; gap: 1rem; max-width: 64ch; }
+      .steps.is-hidden { display: none; }
+      .steps li { display: flex; gap: 1rem; align-items: flex-start; }
+      .steps .n {
+        flex-shrink: 0; width: 1.85rem; height: 1.85rem; border-radius: 50%;
+        display: grid; place-items: center; font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
+        color: var(--red); background: rgba(255, 91, 82, 0.1); border: 1px solid rgba(255, 91, 82, 0.3);
+      }
+      .steps p { color: var(--body); padding-top: 0.2rem; }
+      .steps strong { color: var(--ink); }
+      .steps code { font-family: var(--mono); font-size: 0.85em; background: var(--panel);
+        border: 1px solid var(--line); border-radius: 5px; padding: 0.05rem 0.35rem; color: var(--ink); }
+      .steps .hint { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
+      .install-cta { margin-top: 2rem; }
+
+      /* ── FAQ ───────────────────────────────────── */
+      .faq-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.7rem; max-width: 72ch; }
+      details {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+        padding: 0 1.2rem; transition: border-color 0.2s;
+      }
+      details[open] { border-color: rgba(255, 91, 82, 0.3); }
+      summary {
+        list-style: none; cursor: pointer; display: flex; justify-content: space-between;
+        align-items: center; gap: 1rem; padding: 1.1rem 0; font-weight: 600; color: var(--ink);
+        font-size: 1.02rem;
+      }
+      summary::-webkit-details-marker { display: none; }
+      .chev { color: var(--red); font-size: 1.3rem; transition: transform 0.25s ease; flex-shrink: 0; }
+      details[open] .chev { transform: rotate(45deg); }
+      details p { color: var(--body); padding: 0 0 1.2rem; max-width: 66ch; }
+
+      /* ── FINAL ─────────────────────────────────── */
+      .final {
+        text-align: center; padding: 5rem 1.5rem; margin: 2rem 0 4rem;
+        background: radial-gradient(circle at 50% 0%, rgba(255, 91, 82, 0.1), transparent 65%);
+        border: 1px solid var(--line); border-radius: 20px;
+      }
+      .final h2 { font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.8rem, 4.5vw, 2.8rem); margin-bottom: 1.8rem; letter-spacing: -0.01em; }
+      .final .cta { justify-content: center; }
+
+      /* ── CONTACT BAND ──────────────────────────── */
+      .contact-band {
+        max-width: 1080px; margin: 0 auto 1rem; padding: 3rem 1.5rem;
+        text-align: center; border-top: 1px solid var(--line);
+      }
+      .cb-eyebrow {
+        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--red); margin-bottom: 0.9rem;
+      }
+      .contact-band h2 {
+        font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1.15; letter-spacing: -0.01em;
+        max-width: 24ch; margin: 0 auto;
+      }
+      .cb-sub { color: var(--muted); margin: 0.8rem auto 1.8rem; max-width: 46ch; }
+
+      /* ── FOOTER ────────────────────────────────── */
+      .foot {
+        max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 3rem;
+        display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+        border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem;
+      }
+      .foot a { color: var(--body); text-decoration: none; transition: color 0.2s; }
+      .foot a:hover { color: var(--red); }
+
+      /* ── ANIMACIÓN ─────────────────────────────── */
+      .rise { opacity: 0; transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+      .reveal { opacity: 0; transform: translateY(18px);
+        transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+      .card.reveal { transition-delay: calc(var(--i) * 70ms); }
+      .reveal.in { opacity: 1; transform: translateY(0); }
+
+      /* ── RESPONSIVE ────────────────────────────── */
+      @media (max-width: 860px) {
+        .hero { padding-top: 3rem; }
+        .grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 560px) {
+        .grid { grid-template-columns: 1fr; }
+        .cta .btn { flex: 1; justify-content: center; }
+        .privacy { flex-direction: column; gap: 1rem; }
+        .foot { flex-direction: column; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rise { animation: none; opacity: 1; transform: none; }
+        .reveal { transition: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </body>
+</html>
