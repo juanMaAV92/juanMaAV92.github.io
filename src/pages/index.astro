@@ -185,7 +185,7 @@ const packets = [
       </section>
 
       <!-- ── CONTACT ───────────────────────────────── -->
-      <section class="block contact" aria-label="Contact">
+      <section id="contacto" class="block contact" aria-label="Contact">
         <h2 class="section-head reveal">
           <span class="sigil">$</span> <span class="cmd">ssh</span> <span class="path">juanmaav92</span>
         </h2>
@@ -516,7 +516,7 @@ const packets = [
   }
   .repo-link:hover .goto, .repo-link:focus-visible .goto { opacity: 1; transform: translate(0, 0); color: var(--accent); }
 
-  .repo-desc { color: var(--muted); font-size: 0.86rem; margin-top: 0.5rem; padding-left: 1.3rem; max-width: 60ch; }
+  .repo-desc { color: #a3acb9; font-size: 0.86rem; margin-top: 0.5rem; padding-left: 1.3rem; max-width: 60ch; }
 
   .repo[data-featured='true'] .repo-name { color: var(--accent); }
   .repo[data-featured='true'] .arrow::after {
@@ -537,13 +537,13 @@ const packets = [
 
   /* ── FORMULARIO ── */
   .term-form { margin-top: 2.2rem; }
-  .form-prompt { color: var(--muted); font-size: 0.82rem; margin-bottom: 1.1rem; }
+  .form-prompt { color: #c8cfd8; font-size: 0.9rem; font-weight: 500; margin-bottom: 1.1rem; }
   .form-prompt .sigil { color: var(--blue); }
   .hp { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
 
   .field { display: block; margin-bottom: 1rem; }
   .field-label {
-    display: block; color: var(--muted); font-size: 0.74rem;
+    display: block; color: #b3bcc6; font-size: 0.78rem;
     letter-spacing: 0.04em; margin-bottom: 0.4rem;
   }
   .field-label::before { content: '› '; color: var(--accent); }
@@ -551,14 +551,17 @@ const packets = [
   .term-form input[type='email'],
   .term-form textarea {
     width: 100%; font-family: var(--mono); font-size: 0.9rem; color: var(--ink);
-    background: rgba(255, 255, 255, 0.02); border: 1px solid var(--line);
-    border-radius: 6px; padding: 0.65rem 0.8rem; resize: vertical;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 6px; padding: 0.7rem 0.8rem; resize: vertical;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   }
-  .term-form input::placeholder, .term-form textarea::placeholder { color: #4a525e; }
+  .term-form input::placeholder, .term-form textarea::placeholder { color: #6b7480; }
+  .term-form input:hover, .term-form textarea:hover { border-color: rgba(255, 255, 255, 0.28); }
   .term-form input:focus, .term-form textarea:focus {
-    outline: none; border-color: rgba(110, 231, 168, 0.5);
-    background: rgba(110, 231, 168, 0.03); box-shadow: 0 0 0 3px rgba(110, 231, 168, 0.08);
+    outline: none; border-color: rgba(110, 231, 168, 0.6);
+    background: rgba(110, 231, 168, 0.05);
+    box-shadow: 0 0 0 3px rgba(110, 231, 168, 0.12), inset 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 
   .send-btn {

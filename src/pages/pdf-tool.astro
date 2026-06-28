@@ -192,6 +192,14 @@ const appSchema = {
       </section>
     </main>
 
+    <!-- ── CONTACTO ──────────────────────────────── -->
+    <section class="contact-band reveal">
+      <p class="cb-eyebrow">¿Tienes una idea?</p>
+      <h2>Si necesitas una web, una app o un backend a medida, hablemos.</h2>
+      <p class="cb-sub">Cuéntame qué tienes en mente y vemos cómo darle forma juntos.</p>
+      <a class="btn btn-lg" href="/#contacto">Contáctame →</a>
+    </section>
+
     <footer class="foot">
       <span>Hecho con 🐍 Python + <a href="https://flet.dev" target="_blank" rel="noopener">Flet</a> · Licencia MIT</span>
       <span>Por <a href="/">Juan Manuel Armero Viveros</a></span>
@@ -426,6 +434,22 @@ const appSchema = {
       .final h2 { font-family: var(--display); font-weight: 460; color: var(--ink);
         font-size: clamp(1.8rem, 4.5vw, 2.8rem); margin-bottom: 1.8rem; letter-spacing: -0.01em; }
       .final .cta { justify-content: center; }
+
+      /* ── CONTACT BAND ──────────────────────────── */
+      .contact-band {
+        max-width: 1080px; margin: 0 auto 1rem; padding: 3rem 1.5rem;
+        text-align: center; border-top: 1px solid var(--line);
+      }
+      .cb-eyebrow {
+        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--red); margin-bottom: 0.9rem;
+      }
+      .contact-band h2 {
+        font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1.15; letter-spacing: -0.01em;
+        max-width: 24ch; margin: 0 auto;
+      }
+      .cb-sub { color: var(--muted); margin: 0.8rem auto 1.8rem; max-width: 46ch; }
 
       /* ── FOOTER ────────────────────────────────── */
       .foot {
