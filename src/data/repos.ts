@@ -9,6 +9,8 @@ export type Repo = {
   tags: string[];
   /** optional: marks the repo as featured (highlighted) */
   featured?: boolean;
+  /** optional: internal product page (e.g. "/pdf-tool"). If set, the card opens this page instead of the repo. */
+  page?: string;
 };
 
 export type Job = {
@@ -80,6 +82,7 @@ export const projects: Repo[] = [
     url: 'https://github.com/juanMaAV92/pdf-tool',
     tags: ['Python', 'Flet', 'Desktop'],
     featured: true,
+    page: '/pdf-tool',
   },
 ];
 

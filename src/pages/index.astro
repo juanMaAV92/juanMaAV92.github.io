@@ -494,6 +494,13 @@ const packets = [
   .arrow { color: var(--accent); transition: transform 0.25s ease; }
   .repo-link:hover .arrow { transform: translateX(3px); }
   .repo-name { font-weight: 500; color: #fff; font-size: 1rem; }
+  .repo-badge {
+    font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid rgba(110, 231, 168, 0.35);
+    border-radius: 999px; padding: 0.05rem 0.45rem;
+  }
+  .repo[data-internal='true'] .goto { opacity: 0.55; }
+  .repo-link:hover .repo[data-internal='true'] .goto { opacity: 1; }
 
   .tags { display: inline-flex; gap: 0.4rem; flex-wrap: wrap; }
   .tag {
