@@ -111,27 +111,30 @@ export const libraries: Repo[] = [
   {
     name: 'go-utils',
     description:
-      'Reusable foundation for microservices in Go. Observability-first, port/interface-driven, fully tested with CI.',
+      'Go utility library for AWS microservices: structured logging, OpenTelemetry tracing, validation, errors, Postgres/Redis/S3 and SQS/SNS. Interface-driven, config-from-env.',
     url: 'https://github.com/juanMaAV92/go-utils',
     tags: ['Go', 'Library', 'Observability'],
     featured: true,
   },
   {
     name: 'kotlin-utils',
-    description: 'The same foundation, in Kotlin. Shared building blocks for services on the JVM.',
+    description:
+      'Framework-agnostic Kotlin library (coroutines-native): a saga/flow orchestration engine, structured logging, backoff retry and a validation DSL. Zero framework coupling.',
     url: 'https://github.com/juanMaAV92/kotlin-utils',
     tags: ['Kotlin', 'Library', 'JVM'],
     featured: true,
   },
   {
     name: 'go-echo-blueprint',
-    description: 'Production-ready Go service template built on Echo.',
+    description:
+      'Production-ready Echo microservice template built on go-utils — graceful shutdown, OTel tracing, health checks and identity middleware.',
     url: 'https://github.com/juanMaAV92/go-echo-blueprint',
     tags: ['Go', 'Echo', 'Template'],
   },
   {
     name: 'kotlin-quarkus-blueprint',
-    description: 'Service template with Quarkus and hexagonal architecture.',
+    description:
+      'Quarkus + Kotlin microservice template with hexagonal architecture and coroutines, built on kotlin-utils.',
     url: 'https://github.com/juanMaAV92/kotlin-quarkus-blueprint',
     tags: ['Kotlin', 'Quarkus', 'Hexagonal'],
   },
