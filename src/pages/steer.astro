@@ -1,0 +1,397 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource-variable/fraunces';
+
+const repo = 'https://github.com/juanMaAV92/steer';
+const canonical = 'https://juanmaav92.github.io/steer';
+
+const highlights = [
+  { icon: '🛡️', title: 'Guardrails by default', desc: 'Read-only production, confirmations and a preview of what will happen before it happens. Rollback is one command — hard to break things by accident.' },
+  { icon: '🚀', title: 'Interactive deploys', desc: 'Pick services and image tags from live, fuzzy-filtered lists. No memorizing service names — run a command with no args and a picker opens.' },
+  { icon: '📊', title: 'Hybrid TUI', desc: 'The health of everything at a glance in a persistent multi-panel layout, plus a ⌘k command palette. Inspired by lazydocker / lazygit.' },
+  { icon: '💬', title: 'Errors that teach', desc: 'Failures explain what went wrong, why, and what to try next — instead of dumping a raw cloud stack trace on you.' },
+  { icon: '⚙️', title: 'Config-driven', desc: 'Point Steer at your accounts, roles, environments and naming via steer.toml. No code changes, no per-project glue.' },
+  { icon: '📦', title: 'Single binary', desc: 'Install via Homebrew, go install or a direct download. One static Go binary — no runtime to manage.' },
+];
+
+const stack = [
+  { k: 'Language', v: 'Go — single static binary' },
+  { k: 'TUI', v: 'Bubble Tea · Lipgloss · Bubbles' },
+  { k: 'Cloud', v: 'AWS SDK (ECS), cloud-agnostic core' },
+  { k: 'Config', v: 'TOML — accounts, roles, envs, naming' },
+  { k: 'Release', v: 'GoReleaser · Homebrew · direct download' },
+  { k: 'Quality', v: 'TDD per component, deterministic renders' },
+];
+
+const decisions = [
+  { title: 'Cloud-agnostic by capability, not by service', desc: 'Commands are named by capability (deploy, scale, rollback), not by AWS service. The core talks to capability interfaces, so Azure or GCP can be added later without reworking it — AWS is just the first adapter.' },
+  { title: 'Composed TUI, not a monolith', desc: 'The Bubble Tea UI is split into single-responsibility components (sidebar, panel tabs, action overlay, keymap, styles), each rendering to a deterministic string so it can be unit-tested without a real terminal.' },
+  { title: 'Two faces, one core', desc: 'TUI and CLI share the same domain core. The lead scripts deploys in CI (steer -e stg service deploy -s api -t v1.2.3 -y); the team uses the interactive TUI. Neither path forks the logic.' },
+  { title: 'Safety is structural', desc: 'Production is read-only unless explicitly writable; destructive actions require confirmation and show a preview. The guardrails live in the core, so both the CLI and the TUI inherit them.' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%B5%3C/text%3E%3C/svg%3E" />
+    <title>Steer · The simplicity of a PaaS, on your own AWS — case study</title>
+    <meta name="description" content="Case study of Steer: an open-source Go CLI + TUI that brings PaaS-like deploys to your own AWS account. Guardrails, interactive deploys, single binary. A work-in-progress project by Juan Manuel Armero Viveros." />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#0b0f14" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content="Steer · The simplicity of a PaaS, on your own AWS" />
+    <meta property="og:description" content="Open-source Go CLI + TUI for fearless deploys to the cloud you already own. Case study." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://juanmaav92.github.io/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Steer · The simplicity of a PaaS, on your own AWS" />
+    <meta name="twitter:description" content="Open-source Go CLI + TUI for fearless deploys to the cloud you already own." />
+  </head>
+
+  <body>
+    <div class="bg" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="grid-lines"></div>
+      <div class="grain"></div>
+    </div>
+
+    <header class="nav">
+      <a class="brand" href="#top"><span class="sail">⛵</span> steer</a>
+      <nav class="nav-links">
+        <span class="status">● Work in progress</span>
+        <a href={repo} class="ghost" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="/" class="ghost">← Portfolio</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ── HERO ──────────────────────────────────── -->
+      <section class="hero">
+        <p class="eyebrow rise" style="--d: 0ms">Open-source dev tool · CLI + TUI</p>
+        <h1 class="rise" style="--d: 90ms">The simplicity of a PaaS,<br /><span class="hl">on your own AWS</span>.</h1>
+        <p class="lede rise" style="--d: 180ms">
+          Platforms like Vercel and Railway made shipping effortless — but they lock you in.
+          Steer brings that same “just ship it” feeling to the cloud account you already own.
+          Set it up once; then anyone on the team deploys, without touching the console.
+        </p>
+        <div class="cta rise" style="--d: 260ms">
+          <a class="btn" href={repo} target="_blank" rel="noopener">View on GitHub ↗</a>
+          <a class="btn btn-ghost" href="#how">See how it works ↓</a>
+        </div>
+
+        <div class="term rise" style="--d: 360ms" aria-label="Steer TUI preview">
+          <div class="term-bar"><i></i><i></i><i></i><span>steer — tui</span></div>
+          <pre class="tui"><span class="topbar">⛵ steer · <span class="c">aws</span> · <span class="c">staging</span> <span class="dim">(cluster: staging-cluster)</span>                    <span class="ok">writable ●</span></span>
+<span class="row">
+<span class="side"><span class="sec">SERVICES        <span class="dim">(4)</span></span>
+<span class="item sel"><span class="up">●</span> api      2/2  <span class="c">v1.4</span></span>
+<span class="item"><span class="up">●</span> web      3/3  <span class="c">v2.0</span></span>
+<span class="item"><span class="warn">◐</span> worker   1/2  <span class="c">v1.1</span></span>
+<span class="item"><span class="off">○</span> cron     0/1  <span class="dim">—</span></span>
+
+<span class="sec dim">IMAGES (ECR)    ···</span>
+<span class="dim">  coming soon</span>
+
+<span class="sec dim">DATABASES       ···</span></span><span class="main"><span class="tabs"><span class="tab on">Details</span> <span class="tab">Events</span> <span class="tab">Logs</span></span>
+  running   <span class="hl">2/2</span>
+  pending   0
+  status    <span class="ok">ACTIVE</span>
+  tag       <span class="c">v1.4</span>
+
+  <span class="act">[d]</span> deploy   <span class="act">[s]</span> scale   <span class="act">[R]</span> rollback</span></span>
+<span class="botbar">↑↓ select · tab switch panel · ⌘k palette · ? help · q quit</span></pre>
+        </div>
+      </section>
+
+      <!-- ── HOW / TWO FACES ───────────────────────── -->
+      <section id="how" class="block">
+        <p class="kicker center">Two faces, one helm</p>
+        <h2 class="center">Scriptable for the lead, friendly for the team</h2>
+        <div class="faces">
+          <article class="face">
+            <h3>CLI — for pipelines &amp; the lead</h3>
+            <pre class="cmd"><span class="p">$</span> steer -e stg service deploy <span class="c">-s</span> api <span class="c">-t</span> v1.2.3 -y
+<span class="dim"># scriptable, CI-friendly, no prompts</span></pre>
+            <p>First-class in CI. Every action is a flag away, deterministic and safe to automate.</p>
+          </article>
+          <article class="face">
+            <h3>TUI — for everyone else</h3>
+            <pre class="cmd"><span class="p">$</span> steer tui
+<span class="dim"># run a command with no args →</span>
+<span class="dim"># an interactive picker opens</span></pre>
+            <p>A persistent dashboard with fuzzy pickers and a command palette. Ship without knowing AWS underneath.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── HIGHLIGHTS ────────────────────────────── -->
+      <section class="block">
+        <p class="kicker center">What it does</p>
+        <h2 class="center">Removes the fear, not the control</h2>
+        <div class="grid-cards">
+          {highlights.map((h) => (
+            <article class="card">
+              <span class="card-ic" aria-hidden="true">{h.icon}</span>
+              <h3>{h.title}</h3>
+              <p>{h.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── WHO ───────────────────────────────────── -->
+      <section class="block who">
+        <p class="kicker center">Who it’s for</p>
+        <h2 class="center">One person owns the cloud. Everyone else just ships.</h2>
+        <div class="roles">
+          <div class="role">
+            <span class="role-tag">The lead</span>
+            <p>Configures <code>steer.toml</code> once — accounts, role ARNs, environments, naming conventions.</p>
+          </div>
+          <div class="role-arrow" aria-hidden="true">→</div>
+          <div class="role">
+            <span class="role-tag">The team</span>
+            <p>Deploys, scales and checks status with simple commands and the TUI, <strong>without understanding AWS underneath</strong>.</p>
+          </div>
+        </div>
+        <p class="honest">Honest scope: a solo dev with nobody to do the one-time setup is better served by a managed PaaS. Steer shines when someone owns the AWS setup and hands the team a safe, simple way to deploy on top of it.</p>
+      </section>
+
+      <!-- ── UNDER THE HOOD ────────────────────────── -->
+      <section class="block tech">
+        <p class="kicker center">Under the hood</p>
+        <h2 class="center">Built to grow past AWS</h2>
+        <div class="stack-grid">
+          {stack.map((s) => (
+            <div class="stack-row"><span class="sk">{s.k}</span><span class="sv">{s.v}</span></div>
+          ))}
+        </div>
+        <h3 class="dec-title">Engineering decisions</h3>
+        <div class="decisions">
+          {decisions.map((d) => (
+            <article class="decision"><h4>{d.title}</h4><p>{d.desc}</p></article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── CTA ───────────────────────────────────── -->
+      <section class="cta-band">
+        <h2>One of the projects I’m building right now.</h2>
+        <p>It’s open source and a work in progress. Take a look, or reach out if you want to talk.</p>
+        <div class="cta center-cta">
+          <a class="btn" href={repo} target="_blank" rel="noopener">View on GitHub ↗</a>
+          <a class="btn btn-ghost" href="/#contacto">Get in touch →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Steer · open source (MIT) · work in progress</span>
+      <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
+    </footer>
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.rise, .block, .cta-band');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.04 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #0a0e13;
+        --panel: #111923;
+        --panel-2: #0e151d;
+        --line: #1d2935;
+        --ink: #d7e2ee;
+        --muted: #6b7889;
+        --accent: #2bc8e8;
+        --accent-deep: #1a9fc0;
+        --green: #4ade80;
+        --amber: #fbbf24;
+        --display: 'Fraunces Variable', Georgia, serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg); color: var(--ink); font-family: var(--mono);
+        line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      a { color: inherit; }
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+
+    <style>
+      .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+      .glow { position: absolute; width: 700px; height: 700px; top: -240px; left: 50%;
+        transform: translateX(-50%); border-radius: 50%; filter: blur(130px); opacity: 0.4;
+        background: radial-gradient(circle, rgba(43, 200, 232, 0.35), transparent 70%); }
+      .grid-lines { position: absolute; inset: 0; opacity: 0.5;
+        background-image: linear-gradient(rgba(43,200,232,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(43,200,232,0.025) 1px, transparent 1px);
+        background-size: 44px 44px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000, transparent 75%); }
+      .grain { position: absolute; inset: 0; opacity: 0.04; mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+      main { max-width: 1040px; margin: 0 auto; padding: 0 1.5rem; }
+      .block { padding: 5rem 0; }
+      .center { text-align: center; }
+      h2 { font-family: var(--display); font-weight: 440; color: #fff;
+        font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.12; letter-spacing: -0.015em; }
+      .hl { color: var(--accent); }
+      .kicker { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; }
+      .block > .kicker.center + h2 { margin-bottom: 0.6rem; }
+      .block-sub { color: var(--muted); max-width: 52ch; margin: 0.8rem auto 0; }
+
+      /* NAV */
+      .nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; max-width: 1040px; margin: 0 auto; padding: 0.85rem 1.5rem;
+        background: rgba(10, 14, 19, 0.72); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+      .brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+        font-weight: 700; color: #fff; font-size: 1.1rem; }
+      .nav-links { display: flex; align-items: center; gap: 1.1rem; }
+      .status { font-size: 0.74rem; font-weight: 500; color: var(--accent);
+        background: rgba(43, 200, 232, 0.1); padding: 0.28rem 0.65rem; border-radius: 999px;
+        border: 1px solid rgba(43, 200, 232, 0.25); }
+      .ghost { color: var(--muted); text-decoration: none; font-size: 0.86rem; transition: color 0.2s; }
+      .ghost:hover { color: var(--ink); }
+
+      /* HERO */
+      .hero { text-align: center; padding: 4rem 0 3rem; display: flex; flex-direction: column; align-items: center; }
+      .eyebrow { font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+      .hero h1 { font-family: var(--display); font-weight: 440; color: #fff;
+        font-size: clamp(2.2rem, 5.5vw, 3.7rem); line-height: 1.06; letter-spacing: -0.025em; }
+      .lede { margin: 1.4rem auto 2rem; font-size: 1.02rem; color: var(--muted); max-width: 60ch; line-height: 1.7; }
+
+      .cta { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
+      .btn { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
+        font-family: var(--mono); font-weight: 600; font-size: 0.9rem; color: #04222a;
+        background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+        padding: 0.7rem 1.2rem; border-radius: 9px; box-shadow: 0 6px 22px rgba(43, 200, 232, 0.28);
+        transition: transform 0.2s ease, box-shadow 0.2s ease; }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(43, 200, 232, 0.4); }
+      .btn-ghost { background: transparent; color: var(--ink); box-shadow: none; border: 1px solid var(--line); }
+      .btn-ghost:hover { border-color: rgba(43, 200, 232, 0.5); background: rgba(43, 200, 232, 0.05); }
+
+      /* TERMINAL / TUI */
+      .term { width: 100%; max-width: 820px; margin: 3rem auto 0; text-align: left;
+        background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 0 70px rgba(43, 200, 232, 0.1); }
+      .term-bar { display: flex; align-items: center; gap: 0.45rem; padding: 0.7rem 0.9rem;
+        background: #0c131b; border-bottom: 1px solid var(--line); position: relative; }
+      .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2a3642; }
+      .term-bar i:nth-child(1) { background: #ff5f57; } .term-bar i:nth-child(2) { background: #febc2e; } .term-bar i:nth-child(3) { background: #28c840; }
+      .term-bar span { position: absolute; left: 0; right: 0; text-align: center; color: var(--muted); font-size: 0.76rem; }
+      .tui { padding: 1rem 1.1rem; font-size: 0.78rem; line-height: 1.55; color: var(--ink);
+        white-space: pre; overflow-x: auto; }
+      .tui .topbar { display: block; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-bottom: 0.5rem; }
+      .tui .row { display: flex; gap: 1.4rem; }
+      .tui .side { display: block; border-right: 1px solid var(--line); padding-right: 1.2rem; }
+      .tui .main { display: block; flex: 1; }
+      .tui .sec { display: block; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.4rem; }
+      .tui .item { display: block; color: #9fb0c0; padding: 0.05rem 0.3rem; border-radius: 4px; }
+      .tui .item.sel { background: rgba(43, 200, 232, 0.12); color: #fff; }
+      .tui .tabs { display: block; margin-bottom: 0.6rem; }
+      .tui .tab { color: var(--muted); padding: 0.1rem 0.2rem; }
+      .tui .tab.on { color: var(--accent); border-bottom: 2px solid var(--accent); }
+      .tui .c { color: var(--accent); }
+      .tui .dim { color: #4a5662; }
+      .tui .ok, .tui .up { color: var(--green); }
+      .tui .warn { color: var(--amber); }
+      .tui .off { color: #56636f; }
+      .tui .act { color: var(--accent); }
+
+      /* FACES */
+      .faces { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2.4rem; }
+      .face { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem; }
+      .face h3 { color: #fff; font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; }
+      .cmd { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
+        padding: 0.9rem 1rem; font-size: 0.8rem; line-height: 1.7; overflow-x: auto; margin-bottom: 1rem; color: var(--ink); }
+      .cmd .p { color: var(--green); } .cmd .c { color: var(--accent); } .cmd .dim { color: #4a5662; }
+      .face p { color: var(--muted); font-size: 0.9rem; }
+
+      /* HIGHLIGHTS */
+      .grid-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.4rem; }
+      .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem;
+        transition: transform 0.25s ease, border-color 0.25s ease; }
+      .card:hover { transform: translateY(-4px); border-color: rgba(43, 200, 232, 0.4); }
+      .card-ic { font-size: 1.5rem; display: block; margin-bottom: 0.7rem; }
+      .card h3 { color: #fff; font-size: 1.02rem; font-weight: 600; margin-bottom: 0.4rem; }
+      .card p { color: var(--muted); font-size: 0.88rem; }
+
+      /* WHO */
+      .who { text-align: center; }
+      .roles { display: flex; align-items: stretch; justify-content: center; gap: 1.2rem; margin-top: 2.4rem; flex-wrap: wrap; }
+      .role { flex: 1; min-width: 240px; max-width: 360px; background: var(--panel); border: 1px solid var(--line);
+        border-radius: 14px; padding: 1.6rem; text-align: left; }
+      .role-tag { display: inline-block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--accent); background: rgba(43, 200, 232, 0.1); border: 1px solid rgba(43, 200, 232, 0.25);
+        padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.9rem; }
+      .role p { color: var(--muted); font-size: 0.92rem; }
+      .role code { color: var(--ink); background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 0.05rem 0.35rem; font-size: 0.85em; }
+      .role-arrow { display: flex; align-items: center; color: var(--accent); font-size: 1.5rem; }
+      .honest { color: var(--muted); font-size: 0.88rem; max-width: 64ch; margin: 2rem auto 0;
+        border-left: 2px solid var(--line); padding-left: 1rem; text-align: left; font-style: italic; }
+
+      /* TECH */
+      .tech { background: var(--panel-2); border: 1px solid var(--line); border-radius: 24px; padding: 4rem 2rem; }
+      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; max-width: 720px; margin: 2.4rem auto 0; }
+      .stack-row { display: flex; flex-direction: column; gap: 0.15rem; background: var(--panel);
+        border: 1px solid var(--line); border-radius: 10px; padding: 0.8rem 1rem; }
+      .sk { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); }
+      .sv { font-size: 0.85rem; color: var(--ink); }
+      .dec-title { text-align: center; font-family: var(--display); font-weight: 460; color: #fff; font-size: 1.4rem; margin: 3rem 0 0; }
+      .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; margin-top: 1.6rem; }
+      .decision { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+        border-radius: 10px; padding: 1.3rem 1.4rem; }
+      .decision h4 { color: #fff; font-size: 0.98rem; font-weight: 600; margin-bottom: 0.45rem; }
+      .decision p { color: var(--muted); font-size: 0.88rem; }
+
+      /* CTA */
+      .cta-band { text-align: center; padding: 5rem 1.5rem; margin: 1rem 0 3rem;
+        background: radial-gradient(circle at 50% 0%, rgba(43, 200, 232, 0.1), transparent 65%);
+        border: 1px solid var(--line); border-radius: 24px; }
+      .cta-band p { color: var(--muted); margin: 0.9rem auto 1.8rem; max-width: 50ch; }
+      .center-cta { justify-content: center; }
+
+      /* FOOTER */
+      .foot { max-width: 1040px; margin: 0 auto; padding: 2rem 1.5rem 3rem; display: flex;
+        justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid var(--line);
+        color: var(--muted); font-size: 0.82rem; }
+      .foot a { color: var(--accent); text-decoration: none; }
+
+      /* REVEAL */
+      .rise { opacity: 0; transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+      .block, .cta-band { opacity: 0; transform: translateY(20px);
+        transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+      .block.in, .cta-band.in { opacity: 1; transform: translateY(0); }
+
+      /* RESPONSIVE */
+      @media (max-width: 880px) {
+        .faces, .grid-cards, .stack-grid, .decisions { grid-template-columns: 1fr; }
+        .role-arrow { transform: rotate(90deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rise { animation: none; opacity: 1; transform: none; }
+        .block, .cta-band { transition: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </body>
+</html>
