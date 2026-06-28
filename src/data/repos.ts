@@ -76,6 +76,15 @@ export const experience: Job[] = [
 // ─────────────────────────────────────────────────────────────
 export const projects: Repo[] = [
   {
+    name: 'pulso',
+    description:
+      'B2B SaaS (in progress): an AI bot books appointments, re-engages customers and handles WhatsApp conversations for local service businesses. Go + Next.js, event-driven architecture.',
+    url: '/pulso',
+    tags: ['Go', 'Next.js', 'AI', 'WhatsApp'],
+    featured: true,
+    page: '/pulso',
+  },
+  {
     name: 'pdf-tool',
     description:
       'Desktop app in Python + Flet. Plugin architecture, logic/UI split, pytest, and automated macOS/Windows releases.',

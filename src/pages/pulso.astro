@@ -1,0 +1,396 @@
+---
+import '@fontsource-variable/plus-jakarta-sans';
+import '@fontsource/jetbrains-mono/500.css';
+
+const canonical = 'https://juanmaav92.github.io/pulso';
+
+const pillars = [
+  {
+    icon: '📅',
+    title: 'Books appointments 24/7',
+    desc: 'An AI bot chats with the customer, figures out which service they want and books the appointment — at 3am, on holidays, whenever — without anyone at the business lifting a finger.',
+  },
+  {
+    icon: '🔁',
+    title: 'Re-engages customers',
+    desc: 'It spots recurring customers who have gone quiet for a while and brings them back with a message at the right moment, before they drift away.',
+  },
+  {
+    icon: '💬',
+    title: 'Speaks like your brand',
+    desc: 'The bot takes on each business’s name, tone and personality. The owner can take over any conversation with a single click.',
+  },
+];
+
+const stack = [
+  { k: 'Backend', v: 'Go 1.25 · Echo · API REST + Worker' },
+  { k: 'Jobs / colas', v: 'Asynq sobre Redis 7' },
+  { k: 'Datos', v: 'PostgreSQL 16' },
+  { k: 'Frontend', v: 'Next.js 15 · Tailwind · shadcn/ui' },
+  { k: 'WhatsApp', v: 'Meta Cloud API / 360dialog (BSP)' },
+  { k: 'IA', v: 'LLM intercambiable (Gemini · GPT-4o · Deepseek)' },
+  { k: 'Auth', v: 'Clerk' },
+  { k: 'Infra', v: 'DigitalOcean · Cloudflare Pages' },
+];
+
+const decisions = [
+  {
+    title: 'No overbooking, enforced by the database',
+    desc: 'Appointments can’t overlap thanks to a PostgreSQL exclusion constraint: the rule lives in the engine, not in application code, so it’s impossible to book two appointments at the same time even if they arrive at once.',
+  },
+  {
+    title: 'Decoupled messaging channels (ports & adapters)',
+    desc: 'WhatsApp today, but the bot logic knows nothing about WhatsApp. A channel abstraction lets me plug in Instagram or Telegram tomorrow without touching the core.',
+  },
+  {
+    title: 'Credentials encrypted at rest',
+    desc: 'Each business’s WhatsApp tokens are stored encrypted, never in plain text. Authentication stays protected even against a misconfiguration.',
+  },
+  {
+    title: 'Swappable LLM by configuration',
+    desc: 'The AI provider changes with a single environment variable. No lock-in to one vendor: I tune cost and quality without rewriting anything.',
+  },
+];
+
+const built = [
+  'REST API and job worker in Go',
+  'Multi-tenant authentication with Clerk',
+  'WhatsApp Business connection (onboarding)',
+  'Overbooking prevention at the DB level',
+  'Credentials encrypted at rest',
+  'Web panel with the full design system',
+];
+const next = [
+  'AI conversational engine for the bot',
+  'Automatic customer re-engagement',
+  'Real-time inbox (WebSocket)',
+  'Business metrics and reports',
+];
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Pulso',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: 'B2B SaaS that automates appointment booking, customer re-engagement and WhatsApp conversations with an AI bot, for local service businesses in Colombia.',
+  url: canonical,
+  author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/pulso/logo.png" />
+    <title>Pulso · WhatsApp appointment-booking SaaS with AI — case study</title>
+    <meta name="description" content="Case study of Pulso: a B2B SaaS that books appointments, re-engages customers and handles WhatsApp conversations with an AI bot. Go, Next.js, PostgreSQL. A work-in-progress project by Juan Manuel Armero Viveros." />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#E8634A" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content="Pulso · WhatsApp booking with AI — case study" />
+    <meta property="og:description" content="B2B SaaS for local businesses: the bot books, re-engages and chats over WhatsApp. Technical case study." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://juanmaav92.github.io/pulso/inbox.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pulso · WhatsApp booking with AI — case study" />
+    <meta name="twitter:description" content="B2B SaaS for local businesses: the bot books, re-engages and chats over WhatsApp." />
+    <meta name="twitter:image" content="https://juanmaav92.github.io/pulso/inbox.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  </head>
+
+  <body>
+    <header class="nav">
+      <a class="brand" href="#top">
+        <img src="/pulso/logo.png" alt="Pulso" width="26" height="26" />
+        <span>Pulso</span>
+      </a>
+      <nav class="nav-links">
+        <span class="status">● Work in progress</span>
+        <a href="/" class="ghost">← Portfolio</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ── HERO ──────────────────────────────────── -->
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow rise" style="--d: 0ms">Case study · B2B SaaS</p>
+          <h1 class="rise" style="--d: 90ms">Your business’s pulse, <span class="hl">always answering</span>.</h1>
+          <p class="lede rise" style="--d: 180ms">
+            Pulso connects a service business’s WhatsApp and an AI bot books appointments,
+            re-engages customers and handles conversations — on autopilot.
+          </p>
+          <ul class="meta rise" style="--d: 270ms">
+            <li><span>Role</span>Design, architecture and full-stack development</li>
+            <li><span>Stack</span>Go · Next.js · PostgreSQL · AI</li>
+            <li><span>Status</span>Work in progress</li>
+          </ul>
+        </div>
+        <div class="hero-shot rise" style="--d: 280ms">
+          <img src="/pulso/inbox.png" alt="Pulso inbox: the bot books an appointment over WhatsApp" width="2560" height="1720" loading="eager" />
+        </div>
+      </section>
+
+      <!-- ── PROBLEMA ──────────────────────────────── -->
+      <section class="band problem">
+        <p class="kicker">The problem</p>
+        <h2>Local businesses lose appointments because <span class="hl">nobody can answer</span> every message in time.</h2>
+        <p class="band-sub">
+          A salon, a barbershop or a clinic get dozens of messages a day while they’re busy serving customers.
+          Every message left unanswered in time is an appointment — and a customer — lost to a competitor.
+        </p>
+      </section>
+
+      <!-- ── SOLUCIÓN ──────────────────────────────── -->
+      <section class="block">
+        <p class="kicker center">The solution</p>
+        <h2 class="center">An employee that never sleeps</h2>
+        <div class="pillars">
+          {pillars.map((p) => (
+            <article class="pillar">
+              <span class="p-ic" aria-hidden="true">{p.icon}</span>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── PRODUCTO ──────────────────────────────── -->
+      <section class="block">
+        <p class="kicker center">The product</p>
+        <h2 class="center">Built for the owner, not for a techie</h2>
+        <p class="block-sub center">Mobile-first, warm language and an inbox that feels like WhatsApp. A custom design system on top of Pulso’s coral brand.</p>
+        <figure class="shot">
+          <img src="/pulso/dashboard.png" alt="Pulso dashboard with business KPIs" width="2560" height="1720" loading="lazy" />
+          <figcaption>Dashboard — the business at a glance: appointments, customers, re-engagement and bot success rate.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/pulso/inbox.png" alt="Pulso inbox with the bot chatting" width="2560" height="1720" loading="lazy" />
+          <figcaption>Inbox — the bot chats and books; the owner can take over any conversation whenever they want.</figcaption>
+        </figure>
+      </section>
+
+      <!-- ── ARQUITECTURA ──────────────────────────── -->
+      <section class="block tech">
+        <p class="kicker center">Under the hood</p>
+        <h2 class="center">Architecture built to scale</h2>
+        <p class="block-sub center">A monorepo with independent backend and panel that talk over REST and WebSocket.</p>
+
+        <div class="stack-grid">
+          {stack.map((s) => (
+            <div class="stack-row"><span class="sk">{s.k}</span><span class="sv">{s.v}</span></div>
+          ))}
+        </div>
+
+        <h3 class="dec-title">Engineering decisions</h3>
+        <div class="decisions">
+          {decisions.map((d) => (
+            <article class="decision">
+              <h4>{d.title}</h4>
+              <p>{d.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── ESTADO ────────────────────────────────── -->
+      <section class="block status-sec">
+        <p class="kicker center">Current status</p>
+        <h2 class="center">Work in progress — and honest about it</h2>
+        <div class="status-cols">
+          <div class="status-col done">
+            <h3>✓ Already built</h3>
+            <ul>{built.map((b) => <li>{b}</li>)}</ul>
+          </div>
+          <div class="status-col todo">
+            <h3>→ On the way</h3>
+            <ul>{next.map((n) => <li>{n}</li>)}</ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CTA ───────────────────────────────────── -->
+      <section class="cta-band">
+        <h2>One of the projects I’m building right now.</h2>
+        <p>If you’re into what I do or want to talk about a project, let’s chat.</p>
+        <a class="btn" href="/#contacto">Get in touch →</a>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Pulso · work in progress</span>
+      <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
+    </footer>
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.reveal, .band, .block, .cta-band');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.04 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --coral: #E8634A;
+        --coral-dark: #C4502F;
+        --coral-light: #FFF5F0;
+        --ink: #1A202C;
+        --ink-2: #2D3748;
+        --gray: #718096;
+        --line: #E2E8F0;
+        --bg: #FFFFFF;
+        --bg-2: #F7FAFC;
+        --sans: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg); color: var(--ink-2); font-family: var(--sans);
+        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      a { color: inherit; }
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+
+    <style>
+      main { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+      .block, .band { padding: 5rem 0; }
+      .center { text-align: center; }
+      h2 {
+        font-family: var(--sans); font-weight: 700; color: var(--ink);
+        font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.18; letter-spacing: -0.02em;
+      }
+      .hl { color: var(--coral); }
+      .kicker {
+        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em;
+        text-transform: uppercase; color: var(--coral); font-weight: 500; margin-bottom: 0.9rem;
+      }
+      .block-sub, .band-sub { color: var(--gray); font-size: 1.05rem; max-width: 52ch; margin: 0.9rem auto 0; }
+
+      /* NAV */
+      .nav {
+        position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; max-width: 1080px; margin: 0 auto; padding: 0.85rem 1.5rem;
+        background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none;
+        font-weight: 800; color: var(--coral); font-size: 1.2rem; letter-spacing: -0.01em; }
+      .nav-links { display: flex; align-items: center; gap: 1.1rem; }
+      .status { font-size: 0.78rem; font-weight: 600; color: var(--coral);
+        background: var(--coral-light); padding: 0.3rem 0.7rem; border-radius: 999px; }
+      .status::first-letter { font-size: 0.7rem; }
+      .ghost { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+      .ghost:hover { color: var(--ink); }
+
+      /* HERO */
+      .hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3rem; align-items: center; padding: 4rem 0; }
+      .eyebrow { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--coral); margin-bottom: 1rem; }
+      .hero h1 { font-family: var(--sans); font-weight: 800; color: var(--ink);
+        font-size: clamp(2.1rem, 5vw, 3.3rem); line-height: 1.08; letter-spacing: -0.03em; }
+      .lede { margin: 1.3rem 0 1.8rem; font-size: 1.1rem; color: var(--ink-2); max-width: 46ch; }
+      .meta { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+      .meta li { font-size: 0.92rem; color: var(--ink-2); }
+      .meta li span { display: inline-block; min-width: 70px; color: var(--gray);
+        font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-right: 0.6rem; }
+      .hero-shot img {
+        border-radius: 14px; border: 1px solid var(--line);
+        box-shadow: 0 30px 70px rgba(26, 32, 44, 0.16), 0 0 0 1px rgba(232, 99, 74, 0.05);
+      }
+
+      /* PROBLEMA */
+      .problem { text-align: center; background: var(--bg-2); border-radius: 24px;
+        padding: 4rem 2rem; margin-top: 1rem; }
+      .problem h2 { max-width: 20ch; margin: 0 auto; }
+
+      /* PILARES */
+      .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; margin-top: 2.6rem; }
+      .pillar { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease; }
+      .pillar:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26, 32, 44, 0.1); }
+      .p-ic { font-size: 1.9rem; display: block; margin-bottom: 0.9rem; }
+      .pillar h3 { font-weight: 700; color: var(--ink); font-size: 1.2rem; margin-bottom: 0.5rem; }
+      .pillar p { color: var(--gray); font-size: 0.95rem; }
+
+      /* SHOTS */
+      .shot { margin: 2.6rem 0 0; }
+      .shot img { border-radius: 14px; border: 1px solid var(--line);
+        box-shadow: 0 24px 60px rgba(26, 32, 44, 0.14); }
+      .shot figcaption { text-align: center; color: var(--gray); font-size: 0.9rem; margin-top: 1rem; }
+
+      /* TECH */
+      .tech { background: var(--bg-2); border-radius: 24px; padding: 4rem 2rem; }
+      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;
+        max-width: 760px; margin: 2.6rem auto 0; }
+      .stack-row { display: flex; flex-direction: column; gap: 0.15rem; background: var(--bg);
+        border: 1px solid var(--line); border-radius: 10px; padding: 0.85rem 1.1rem; }
+      .sk { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--coral); font-weight: 600; }
+      .sv { font-family: var(--mono); font-size: 0.86rem; color: var(--ink-2); }
+      .dec-title { text-align: center; font-weight: 700; color: var(--ink); font-size: 1.3rem; margin: 3rem 0 0; }
+      .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; margin-top: 1.6rem; }
+      .decision { background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--coral);
+        border-radius: 10px; padding: 1.3rem 1.4rem; }
+      .decision h4 { font-weight: 700; color: var(--ink); font-size: 1rem; margin-bottom: 0.45rem; }
+      .decision p { color: var(--gray); font-size: 0.9rem; }
+
+      /* ESTADO */
+      .status-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem; margin-top: 2.6rem; }
+      .status-col { border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem; }
+      .status-col.done { background: #F0FFF4; border-color: #C6F6D5; }
+      .status-col.todo { background: var(--coral-light); border-color: #FED7CC; }
+      .status-col h3 { font-weight: 700; color: var(--ink); font-size: 1.1rem; margin-bottom: 1rem; }
+      .status-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+      .status-col li { color: var(--ink-2); font-size: 0.95rem; padding-left: 0.2rem; }
+
+      /* CTA */
+      .cta-band { text-align: center; padding: 5rem 1.5rem; margin: 1rem 0 3rem;
+        background: var(--ink); border-radius: 24px; }
+      .cta-band h2 { color: #fff; }
+      .cta-band p { color: #cbd5e0; margin: 0.9rem auto 1.8rem; max-width: 46ch; }
+      .btn { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
+        font-weight: 700; font-size: 1rem; color: #fff; background: var(--coral);
+        padding: 0.85rem 1.6rem; border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(232, 99, 74, 0.4); transition: transform 0.2s ease, background 0.2s ease; }
+      .btn:hover { transform: translateY(-2px); background: var(--coral-dark); }
+
+      /* FOOTER */
+      .foot { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 3rem;
+        display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+        border-top: 1px solid var(--line); color: var(--gray); font-size: 0.85rem; }
+      .foot a { color: var(--coral); text-decoration: none; font-weight: 600; }
+
+      /* REVEAL */
+      .rise { opacity: 0; transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+      .band, .block, .cta-band { opacity: 0; transform: translateY(20px);
+        transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+      .band.in, .block.in, .cta-band.in { opacity: 1; transform: translateY(0); }
+
+      /* RESPONSIVE */
+      @media (max-width: 880px) {
+        .hero { grid-template-columns: 1fr; gap: 2.2rem; }
+        .pillars, .stack-grid, .decisions, .status-cols { grid-template-columns: 1fr; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rise { animation: none; opacity: 1; transform: none; }
+        .band, .block, .cta-band { transition: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </body>
+</html>
