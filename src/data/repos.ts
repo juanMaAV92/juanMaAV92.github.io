@@ -76,6 +76,15 @@ export const experience: Job[] = [
 // ─────────────────────────────────────────────────────────────
 export const projects: Repo[] = [
   {
+    name: 'steer',
+    description:
+      'Open-source CLI + TUI (in progress) that brings PaaS-like deploys to your own AWS. Single Go binary, guardrails, interactive deploys; cloud-agnostic core ready for multi-cloud.',
+    url: '/steer',
+    tags: ['Go', 'AWS', 'CLI/TUI', 'DevOps'],
+    featured: true,
+    page: '/steer',
+  },
+  {
     name: 'pulso',
     description:
       'B2B SaaS (in progress): an AI bot books appointments, re-engages customers and handles WhatsApp conversations for local service businesses. Go + Next.js, event-driven architecture.',
