@@ -101,6 +101,7 @@ const appSchema = {
             Descargar para Windows
           </a>
         </div>
+        <a class="hero-help rise" style="--d: 315ms" href="#instalar">¿Cómo se instala? Solo hay que autorizarla una vez →</a>
         <ul class="trust rise" style="--d: 360ms">
           <li>100% gratis</li>
           <li>Sin anuncios</li>
@@ -145,7 +146,7 @@ const appSchema = {
       </section>
 
       <!-- ── INSTALL ───────────────────────────────── -->
-      <section class="block install">
+      <section class="block install" id="instalar">
         <h2 class="section-title reveal">Instalarla es rápido</h2>
         <p class="section-sub reveal">Elige tu sistema. Solo hay que autorizarla la primera vez.</p>
         <div class="tabs reveal" role="tablist">
@@ -343,6 +344,12 @@ const appSchema = {
       }
       .trust li { display: flex; align-items: center; gap: 0.45rem; }
       .trust li::before { content: '✓'; color: var(--red); font-weight: 700; }
+      .hero-help {
+        margin-top: 1.1rem; font-size: 0.9rem; color: var(--muted);
+        text-decoration: none; border-bottom: 1px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .hero-help:hover { color: var(--ink); border-color: rgba(255, 91, 82, 0.5); }
 
       /* ── SHOWCASE ──────────────────────────────── */
       .showcase { padding: 1rem 0 3rem; }
