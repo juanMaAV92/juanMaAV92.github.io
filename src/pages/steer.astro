@@ -387,6 +387,12 @@ const decisions = [
         .faces, .grid-cards, .stack-grid, .decisions { grid-template-columns: 1fr; }
         .role-arrow { transform: rotate(90deg); }
       }
+      @media (max-width: 600px) {
+        .face { padding: 1.2rem; }
+        /* Let CLI commands wrap instead of overflowing / scrolling sideways on phones */
+        .cmd { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word;
+          overflow-x: visible; font-size: 0.75rem; padding: 0.8rem 0.85rem; line-height: 1.85; }
+      }
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
         .rise { animation: none; opacity: 1; transform: none; }
