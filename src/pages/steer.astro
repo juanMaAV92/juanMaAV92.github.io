@@ -10,7 +10,7 @@ const canonical = 'https://juanmaav92.github.io/steer';
 const highlights = [
   { icon: '🛡️', title: 'Guardrails by default', desc: 'Read-only production, confirmations and a preview of what will happen before it happens. Rollback is one command — hard to break things by accident.' },
   { icon: '🚀', title: 'Interactive deploys', desc: 'Pick services and image tags from live, fuzzy-filtered lists. No memorizing service names — run a command with no args and a picker opens.' },
-  { icon: '📊', title: 'Hybrid TUI', desc: 'The health of everything at a glance in a persistent multi-panel layout, plus a ⌘k command palette. Inspired by lazydocker / lazygit.' },
+  { icon: '📊', title: 'Hybrid TUI', desc: 'The health of everything at a glance in a persistent multi-panel layout — keyboard-driven, mouse-friendly. Switch account or cloud from inside the TUI, no relaunch. Inspired by lazydocker / lazygit.' },
   { icon: '💬', title: 'Errors that teach', desc: 'Failures explain what went wrong, why, and what to try next — instead of dumping a raw cloud stack trace on you.' },
   { icon: '⚙️', title: 'Config-driven', desc: 'Point Steer at your accounts, roles, environments and naming via steer.toml. No code changes, no per-project glue.' },
   { icon: '📦', title: 'Single binary', desc: 'Install via Homebrew, go install or a direct download. One static Go binary — no runtime to manage.' },
@@ -26,9 +26,9 @@ const stack = [
 ];
 
 const decisions = [
-  { title: 'Cloud-agnostic by capability, not by service', desc: 'Commands are named by capability (deploy, scale, rollback), not by AWS service. The core talks to capability interfaces, so Azure or GCP can be added later without reworking it — AWS is just the first adapter.' },
+  { title: 'Cloud-agnostic by capability, not by service', desc: 'Commands are named by capability (deploy, scale, rollback), not by AWS service. The core talks to capability interfaces, so Azure or GCP can be added later without reworking it — AWS is just the first adapter. The TUI context switcher already lists AWS, GCP and Azure contexts side by side (non-AWS marked not-yet-implemented), so the multi-cloud seam is visible today.' },
   { title: 'Composed TUI, not a monolith', desc: 'The Bubble Tea UI is split into single-responsibility components (sidebar, panel tabs, action overlay, keymap, styles), each rendering to a deterministic string so it can be unit-tested without a real terminal.' },
-  { title: 'Two faces, one core', desc: 'TUI and CLI share the same domain core. The lead scripts deploys in CI (steer -e stg service deploy -s api -t v1.2.3 -y); the team uses the interactive TUI. Neither path forks the logic.' },
+  { title: 'Two faces, one core', desc: 'TUI and CLI share the same domain core. The lead scripts deploys in CI (steer --context stg service deploy -s api -t v1.2.3 -y); the team uses the interactive TUI. Neither path forks the logic.' },
   { title: 'Safety is structural', desc: 'Production is read-only unless explicitly writable; destructive actions require confirmation and show a preview. The guardrails live in the core, so both the CLI and the TUI inherit them.' },
 ];
 ---
@@ -105,7 +105,7 @@ const decisions = [
   tag       <span class="c">v1.4</span>
 
   <span class="act">[d]</span> deploy   <span class="act">[s]</span> scale   <span class="act">[R]</span> rollback</span></span>
-<span class="botbar">↑↓ select · tab switch panel · ⌘k palette · ? help · q quit</span></pre>
+<span class="botbar">↑↓ select · tab switch panel · d deploy · s scale · R rollback · c context · ? help · q quit</span></pre>
         </div>
       </section>
 
@@ -116,7 +116,7 @@ const decisions = [
         <div class="faces">
           <article class="face">
             <h3>CLI — for pipelines &amp; the lead</h3>
-            <pre class="cmd"><span class="p">$</span> steer -e stg service deploy <span class="c">-s</span> api <span class="c">-t</span> v1.2.3 -y
+            <pre class="cmd"><span class="p">$</span> steer --context stg service deploy <span class="c">-s</span> api <span class="c">-t</span> v1.2.3 -y
 <span class="dim"># scriptable, CI-friendly, no prompts</span></pre>
             <p>First-class in CI. Every action is a flag away, deterministic and safe to automate.</p>
           </article>
@@ -125,7 +125,7 @@ const decisions = [
             <pre class="cmd"><span class="p">$</span> steer tui
 <span class="dim"># run a command with no args →</span>
 <span class="dim"># an interactive picker opens</span></pre>
-            <p>A persistent dashboard with fuzzy pickers and a command palette. Ship without knowing AWS underneath.</p>
+            <p>A persistent dashboard with interactive pickers and an in-TUI context switcher. Ship without knowing AWS underneath.</p>
           </article>
         </div>
       </section>
