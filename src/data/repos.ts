@@ -123,6 +123,7 @@ export const libraries: Repo[] = [
     url: 'https://github.com/juanMaAV92/kotlin-utils',
     tags: ['Kotlin', 'Library', 'JVM'],
     featured: true,
+    page: '/kotlin-utils',
   },
   {
     name: 'go-echo-blueprint',
