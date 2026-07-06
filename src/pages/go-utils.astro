@@ -1,0 +1,926 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource-variable/fraunces';
+
+const repo = 'https://github.com/juanMaAV92/go-utils';
+const canonical = 'https://juanmaav92.github.io/go-utils';
+const blueprint = 'https://github.com/juanMaAV92/go-echo-blueprint';
+
+const pageTitle = 'go-utils · Go utilities for AWS microservices';
+const description =
+  'Go utility library for AWS microservices: structured logging with OpenTelemetry trace correlation, typed errors, resilient HTTP client, RS256 JWT, Postgres/Redis/S3 adapters, SQS/SNS/EventBridge messaging and RBAC middleware. Config-from-env, interface-driven.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: 'go-utils',
+  description,
+  url: canonical,
+  codeRepository: repo,
+  programmingLanguage: 'Go',
+  runtimePlatform: 'Go 1.25',
+  author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
+  license: 'https://opensource.org/licenses/MIT',
+};
+
+const nodes: Record<string, { x: number; y: number }> = {
+  a: { x: 160, y: 170 }, b: { x: 470, y: 110 }, c: { x: 820, y: 200 }, d: { x: 1180, y: 150 },
+  e: { x: 1300, y: 470 }, f: { x: 980, y: 560 }, g: { x: 640, y: 480 }, h: { x: 300, y: 520 },
+  i: { x: 120, y: 760 }, j: { x: 520, y: 780 }, k: { x: 900, y: 820 }, l: { x: 1240, y: 780 },
+};
+const edges: [string, string][] = [
+  ['a', 'b'], ['b', 'c'], ['c', 'd'], ['d', 'e'], ['c', 'f'], ['f', 'e'],
+  ['b', 'g'], ['g', 'f'], ['a', 'h'], ['h', 'g'], ['h', 'i'], ['i', 'j'],
+  ['j', 'g'], ['j', 'k'], ['k', 'f'], ['k', 'l'], ['l', 'e'], ['g', 'k'],
+];
+const edgePaths = edges.map(([s, e], idx) => ({
+  id: `edge-${idx}`,
+  d: `M ${nodes[s].x} ${nodes[s].y} L ${nodes[e].x} ${nodes[e].y}`,
+}));
+const nodeList = Object.values(nodes);
+const packets = [
+  { edge: 'edge-0', dur: '12s', begin: '0s' },
+  { edge: 'edge-3', dur: '14s', begin: '2.5s' },
+  { edge: 'edge-10', dur: '13s', begin: '1.2s' },
+  { edge: 'edge-16', dur: '15s', begin: '3.5s' },
+];
+
+// ── TOC (sidebar) ──
+const toc = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'principles', label: 'Principles' },
+  { id: 'install', label: 'Install' },
+  { id: 'packages', label: 'Packages', children: [
+    { id: 'logger', label: 'Logger' },
+    { id: 'errors', label: 'Errors' },
+    { id: 'httpclient', label: 'HTTP Client' },
+    { id: 'jwt', label: 'JWT' },
+    { id: 'data-stores', label: 'Data stores' },
+    { id: 'messaging', label: 'Messaging' },
+    { id: 'identity', label: 'Identity' },
+    { id: 'core', label: 'Core helpers' },
+  ]},
+  { id: 'ecosystem', label: 'Ecosystem' },
+];
+
+// ── Latest version (fetched from GitHub Releases at build time) ──
+const FALLBACK_VERSION = '2.0.0';
+let latestVersion = FALLBACK_VERSION;
+let publishedAt: string | null = null;
+try {
+  const res = await fetch('https://api.github.com/repos/juanMaAV92/go-utils/releases/latest', {
+    headers: { Accept: 'application/vnd.github+json' },
+  });
+  if (res.ok) {
+    const data = await res.json();
+    if (data.tag_name) {
+      latestVersion = String(data.tag_name).replace(/^v/, '');
+    }
+    if (data.published_at) {
+      publishedAt = new Date(data.published_at).toISOString().slice(0, 10);
+    }
+  }
+} catch {
+  // network error / rate limit → keep fallback
+}
+const majorVersion = latestVersion.split('.')[0];
+
+// ── Code snippets (rendered with set:html to avoid JSX parser issues) ──
+const installCode = `<span class="c-c">// v2+ carries the /v2 suffix (Go semantic import versioning)</span>
+<span class="c-k">$</span> go get github.com/juanMaAV92/go-utils/v${majorVersion}
+
+<span class="c-c">// import a package</span>
+<span class="c-k">import</span> <span class="c-s">"github.com/juanMaAV92/go-utils/v${majorVersion}/logger"</span>`;
+
+const loggerCode = `<span class="c-c">// Create once at startup</span>
+log <span class="c-op">:=</span> logger.<span class="c-f">New</span>(<span class="c-s">"payments-api"</span>, env.<span class="c-f">GetEnvironment</span>())
+
+<span class="c-c">// context-first — trace_id/span_id are pulled from the active span</span>
+log.<span class="c-f">Info</span>(ctx, <span class="c-s">"process_payment"</span>, <span class="c-s">"payment captured"</span>,
+    <span class="c-s">"amount"</span>, <span class="c-v">50000</span>, <span class="c-s">"currency"</span>, <span class="c-s">"COP"</span>)`;
+
+const loggerOut = `{"time":"2026-03-22T10:15:30.12Z","level":"INFO","service":"payments-api","step":"process_payment","message":"payment captured","trace_id":"4bf9...","span_id":"00f0...","amount":50000,"currency":"COP"}`;
+
+const errorsCode = `<span class="c-c">// Typed, predefined errors</span>
+<span class="c-k">return</span> errors.<span class="c-f">ErrNotFound</span>()
+<span class="c-k">return</span> errors.<span class="c-f">ErrBadRequest</span>().<span class="c-f">WithMessage</span>(<span class="c-s">"email is required"</span>)
+
+<span class="c-c">// Fully custom</span>
+<span class="c-k">return</span> errors.<span class="c-f">New</span>(http.StatusConflict, <span class="c-s">"CONFLICT"</span>, []<span class="c-t">string</span>{<span class="c-s">"already exists"</span>})
+
+<span class="c-c">// Wire the Echo handler once — maps *ErrorResponse to the right status + JSON</span>
+e.HTTPErrorHandler <span class="c-op">=</span> echoerr.<span class="c-f">HTTPErrorHandler</span>`;
+
+const httpCode = `c <span class="c-op">:=</span> httpclient.<span class="c-f">New</span>(log,
+    httpclient.<span class="c-f">WithBaseURL</span>(<span class="c-s">"https://api.example.com"</span>),
+    httpclient.<span class="c-f">WithRetryCount</span>(<span class="c-v">3</span>),
+    httpclient.<span class="c-f">WithServiceName</span>(<span class="c-s">"billing"</span>),
+)
+
+<span class="c-c">// W3C trace context is injected automatically; bodies are never logged</span>
+resp, err <span class="c-op">:=</span> c.<span class="c-f">Post</span>(ctx, <span class="c-s">"/invoices"</span>, invoice)
+<span class="c-k">var</span> out Invoice
+_ <span class="c-op">=</span> resp.<span class="c-f">JSON</span>(&out)`;
+
+const jwtCode = `svc, _ <span class="c-op">:=</span> jwt.<span class="c-f">New</span>(privatePEM, publicPEM, <span class="c-s">"auth-service"</span>)
+
+<span class="c-c">// Sign</span>
+claims <span class="c-op">:=</span> MyClaims{RegisteredClaims: svc.<span class="c-f">RegisteredClaims</span>(time.Hour), UserID: <span class="c-s">"u_1"</span>}
+token, _ <span class="c-op">:=</span> svc.<span class="c-f">GenerateToken</span>(&claims)
+
+<span class="c-c">// Validate — RS256 only, exp required, issuer checked</span>
+got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>[MyClaims](svc, token)`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%96%AE%3C/text%3E%3C/svg%3E" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#0b0d10" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://juanmaav92.github.io/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+  </head>
+
+  <body>
+    <div class="bg" aria-hidden="true">
+      <div class="mesh-glow"></div>
+
+      <svg class="circuits" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <g class="trace">
+          <path d="M -20 90 H 180 V 40 H 360" />
+          <path d="M -20 860 H 240 V 800 H 430 V 740" />
+          <path d="M 1460 130 H 1230 V 200 H 1040" />
+          <path d="M 1460 720 H 1250 V 660 H 1080 V 720" />
+          <path d="M 720 920 V 760 H 560" />
+        </g>
+        <g class="trace-pads">
+          <circle cx="360" cy="40" r="4" /><circle cx="430" cy="740" r="4" />
+          <circle cx="1040" cy="200" r="4" /><circle cx="1080" cy="720" r="4" />
+          <circle cx="560" cy="760" r="4" />
+        </g>
+      </svg>
+
+      <svg class="mesh" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          {edgePaths.map((p) => <path id={p.id} d={p.d} />)}
+        </defs>
+        <g class="edges">
+          {edgePaths.map((p) => <use href={`#${p.id}`} />)}
+        </g>
+        <g class="dnodes">
+          {nodeList.map((n, idx) => (
+            <circle cx={n.x} cy={n.y} r="3.5" class="dnode" style={`--nd: ${idx * 0.4}s`} />
+          ))}
+        </g>
+        <g class="packets">
+          {packets.map((pk) => (
+            <circle r="3" class="packet">
+              <animateMotion dur={pk.dur} begin={pk.begin} repeatCount="indefinite" rotate="auto">
+                <mpath href={`#${pk.edge}`} />
+              </animateMotion>
+            </circle>
+          ))}
+        </g>
+      </svg>
+
+      <div class="vignette"></div>
+      <div class="center-veil"></div>
+      <div class="grain"></div>
+    </div>
+
+    <!-- ── TOP BAR (sticky) ────────────────────── -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="/">~/</a>
+        <span class="crumb-sep">/</span>
+        <a class="crumb-link" href="/">portfolio</a>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current">go-utils</span>
+        <nav class="topbar-links">
+          <a href={repo} target="_blank" rel="noopener">GitHub ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <!-- ── SIDEBAR (sticky) ──────────────────── -->
+      <aside class="toc" aria-label="Table of contents">
+        <p class="toc-title"><span class="sigil">#</span> on this page</p>
+        <ul class="toc-list">
+          {toc.map((item) => (
+            <li class="toc-item">
+              <a class="toc-link" href={`#${item.id}`} data-toc={item.id}>
+                <span class="toc-arrow" aria-hidden="true">›</span>{item.label}
+              </a>
+              {item.children && (
+                <ul class="toc-sub">
+                  {item.children.map((c) => (
+                    <li>
+                      <a class="toc-link toc-link-sub" href={`#${c.id}`} data-toc={c.id}>
+                        <span class="toc-arrow" aria-hidden="true">·</span>{c.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+        <a class="toc-back" href="/">← back to portfolio</a>
+      </aside>
+
+      <!-- ── MOBILE TOC (collapsed) ────────────── -->
+      <details class="toc-mobile">
+        <summary>
+          <span class="sigil">#</span> on this page
+          <span class="toc-mobile-arrow" aria-hidden="true">+</span>
+        </summary>
+        <ul class="toc-list">
+          {toc.map((item) => (
+            <li class="toc-item">
+              <a class="toc-link" href={`#${item.id}`}>{item.label}</a>
+              {item.children && (
+                <ul class="toc-sub">
+                  {item.children.map((c) => (
+                    <li><a class="toc-link toc-link-sub" href={`#${c.id}`}>{c.label}</a></li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </details>
+
+      <!-- ── CONTENT ───────────────────────────── -->
+      <article class="content">
+
+        <section id="overview" class="hero">
+          <p class="prompt rise" style="--d: 60ms"><span class="sigil">$</span> whoami go-utils</p>
+          <h1 class="name rise" style="--d: 180ms">go<span class="surname">-utils</span></h1>
+          <p class="lede rise" style="--d: 300ms">
+            Go utility library for AWS microservices — structured logging with trace correlation,
+            typed errors, a resilient HTTP client, RS256 JWT, Postgres/Redis/S3 adapters and
+            SQS/SNS/EventBridge messaging. <em>Observability-first, config-from-env, interface-driven.</em>
+          </p>
+          <div class="badges rise" style="--d: 420ms" aria-label="Build info">
+            <span class="chip chip-version">v{latestVersion}{publishedAt && <span class="chip-date"> · {publishedAt}</span>}</span>
+            <span class="chip">Go 1.25</span>
+            <span class="chip">AWS SDK v2</span>
+            <span class="chip">OpenTelemetry</span>
+            <span class="chip">MIT</span>
+          </div>
+          <div class="cta rise" style="--d: 510ms">
+            <a class="btn-primary" href={repo} target="_blank" rel="noopener">
+              <span class="sigil">→</span> View on GitHub<span class="goto">↗</span>
+            </a>
+            <a class="btn-ghost" href="#packages">Browse packages ↓</a>
+            <a class="btn-ghost" href={blueprint} target="_blank" rel="noopener">Echo blueprint ↗</a>
+          </div>
+        </section>
+
+        <section id="principles" class="block">
+          <h2 class="section-head reveal">
+            <span class="sigil">$</span> <span class="cmd">cat</span> <span class="path">~/principles.md</span>
+            <a class="anchor" href="#principles" aria-label="Anchor">#</a>
+          </h2>
+          <div class="principles">
+            <article class="principle reveal">
+              <span class="p-num">01</span>
+              <h3>Observability-first</h3>
+              <p>Every package emits OpenTelemetry spans, and the logger injects <code>trace_id</code>/<code>span_id</code> from the context into every line — logs and traces correlate out of the box.</p>
+            </article>
+            <article class="principle reveal">
+              <span class="p-num">02</span>
+              <h3>Config from env</h3>
+              <p>Every adapter has <code>ConfigFromEnv(prefix)</code>. Same shape everywhere — <code>DB_*</code>, <code>REDIS_*</code>, <code>SQS_*</code> — so wiring a service is boilerplate-free and 12-factor by default.</p>
+            </article>
+            <article class="principle reveal">
+              <span class="p-num">03</span>
+              <h3>Interface-driven</h3>
+              <p>Each package exposes an interface with an unexported implementation. Depend on the interface, mock it in tests, swap the backend without touching callers.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="install" class="block">
+          <h2 class="section-head reveal">
+            <span class="sigil">$</span> <span class="cmd">cat</span> <span class="path">~/install.md</span>
+            <a class="anchor" href="#install" aria-label="Anchor">#</a>
+          </h2>
+          <pre class="code reveal"><code set:html={installCode}></code></pre>
+          <p class="setup-foot reveal">
+            <span class="sigil">#</span> Public module — no auth needed. Requires Go 1.25+. AWS clients use the standard credential chain (env, shared config, IAM role); no hardcoded credentials.
+          </p>
+        </section>
+
+        <section id="packages" class="block">
+          <h2 class="section-head reveal">
+            <span class="sigil">$</span> <span class="cmd">go</span> <span class="path">list ./...</span>
+            <span class="count">18 pkgs</span>
+            <a class="anchor" href="#packages" aria-label="Anchor">#</a>
+          </h2>
+
+          <article id="logger" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> logger <span class="mod-tag">Structured JSON</span><a class="anchor anchor-sub" href="#logger" aria-label="Anchor">#</a></h3>
+              <p>Flat JSON to stdout on top of <code>slog</code>. When a span is active, <code>trace_id</code> and <code>span_id</code> are injected automatically — no manual plumbing.</p>
+            </header>
+            <pre class="code"><code set:html={loggerCode}></code></pre>
+            <p class="mod-out-label">Output:</p>
+            <pre class="code out"><code set:html={loggerOut}></code></pre>
+          </article>
+
+          <article id="errors" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> errors <span class="mod-tag">Typed + Echo</span><a class="anchor anchor-sub" href="#errors" aria-label="Anchor">#</a></h3>
+              <p>A single <code>ErrorResponse</code> type with HTTP code, error code and messages. Predefined constructors for every status, plus a drop-in Echo handler.</p>
+            </header>
+            <pre class="code"><code set:html={errorsCode}></code></pre>
+          </article>
+
+          <article id="httpclient" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> httpclient <span class="mod-tag">Resilient client</span><a class="anchor anchor-sub" href="#httpclient" aria-label="Anchor">#</a></h3>
+              <p>Resty-based client with retries, timeouts and W3C trace propagation. Request/response bodies are never logged — only metadata — so credentials and tokens don't leak.</p>
+            </header>
+            <pre class="code"><code set:html={httpCode}></code></pre>
+          </article>
+
+          <article id="jwt" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> security/jwt <span class="mod-tag">RS256</span><a class="anchor anchor-sub" href="#jwt" aria-label="Anchor">#</a></h3>
+              <p>Generic RS256 signing and validation over any claims struct. Validation enforces <em>RS256 only</em>, requires <code>exp</code>, and checks the issuer — closing the classic algorithm-substitution and never-expiring-token gaps.</p>
+            </header>
+            <pre class="code"><code set:html={jwtCode}></code></pre>
+          </article>
+
+          <article id="data-stores" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> data stores <span class="mod-tag">postgres · redis · s3</span><a class="anchor anchor-sub" href="#data-stores" aria-label="Anchor">#</a></h3>
+              <p>Interface-driven persistence adapters, each with <code>ConfigFromEnv</code> and OTel tracing.</p>
+            </header>
+            <ul class="mod-feats">
+              <li><code>database/postgresql</code> — GORM wrapper: <code>Create</code>, <code>Find</code>/<code>FindMany</code> with pagination, <code>UpdateWhere</code>, <code>WithTransaction</code>; pg error codes mapped to sentinels (cause preserved for <code>errors.Is</code>)</li>
+              <li><code>cache/redis</code> — typed <code>Set</code>/<code>Get</code>/<code>GetOrSet</code>, sets, pub/sub, atomic <code>GETDEL</code>, TTL/NX/XX options</li>
+              <li><code>storage/s3</code> — <code>Get</code>/<code>Put</code>/<code>Head</code>/<code>Delete</code> plus presigned upload/download URLs</li>
+            </ul>
+          </article>
+
+          <article id="messaging" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> messaging <span class="mod-tag">sqs · sns · scheduler</span><a class="anchor anchor-sub" href="#messaging" aria-label="Anchor">#</a></h3>
+              <p>Event-driven building blocks with trace context flowing through message attributes.</p>
+            </header>
+            <ul class="mod-feats">
+              <li><code>sqs</code> — batch producer + worker-pool consumer that transparently unwraps the SNS envelope; backoff on poll errors and a graceful drain on shutdown (no duplicate delivery)</li>
+              <li><code>sns</code> — producer that propagates W3C trace context via message attributes</li>
+              <li><code>scheduler</code> — one-time EventBridge schedules with a webhook-via-Lambda helper and a <code>Disabled</code> flag that survives updates</li>
+            </ul>
+          </article>
+
+          <article id="identity" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> middleware/identity <span class="mod-tag">RBAC</span><a class="anchor anchor-sub" href="#identity" aria-label="Anchor">#</a></h3>
+              <p>Echo middleware that reads a gateway-injected identity (user, roles, permissions) from request headers into the context.</p>
+            </header>
+            <ul class="mod-feats">
+              <li><code>HasPermission</code> / <code>HasAnyPermission</code> / <code>RequireCapability</code> with <code>all:all</code> superadmin</li>
+              <li>Wildcard patterns (<code>orders:*</code>) and role checks</li>
+              <li><code>ToRequestOptions</code> forwards the identity downstream — scoped forwarding no longer leaks superadmin past the pattern</li>
+            </ul>
+          </article>
+
+          <article id="core" class="mod reveal">
+            <header class="mod-head">
+              <h3><span class="sigil">▸</span> core helpers <span class="mod-tag">env · validator · telemetry · …</span><a class="anchor anchor-sub" href="#core" aria-label="Anchor">#</a></h3>
+              <p>The small, dependency-light pieces every service reuses.</p>
+            </header>
+            <ul class="mod-feats">
+              <li><code>env</code> — typed env parsing (<code>GetEnvAsInt/Duration/Bool/Slice</code>, <code>MustHave</code>)</li>
+              <li><code>validator</code> — struct validation with field-aware messages, backed by go-playground</li>
+              <li><code>telemetry</code> — one-call OTLP setup; parent-based sampling that honors upstream decisions</li>
+              <li><code>pointers</code> · <code>timeutil</code> — generics and date helpers</li>
+              <li><code>testutil/echo</code> · <code>testutil/http</code> — request builders and JSON assertions for handler tests</li>
+            </ul>
+          </article>
+        </section>
+
+        <section id="ecosystem" class="block">
+          <h2 class="section-head reveal">
+            <span class="sigil">$</span> <span class="cmd">cat</span> <span class="path">~/ecosystem.md</span>
+            <a class="anchor" href="#ecosystem" aria-label="Anchor">#</a>
+          </h2>
+          <div class="compat reveal">
+            <div class="compat-row">
+              <span class="compat-fw">Blueprint</span>
+              <span class="compat-arrow" aria-hidden="true">→</span>
+              <span class="compat-note">Production Echo microservice template built on go-utils: <a class="compat-link" href={blueprint} target="_blank" rel="noopener">go-echo-blueprint ↗</a></span>
+            </div>
+            <div class="compat-row">
+              <span class="compat-fw">Built on</span>
+              <span class="compat-arrow" aria-hidden="true">→</span>
+              <span class="compat-note"><code>aws-sdk-go-v2</code>, <code>gorm</code>, <code>go-redis</code>, <code>resty</code>, <code>go-playground/validator</code>, <code>golang-jwt</code>, <code>opentelemetry-go</code></span>
+            </div>
+            <div class="compat-row">
+              <span class="compat-fw">Framework</span>
+              <span class="compat-arrow" aria-hidden="true">→</span>
+              <span class="compat-note">HTTP helpers target <code>Echo</code>; everything else (logging, messaging, stores, jwt) is framework-agnostic</span>
+            </div>
+          </div>
+        </section>
+
+        <footer class="foot">
+          <p class="line"><span class="sigil">$</span> <span class="muted">open source · MIT · observability-first</span><span class="cursor" aria-hidden="true">▮</span></p>
+        </footer>
+      </article>
+    </div>
+
+    <script>
+      const bg = document.querySelector<HTMLElement>('.bg');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Parallax de las capas de fondo
+      if (bg && !reduce) {
+        let raf = 0;
+        window.addEventListener('pointermove', (e) => {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            const dx = e.clientX / window.innerWidth - 0.5;
+            const dy = e.clientY / window.innerHeight - 0.5;
+            const mesh = bg.querySelector<HTMLElement>('.mesh');
+            const circ = bg.querySelector<HTMLElement>('.circuits');
+            const glow = bg.querySelector<HTMLElement>('.mesh-glow');
+            if (mesh) mesh.style.transform = `translate(${dx * 22}px, ${dy * 22}px)`;
+            if (circ) circ.style.transform = `translate(${dx * -14}px, ${dy * -14}px)`;
+            if (glow) glow.style.transform = `translate(${dx * 30}px, ${dy * 30}px)`;
+            raf = 0;
+          });
+        });
+      }
+
+      // Reveal on scroll
+      const reveals = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.04 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+
+      // ── Scroll-spy del TOC ──
+      const tocLinks = document.querySelectorAll<HTMLAnchorElement>('[data-toc]');
+      if (tocLinks.length && 'IntersectionObserver' in window) {
+        const sections = Array.from(tocLinks)
+          .map((a) => document.getElementById(a.dataset.toc!))
+          .filter((el): el is HTMLElement => !!el);
+
+        const setActive = (id: string) => {
+          tocLinks.forEach((a) => {
+            a.classList.toggle('is-active', a.dataset.toc === id);
+          });
+        };
+
+        const spy = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length) {
+              setActive(visible[0].target.id);
+            }
+          },
+          { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+        );
+        sections.forEach((s) => spy.observe(s));
+
+        tocLinks.forEach((a) => {
+          a.addEventListener('click', (e) => {
+            const id = a.dataset.toc;
+            if (!id) return;
+            const target = document.getElementById(id);
+            if (!target) return;
+            e.preventDefault();
+            setActive(id);
+            const top = target.getBoundingClientRect().top + window.scrollY - 70;
+            window.scrollTo({ top, behavior: 'smooth' });
+            history.replaceState(null, '', `#${id}`);
+          });
+        });
+      }
+
+      // Auto-close del TOC mobile después de navegar
+      document.querySelectorAll<HTMLDetailsElement>('.toc-mobile').forEach((d) => {
+        d.querySelectorAll('a').forEach((a) => {
+          a.addEventListener('click', () => { d.open = false; });
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #0d0f12;
+    --bg-soft: #14171c;
+    --ink: #d7dce3;
+    --muted: #6b7280;
+    --line: #20252d;
+    --accent: #6ee7a8;
+    --amber: #e8c07d;
+    --blue: #5aa9e6;
+    --purple: #b48eff;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ── FONDO (mismo que la home) ── */
+  .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bg > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .mesh-glow {
+    background:
+      radial-gradient(40% 50% at 18% 22%, rgba(110, 231, 168, 0.16), transparent 70%),
+      radial-gradient(38% 45% at 82% 30%, rgba(90, 169, 230, 0.12), transparent 70%),
+      radial-gradient(45% 50% at 60% 85%, rgba(180, 142, 255, 0.08), transparent 72%);
+    filter: blur(14px);
+    animation: drift 26s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(2%, -2%) scale(1.06); }
+    100% { transform: translate(-2%, 2%) scale(1.02); }
+  }
+
+  .circuits { opacity: 0.5; transition: transform 0.3s ease-out; }
+  .circuits .trace path {
+    fill: none; stroke: rgba(90, 169, 230, 0.22); stroke-width: 1.4;
+    stroke-dasharray: 10 14; animation: flow 8s linear infinite;
+  }
+  .circuits .trace-pads circle { fill: rgba(90, 169, 230, 0.35); }
+  @keyframes flow { to { stroke-dashoffset: -48; } }
+
+  .mesh { opacity: 0.85; transition: transform 0.3s ease-out; }
+  .mesh .edges use { stroke: rgba(110, 231, 168, 0.10); stroke-width: 1; fill: none; }
+  .mesh .dnode {
+    fill: rgba(110, 231, 168, 0.55);
+    animation: pulse 4s ease-in-out infinite; animation-delay: var(--nd, 0s);
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.35; r: 3; }
+    50%      { opacity: 0.9; r: 4.5; }
+  }
+  .mesh .packet {
+    r: 2.2; fill: rgba(174, 245, 207, 0.7);
+    filter: drop-shadow(0 0 2px rgba(110, 231, 168, 0.45));
+  }
+
+  .vignette { background: radial-gradient(120% 80% at 50% 25%, transparent 35%, rgba(13, 15, 18, 0.55) 100%); }
+  .center-veil {
+    background: linear-gradient(90deg, transparent 0%, rgba(13, 15, 18, 0.55) 28%, rgba(13, 15, 18, 0.62) 50%, rgba(13, 15, 18, 0.55) 72%, transparent 100%);
+  }
+  .grain {
+    opacity: 0.04; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .sigil { color: var(--accent); }
+
+  /* ── TOPBAR (sticky) ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(13, 15, 18, 0.72);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0.75rem clamp(1rem, 4vw, 2rem);
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.85rem; color: var(--muted);
+  }
+  .brand { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .brand:hover { color: #fff; }
+  .crumb-sep { color: var(--line); }
+  .crumb-link { color: var(--muted); text-decoration: none; }
+  .crumb-link:hover { color: var(--ink); }
+  .crumb-current { color: var(--ink); }
+  .topbar-links { margin-left: auto; }
+  .topbar-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+  .topbar-links a:hover { color: var(--accent); }
+
+  /* ── LAYOUT: sidebar + content ── */
+  .wrap {
+    position: relative; z-index: 2;
+    max-width: 1100px; margin: 0 auto;
+    padding: clamp(2rem, 6vh, 4rem) clamp(1.25rem, 4vw, 2rem) 4rem;
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR TOC ── */
+  .toc {
+    position: sticky; top: 4.2rem;
+    align-self: start;
+    font-size: 0.82rem;
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+  .toc::-webkit-scrollbar { width: 4px; }
+  .toc::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+  .toc-title {
+    color: var(--muted); font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 0.8rem;
+    padding-bottom: 0.6rem; border-bottom: 1px solid var(--line);
+  }
+  .toc-list { list-style: none; }
+  .toc-item { margin-bottom: 0.15rem; }
+  .toc-link {
+    display: flex; align-items: center; gap: 0.45rem;
+    color: var(--muted); text-decoration: none;
+    padding: 0.32rem 0.4rem; border-radius: 5px;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+  }
+  .toc-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.02); }
+  .toc-link.is-active {
+    color: var(--accent);
+    background: rgba(110, 231, 168, 0.05);
+    border-left-color: var(--accent);
+  }
+  .toc-arrow { color: var(--line); font-size: 0.9em; transition: color 0.15s; }
+  .toc-link.is-active .toc-arrow { color: var(--accent); }
+
+  .toc-sub {
+    list-style: none; margin-left: 1.2rem; margin-top: 0.1rem;
+    border-left: 1px solid var(--line);
+  }
+  .toc-sub .toc-link { font-size: 0.78rem; padding: 0.25rem 0.4rem; gap: 0.35rem; }
+  .toc-sub .toc-link .toc-arrow { font-size: 1em; }
+
+  .toc-back {
+    display: block; margin-top: 1.5rem; padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted); text-decoration: none; font-size: 0.78rem;
+    transition: color 0.15s;
+  }
+  .toc-back:hover { color: var(--accent); }
+
+  /* ── MOBILE TOC (oculto en desktop) ── */
+  .toc-mobile { display: none; }
+
+  @media (max-width: 860px) {
+    .wrap {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding: clamp(1.5rem, 4vh, 2.5rem) clamp(1rem, 4vw, 1.5rem) 3rem;
+    }
+    .toc { display: none; }
+    .toc-mobile {
+      display: block;
+      border: 1px solid var(--line); border-radius: 8px;
+      margin-bottom: 2rem; background: rgba(20, 23, 28, 0.5);
+    }
+    .toc-mobile > summary {
+      list-style: none; cursor: pointer;
+      padding: 0.7rem 0.9rem; font-size: 0.82rem;
+      color: var(--ink); display: flex; align-items: center; gap: 0.5rem;
+    }
+    .toc-mobile > summary::-webkit-details-marker { display: none; }
+    .toc-mobile-arrow { margin-left: auto; color: var(--accent); transition: transform 0.2s; }
+    .toc-mobile[open] .toc-mobile-arrow { transform: rotate(45deg); }
+    .toc-mobile .toc-list { padding: 0 0.5rem 0.6rem; }
+    .toc-mobile .toc-link { padding: 0.3rem 0.5rem; }
+  }
+
+  /* ── CONTENT ── */
+  .content { min-width: 0; max-width: 720px; }
+  .block { margin-top: clamp(3rem, 9vh, 5rem); scroll-margin-top: 4.5rem; }
+
+  /* ── ANCHOR LINKS (#) junto a headers ── */
+  .anchor {
+    margin-left: 0.4rem; color: var(--line); text-decoration: none;
+    font-size: 0.7rem; font-weight: 400; opacity: 0; transition: opacity 0.2s, color 0.2s;
+  }
+  .section-head:hover .anchor, .mod-head h3:hover .anchor { opacity: 1; }
+  .anchor:hover { color: var(--accent); }
+  .anchor.anchor-sub { font-size: 0.6rem; }
+
+  /* ── HERO ── */
+  .hero { margin-bottom: 0; padding-top: 0.5rem; }
+  .prompt { font-size: 0.82rem; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 1.6rem; }
+  .name {
+    font-family: var(--display); font-weight: 380;
+    font-size: clamp(2.4rem, 8vw, 4.2rem); line-height: 1.02; letter-spacing: -0.02em;
+    color: #fff; margin-bottom: 1.1rem; text-shadow: 0 2px 40px rgba(110, 231, 168, 0.12);
+  }
+  .name .surname { font-weight: 300; color: #6b7480; text-shadow: none; }
+  .lede { max-width: 60ch; color: #aab2bd; font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .lede em { color: var(--accent); font-style: normal; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 0.4rem; max-width: 60ch; margin-bottom: 1.6rem; }
+  .chip {
+    font-size: 0.68rem; color: #9aa4b1; background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--line); border-radius: 5px; padding: 0.16rem 0.5rem; letter-spacing: 0.02em;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .chip:hover { color: var(--accent); border-color: rgba(110, 231, 168, 0.4); transform: translateY(-2px); }
+  .chip-version {
+    color: var(--accent); border-color: rgba(110, 231, 168, 0.4);
+    background: rgba(110, 231, 168, 0.06); font-weight: 500;
+  }
+  .chip-date { color: var(--muted); font-weight: 400; }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .btn-primary, .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.86rem; font-weight: 500;
+    text-decoration: none; padding: 0.55rem 1rem; border-radius: 7px;
+    transition: transform 0.15s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary { color: var(--bg); background: var(--accent); border: 1px solid transparent; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110, 231, 168, 0.25); }
+  .btn-primary .goto { color: var(--bg); margin-left: 0.25rem; transition: transform 0.2s; }
+  .btn-primary:hover .goto { transform: translate(2px, -2px); }
+  .btn-ghost { color: var(--ink); background: rgba(255, 255, 255, 0.02); border: 1px solid var(--line); }
+  .btn-ghost:hover { border-color: rgba(110, 231, 168, 0.4); color: var(--accent); }
+
+  /* ── SECTION HEAD ── */
+  .section-head {
+    display: flex; align-items: baseline; gap: 0.4rem;
+    font-size: 0.85rem; letter-spacing: 0.04em; color: var(--ink);
+    padding-bottom: 0.8rem; margin-bottom: 1.3rem; border-bottom: 1px solid var(--line);
+  }
+  .section-head .cmd { color: var(--blue); }
+  .section-head .path { color: var(--ink); }
+  .section-head .op { color: var(--muted); }
+  .count {
+    margin-left: auto; color: var(--muted); font-size: 0.7rem;
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.05rem 0.5rem;
+  }
+  .section-head .anchor { margin-left: 0.4rem; }
+
+  /* ── PRINCIPLES ── */
+  .principles { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
+  .principle {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 1rem 1.1rem 1rem 1.3rem; position: relative;
+  }
+  .p-num {
+    position: absolute; top: 0.8rem; right: 0.9rem;
+    font-family: var(--display); font-size: 1.5rem; font-weight: 300; color: var(--line);
+    letter-spacing: -0.02em;
+  }
+  .principle h3 { font-size: 0.95rem; font-weight: 500; color: #fff; margin-bottom: 0.3rem; }
+  .principle p { color: #a3acb9; font-size: 0.86rem; max-width: 52ch; }
+  .principle code {
+    font-family: var(--mono); font-size: 0.85em;
+    background: rgba(110, 231, 168, 0.06); color: var(--accent);
+    border: 1px solid rgba(110, 231, 168, 0.15);
+    border-radius: 4px; padding: 0.05rem 0.32rem;
+  }
+
+  /* ── MODULES ── */
+  .mod {
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.4rem 1.3rem; margin-bottom: 1.1rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent);
+    scroll-margin-top: 4.5rem;
+  }
+  .mod-head { margin-bottom: 0.9rem; }
+  .mod-head h3 {
+    font-size: 1rem; font-weight: 500; color: #fff;
+    display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 0.35rem;
+  }
+  .mod-head h3 .sigil { color: var(--accent); font-size: 0.95rem; }
+  .mod-tag {
+    font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--purple); border: 1px solid rgba(180, 142, 255, 0.3);
+    border-radius: 999px; padding: 0.05rem 0.45rem; font-weight: 500;
+  }
+  .mod-head p { color: #a3acb9; font-size: 0.88rem; max-width: 58ch; }
+
+  .mod-feats {
+    list-style: none; margin-top: 0.8rem; padding-left: 0;
+    display: grid; grid-template-columns: 1fr; gap: 0.25rem;
+  }
+  .mod-feats li { color: #a3acb9; font-size: 0.83rem; padding-left: 1.1rem; position: relative; }
+  .mod-feats li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+  .mod-feats code, .compat code, .setup-intro code, .setup-foot code {
+    font-family: var(--mono); font-size: 0.85em;
+    background: rgba(110, 231, 168, 0.06); color: var(--accent);
+    border: 1px solid rgba(110, 231, 168, 0.15);
+    border-radius: 4px; padding: 0.05rem 0.32rem;
+  }
+
+  .mod-out-label {
+    font-size: 0.76rem; color: var(--muted); margin: 0.8rem 0 0.4rem; letter-spacing: 0.04em;
+  }
+  .mod-out-label::before { content: '› '; color: var(--blue); }
+
+  /* ── CODE BLOCKS ── */
+  .code {
+    background: #0a0c0f; border: 1px solid var(--line); border-radius: 8px;
+    padding: 0.85rem 0.95rem; overflow-x: auto; margin: 0.6rem 0;
+    font-family: var(--mono); font-size: 0.8rem; line-height: 1.7;
+  }
+  .code code { color: var(--ink); white-space: pre; display: block; }
+  .code.tree code { color: var(--ink); }
+  .code.out { background: #07090b; border-color: rgba(110, 231, 168, 0.12); }
+  .code.out code { color: var(--accent); }
+
+  .c-k { color: #b48eff; }
+  .c-t { color: #5aa9e6; }
+  .c-f { color: #6ee7a8; }
+  .c-s { color: #e8c07d; }
+  .c-v { color: #f6a96b; }
+  .c-c { color: #4a5662; font-style: italic; }
+  .c-op { color: var(--muted); }
+
+  /* ── ECOSYSTEM ── */
+  .compat { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .compat-row {
+    display: grid; grid-template-columns: 140px 24px 1fr; gap: 0.6rem;
+    align-items: baseline; padding: 0.75rem 1.1rem;
+    border-bottom: 1px solid var(--line); font-size: 0.86rem;
+  }
+  .compat-row:last-child { border-bottom: none; }
+  .compat-fw { color: #fff; font-weight: 500; }
+  .compat-arrow { color: var(--accent); text-align: center; }
+  .compat-note { color: #a3acb9; }
+  .compat-link { color: var(--accent); text-decoration: none; }
+  .compat-link:hover { text-decoration: underline; }
+  @media (max-width: 560px) {
+    .compat-row { grid-template-columns: 1fr; gap: 0.15rem; }
+    .compat-arrow { display: none; }
+  }
+
+  .setup-intro { color: #a3acb9; font-size: 0.9rem; margin-bottom: 0.2rem; }
+  .setup-foot { color: var(--muted); font-size: 0.83rem; margin-top: 0.7rem; }
+  .setup-foot .sigil { color: var(--blue); }
+
+  /* ── FOOTER ── */
+  .foot { margin-top: clamp(3rem, 9vh, 5rem); padding-top: 1.3rem; border-top: 1px solid var(--line); font-size: 0.8rem; }
+  .line, .muted { color: var(--muted); }
+  .cursor { display: inline-block; margin-left: 2px; color: var(--accent); animation: blink 1.1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── ENTRADA ── */
+  .rise { opacity: 0; transform: translateY(12px); animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise { animation: none; opacity: 1; transform: none; }
+    .reveal { transition: none; opacity: 1; transform: none; }
+    .cursor, .mesh-glow, .circuits .trace path, .mesh .dnode { animation: none; }
+    .mesh .packet { display: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>

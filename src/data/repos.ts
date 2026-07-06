@@ -115,6 +115,7 @@ export const libraries: Repo[] = [
     url: 'https://github.com/juanMaAV92/go-utils',
     tags: ['Go', 'Library', 'Observability'],
     featured: true,
+    page: '/go-utils',
   },
   {
     name: 'kotlin-utils',
