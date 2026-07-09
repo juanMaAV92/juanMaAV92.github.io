@@ -9,10 +9,10 @@ const canonical = 'https://juanmaav92.github.io/steer';
 
 const highlights = [
   { icon: '🛡️', title: 'Guardrails by default', desc: 'Read-only production, confirmations and a preview of what will happen before it happens. Rollback is one command — hard to break things by accident.' },
-  { icon: '🚀', title: 'Interactive deploys', desc: 'Pick services and image tags from live, fuzzy-filtered lists. No memorizing service names — run a command with no args and a picker opens.' },
-  { icon: '📊', title: 'Hybrid TUI', desc: 'The health of everything at a glance in a persistent multi-panel layout — keyboard-driven, mouse-friendly. Switch account or cloud from inside the TUI, no relaunch. Inspired by lazydocker / lazygit.' },
+  { icon: '🚀', title: 'Interactive deploys', desc: 'Pick services and image tags from live, fuzzy-filtered lists — the tag picker reads your registry, and every deploy is validated against it before it runs. Stuck rollouts are detected, not waited on forever.' },
+  { icon: '📊', title: 'Hybrid TUI', desc: 'The health of everything at a glance in a persistent multi-panel layout — keyboard-driven, mouse-friendly, with live Events and Logs tabs per service. Switch account or cloud from inside the TUI. Inspired by lazydocker / lazygit.' },
   { icon: '💬', title: 'Errors that teach', desc: 'Failures explain what went wrong, why, and what to try next — instead of dumping a raw cloud stack trace on you.' },
-  { icon: '⚙️', title: 'Config-driven', desc: 'Point Steer at your accounts, roles, environments and naming via steer.toml. No code changes, no per-project glue.' },
+  { icon: '⚙️', title: 'Config-driven', desc: 'An interactive wizard (steer config init) detects your AWS profiles, lists your real clusters and writes steer.toml for you. Several accounts or environments are just several contexts.' },
   { icon: '📦', title: 'Single binary', desc: 'Install via Homebrew, go install or a direct download. One static Go binary — no runtime to manage.' },
 ];
 
@@ -65,6 +65,7 @@ const decisions = [
       <a class="brand" href="#top"><span class="sail">⛵</span> steer</a>
       <nav class="nav-links">
         <span class="status">● Work in progress</span>
+        <a href="/steer/docs" class="ghost">Docs</a>
         <a href={repo} class="ghost" target="_blank" rel="noopener">GitHub ↗</a>
         <a href="/" class="ghost">← Portfolio</a>
       </nav>
@@ -82,6 +83,7 @@ const decisions = [
         </p>
         <div class="cta rise" style="--d: 260ms">
           <a class="btn" href={repo} target="_blank" rel="noopener">View on GitHub ↗</a>
+          <a class="btn btn-ghost" href="/steer/docs">Read the docs →</a>
           <a class="btn btn-ghost" href="#how">See how it works ↓</a>
         </div>
 
@@ -95,8 +97,10 @@ const decisions = [
 <span class="item"><span class="warn">◐</span> worker   1/2  <span class="c">v1.1</span></span>
 <span class="item"><span class="off">○</span> cron     0/1  <span class="dim">—</span></span>
 
-<span class="sec dim">IMAGES (ECR)    ···</span>
-<span class="dim">  coming soon</span>
+<span class="sec">IMAGES          <span class="dim">(3)</span></span>
+<span class="item">▸ api</span>
+<span class="item">▸ web</span>
+<span class="item">▸ worker</span>
 
 <span class="sec dim">DATABASES       ···</span></span><span class="main"><span class="tabs"><span class="tab on">Details</span> <span class="tab">Events</span> <span class="tab">Logs</span></span>
   running   <span class="hl">2/2</span>
@@ -104,7 +108,7 @@ const decisions = [
   status    <span class="ok">ACTIVE</span>
   tag       <span class="c">v1.4</span>
 
-  <span class="act">[d]</span> deploy   <span class="act">[s]</span> scale   <span class="act">[R]</span> rollback</span></span>
+  <span class="act">[d]</span> deploy   <span class="act">[s]</span> scale   <span class="act">[z]</span> resize   <span class="act">[R]</span> rollback</span></span>
 <span class="botbar">↑↓ select · tab switch panel · d deploy · s scale · R rollback · c context · ? help · q quit</span></pre>
         </div>
       </section>
