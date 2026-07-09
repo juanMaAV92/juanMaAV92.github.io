@@ -1,0 +1,298 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource-variable/fraunces';
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  doc: CollectionEntry<'steer-docs'>;
+  docs: CollectionEntry<'steer-docs'>[];
+  headings: MarkdownHeading[];
+}
+
+const { doc, docs, headings } = Astro.props;
+const repo = 'https://github.com/juanMaAV92/steer';
+
+const docHref = (slug: string) => (slug === 'getting-started' ? '/steer/docs' : `/steer/docs/${slug}`);
+const canonical = `https://juanmaav92.github.io${docHref(doc.slug)}`;
+const idx = docs.findIndex((d) => d.slug === doc.slug);
+const prev = idx > 0 ? docs[idx - 1] : null;
+const next = idx >= 0 && idx < docs.length - 1 ? docs[idx + 1] : null;
+const toc = headings.filter((h) => h.depth === 2);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%B5%3C/text%3E%3C/svg%3E" />
+    <title>{doc.data.title} · steer docs</title>
+    <meta name="description" content={doc.data.description} />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#0b0f14" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={`${doc.data.title} · steer docs`} />
+    <meta property="og:description" content={doc.data.description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonical} />
+  </head>
+
+  <body>
+    <div class="bg" aria-hidden="true">
+      <div class="grid-lines"></div>
+      <div class="grain"></div>
+    </div>
+
+    <header class="nav">
+      <a class="brand" href="/steer"><span aria-hidden="true">⛵</span> steer <span class="brand-docs">docs</span></a>
+      <nav class="nav-links">
+        <a href={repo} class="ghost" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="/steer" class="ghost">← Project page</a>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <aside class="side" aria-label="Documentation pages">
+        <p class="side-title">documentation</p>
+        <ul class="side-list">
+          {docs.map((d) => (
+            <li>
+              <a class:list={['side-link', { on: d.slug === doc.slug }]} href={docHref(d.slug)}>{d.data.title}</a>
+            </li>
+          ))}
+        </ul>
+        <a class="side-back" href="/steer">← project page</a>
+      </aside>
+
+      <main class="doc-main">
+        <details class="side-mobile">
+          <summary>documentation <span aria-hidden="true">+</span></summary>
+          <ul class="side-list">
+            {docs.map((d) => (
+              <li><a class:list={['side-link', { on: d.slug === doc.slug }]} href={docHref(d.slug)}>{d.data.title}</a></li>
+            ))}
+          </ul>
+        </details>
+
+        <article class="doc">
+          <p class="kicker">steer docs</p>
+          <h1>{doc.data.title}</h1>
+          <p class="lede">{doc.data.description}</p>
+          <slot />
+        </article>
+
+        <nav class="pager" aria-label="Previous and next page">
+          {prev ? <a class="pager-link" href={docHref(prev.slug)}>← {prev.data.title}</a> : <span />}
+          {next ? <a class="pager-link pager-next" href={docHref(next.slug)}>{next.data.title} →</a> : <span />}
+        </nav>
+      </main>
+
+      <aside class="toc" aria-label="On this page">
+        {toc.length > 0 && (
+          <>
+            <p class="toc-title"># on this page</p>
+            <ul class="toc-list">
+              {toc.map((h) => (
+                <li><a class="toc-link" href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>
+              ))}
+            </ul>
+          </>
+        )}
+      </aside>
+    </div>
+
+    <footer class="foot">
+      <span>Steer · open source (MIT)</span>
+      <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
+    </footer>
+
+    <script>
+      // scroll-spy: resalta en el TOC la sección visible
+      const links = document.querySelectorAll('.toc-link');
+      const byId = new Map();
+      links.forEach((l) => byId.set(l.getAttribute('data-toc'), l));
+      const heads = document.querySelectorAll('.doc h2[id]');
+      if ('IntersectionObserver' in window && heads.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                links.forEach((l) => l.classList.remove('on'));
+                byId.get(e.target.id)?.classList.add('on');
+              }
+            });
+          },
+          { rootMargin: '0px 0px -70% 0px', threshold: 0.1 }
+        );
+        heads.forEach((h) => io.observe(h));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #0a0e13;
+        --panel: #111923;
+        --panel-2: #0e151d;
+        --line: #1d2935;
+        --ink: #d7e2ee;
+        --muted: #6b7889;
+        --accent: #2bc8e8;
+        --accent-deep: #1a9fc0;
+        --green: #4ade80;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --display: 'Fraunces Variable', Georgia, serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--bg); color: var(--ink); font-family: var(--mono);
+        line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+      a { color: inherit; }
+
+      /* ── contenido markdown (global: Astro no scopea el HTML renderizado) ── */
+      .doc .kicker { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--accent); margin-bottom: 0.7rem; }
+      .doc h1 { font-family: var(--display); font-weight: 440; color: #fff;
+        font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.1; letter-spacing: -0.02em; }
+      .doc .lede { color: var(--muted); margin: 0.9rem 0 2.2rem; max-width: 62ch; }
+      .doc h2 { font-family: var(--display); font-weight: 460; color: #fff;
+        font-size: 1.45rem; margin: 2.6rem 0 0.9rem; padding-top: 1.6rem;
+        border-top: 1px solid var(--line); scroll-margin-top: 5rem; }
+      .doc h3 { color: #fff; font-size: 1rem; font-weight: 600; margin: 1.8rem 0 0.6rem;
+        scroll-margin-top: 5rem; }
+      .doc p { color: var(--ink); margin: 0.8rem 0; max-width: 72ch; }
+      .doc p > strong { color: #fff; }
+      .doc ul, .doc ol { margin: 0.8rem 0 0.8rem 1.4rem; max-width: 70ch; }
+      .doc li { margin: 0.35rem 0; }
+      .doc li::marker { color: var(--accent); }
+      .doc a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(43, 200, 232, 0.35); }
+      .doc a:hover { border-bottom-color: var(--accent); }
+      .doc code { font-size: 0.85em; color: var(--ink); background: var(--panel-2);
+        border: 1px solid var(--line); border-radius: 5px; padding: 0.08rem 0.35rem; }
+      .doc pre.astro-code { background: var(--panel-2) !important; border: 1px solid var(--line);
+        border-radius: 10px; padding: 1rem 1.1rem; margin: 1rem 0 1.4rem; font-size: 0.8rem;
+        line-height: 1.65; overflow-x: auto; }
+      .doc pre.astro-code code { background: none; border: none; padding: 0; font-size: inherit; }
+      .doc blockquote { border-left: 2px solid var(--accent); background: var(--panel-2);
+        border-radius: 0 10px 10px 0; padding: 0.7rem 1.1rem; margin: 1.2rem 0; color: var(--muted); }
+      .doc blockquote p { margin: 0.3rem 0; }
+      .doc table { border-collapse: collapse; margin: 1.2rem 0 1.6rem; font-size: 0.82rem;
+        display: block; overflow-x: auto; max-width: 100%; }
+      .doc th { text-align: left; color: var(--accent); font-size: 0.72rem; text-transform: uppercase;
+        letter-spacing: 0.06em; border-bottom: 1px solid var(--line); padding: 0.5rem 1.1rem 0.5rem 0; }
+      .doc td { border-bottom: 1px solid var(--line); padding: 0.55rem 1.1rem 0.55rem 0;
+        color: var(--ink); vertical-align: top; }
+      .doc td code { white-space: nowrap; }
+      .doc hr { border: none; border-top: 1px solid var(--line); margin: 2rem 0; }
+
+      /* ── mock del TUI (mismo lenguaje visual que la landing) ── */
+      .doc .term { width: 100%; margin: 1.4rem 0 1.8rem; background: var(--panel-2);
+        border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); }
+      .doc .term-bar { display: flex; align-items: center; gap: 0.45rem; padding: 0.65rem 0.9rem;
+        background: #0c131b; border-bottom: 1px solid var(--line); position: relative; }
+      .doc .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2a3642; }
+      .doc .term-bar i:nth-child(1) { background: #ff5f57; }
+      .doc .term-bar i:nth-child(2) { background: #febc2e; }
+      .doc .term-bar i:nth-child(3) { background: #28c840; }
+      .doc .term-bar span { position: absolute; left: 0; right: 0; text-align: center;
+        color: var(--muted); font-size: 0.76rem; }
+      .doc .tui { padding: 1rem 1.1rem; font-size: 0.76rem; line-height: 1.55; color: var(--ink);
+        white-space: pre; overflow-x: auto; margin: 0; background: none; border: none; }
+      .doc .tui .topbar { display: block; color: var(--muted); border-bottom: 1px solid var(--line);
+        padding-bottom: 0.5rem; margin-bottom: 0.5rem; }
+      .doc .tui .botbar { display: block; color: #4a5662; border-top: 1px solid var(--line);
+        padding-top: 0.5rem; margin-top: 0.5rem; }
+      .doc .tui .row { display: flex; gap: 1.4rem; }
+      .doc .tui .side { display: block; border-right: 1px solid var(--line); padding-right: 1.2rem; }
+      .doc .tui .main { display: block; flex: 1; }
+      .doc .tui .sec { display: block; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.4rem; }
+      .doc .tui .item { display: block; color: #9fb0c0; padding: 0.05rem 0.3rem; border-radius: 4px; }
+      .doc .tui .item.sel { background: rgba(43, 200, 232, 0.12); color: #fff; }
+      .doc .tui .tabs { display: block; margin-bottom: 0.6rem; }
+      .doc .tui .tab { color: var(--muted); padding: 0.1rem 0.2rem; }
+      .doc .tui .tab.on { color: var(--accent); border-bottom: 2px solid var(--accent); }
+      .doc .tui .c { color: var(--accent); }
+      .doc .tui .dim { color: #4a5662; }
+      .doc .tui .ok, .doc .tui .up { color: var(--green); }
+      .doc .tui .warn { color: var(--amber); }
+      .doc .tui .err { color: var(--red); }
+      .doc .tui .off { color: #56636f; }
+      .doc .tui .act { color: var(--accent); }
+    </style>
+
+    <style>
+      .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+      .grid-lines { position: absolute; inset: 0; opacity: 0.5;
+        background-image: linear-gradient(rgba(43,200,232,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(43,200,232,0.025) 1px, transparent 1px);
+        background-size: 44px 44px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000, transparent 75%); }
+      .grain { position: absolute; inset: 0; opacity: 0.04; mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+      .nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; padding: 0.85rem 1.5rem; max-width: 1240px; margin: 0 auto;
+        background: rgba(10, 14, 19, 0.72); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+      .brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+        font-weight: 700; color: #fff; font-size: 1.05rem; }
+      .brand-docs { color: var(--accent); font-weight: 500; }
+      .nav-links { display: flex; align-items: center; gap: 1.1rem; }
+      .ghost { color: var(--muted); text-decoration: none; font-size: 0.86rem; transition: color 0.2s; }
+      .ghost:hover { color: var(--ink); }
+
+      .wrap { display: grid; grid-template-columns: 208px minmax(0, 1fr) 188px; gap: 2.6rem;
+        max-width: 1240px; margin: 0 auto; padding: 2.2rem 1.5rem 3rem; align-items: start; }
+
+      .side { position: sticky; top: 4.6rem; }
+      .side-title, .toc-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+        color: var(--muted); margin-bottom: 0.7rem; }
+      .side-list { list-style: none; }
+      .side-link { display: block; text-decoration: none; color: var(--muted); font-size: 0.86rem;
+        padding: 0.32rem 0.6rem; border-left: 2px solid var(--line); transition: color 0.15s; }
+      .side-link:hover { color: var(--ink); }
+      .side-link.on { color: var(--accent); border-left-color: var(--accent);
+        background: rgba(43, 200, 232, 0.06); }
+      .side-back { display: inline-block; margin-top: 1.4rem; color: var(--muted);
+        font-size: 0.78rem; text-decoration: none; }
+      .side-back:hover { color: var(--ink); }
+
+      .side-mobile { display: none; }
+
+      .toc { position: sticky; top: 4.6rem; }
+      .toc-list { list-style: none; }
+      .toc-link { display: block; text-decoration: none; color: var(--muted); font-size: 0.78rem;
+        padding: 0.24rem 0; transition: color 0.15s; }
+      .toc-link:hover { color: var(--ink); }
+      .toc-link.on { color: var(--accent); }
+
+      .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem;
+        padding-top: 1.4rem; border-top: 1px solid var(--line); }
+      .pager-link { color: var(--accent); text-decoration: none; font-size: 0.88rem; }
+      .pager-link:hover { text-decoration: underline; }
+
+      .foot { max-width: 1240px; margin: 0 auto; padding: 1.6rem 1.5rem 2.6rem; display: flex;
+        justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid var(--line);
+        color: var(--muted); font-size: 0.82rem; }
+      .foot a { color: var(--accent); text-decoration: none; }
+
+      @media (max-width: 1080px) {
+        .wrap { grid-template-columns: 208px minmax(0, 1fr); }
+        .toc { display: none; }
+      }
+      @media (max-width: 880px) {
+        .wrap { grid-template-columns: minmax(0, 1fr); }
+        .side { display: none; }
+        .side-mobile { display: block; margin-bottom: 1.6rem; background: var(--panel);
+          border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 1rem; }
+        .side-mobile summary { cursor: pointer; color: var(--accent); font-size: 0.8rem;
+          text-transform: uppercase; letter-spacing: 0.08em; list-style: none;
+          display: flex; justify-content: space-between; }
+        .side-mobile .side-list { margin-top: 0.7rem; }
+      }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    </style>
+  </body>
+</html>
