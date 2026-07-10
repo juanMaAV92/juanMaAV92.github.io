@@ -51,7 +51,7 @@ writable         = false               # read-only: every mutating action is blo
 
 ### Picking a context
 
-Priority order: `--context` flag (`-c`) → `STEER_CONTEXT` env var → `default_context`
+Priority order: `--context` flag → `STEER_CONTEXT` env var → `default_context`
 from the file. In the TUI, switch live with `c` or by clicking the top bar.
 
 ### The images block

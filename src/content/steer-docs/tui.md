@@ -54,6 +54,7 @@ Everything works both ways — this is a TUI you can actually click.
 | `d` `s` `z` `R` | Deploy · Scale · Resize · Rollback the selected service. |
 | `c` | Context switcher (also: click the top bar). |
 | `r` | Refresh services and images. |
+| `?` | Show the full shortcut list. |
 | `q` | Quit. |
 
 Mouse: click to select services, repos, tabs and section headers; click the action

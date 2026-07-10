@@ -8,7 +8,7 @@ order: 6
 
 | Flag / var | What it does |
 | --- | --- |
-| `--context <name>`, `-c` | Pick the context for this invocation. |
+| `--context <name>` | Pick the context for this invocation. |
 | `STEER_CONTEXT` | Env-var alternative to `--context` (useful in CI). |
 | `default_context` | Fallback, set in `steer.toml`. Priority: flag → env → file. |
 | `--version` | Print the installed version. |
