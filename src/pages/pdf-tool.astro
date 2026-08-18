@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/fraunces';
 import '@fontsource-variable/hanken-grotesk';
+import '../styles/interaction.css';
 import '@fontsource/jetbrains-mono/500.css';
 
 const release = 'https://github.com/juanMaAV92/pdf-tool/releases/latest';
@@ -63,7 +64,7 @@ const appSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   </head>
 
-  <body>
+  <body class="world-pdf-tool">
     <div class="bg" aria-hidden="true">
       <div class="glow glow-1"></div>
       <div class="glow glow-2"></div>
@@ -270,7 +271,7 @@ const appSchema = {
     <style>
       /* ── FONDO ─────────────────────────────────── */
       .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
-      .glow { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; }
+      .glow { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.32; }
       .glow-1 { width: 620px; height: 620px; top: -200px; right: -120px;
         background: radial-gradient(circle, rgba(255, 91, 82, 0.5), transparent 70%); }
       .glow-2 { width: 520px; height: 520px; bottom: -160px; left: -140px;
@@ -310,10 +311,10 @@ const appSchema = {
         font-weight: 600; font-size: 0.92rem; border-radius: 10px;
         padding: 0.65rem 1.1rem; color: #fff;
         background: linear-gradient(180deg, var(--red), var(--red-deep));
-        box-shadow: 0 6px 22px rgba(226, 59, 52, 0.32); border: 1px solid rgba(255, 140, 130, 0.4);
+        min-height: 44px; box-shadow: 0 6px 22px rgba(30, 16, 16, 0.28); border: 1px solid rgba(255, 140, 130, 0.4);
         transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
       }
-      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(226, 59, 52, 0.45); filter: brightness(1.06); }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(30, 16, 16, 0.34); filter: brightness(1.06); }
       .btn-sm { padding: 0.45rem 0.9rem; font-size: 0.85rem; border-radius: 8px; }
       .btn-lg { padding: 0.85rem 1.4rem; font-size: 1rem; border-radius: 12px; }
       .btn-ghost {
@@ -361,8 +362,7 @@ const appSchema = {
       .frame {
         position: relative; max-width: 940px; margin: 0 auto;
         border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
-        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 91, 82, 0.06),
-          0 0 90px rgba(255, 91, 82, 0.12);
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
       }
       .frame img {
         width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center;
