@@ -1,5 +1,6 @@
 ---
 import '@fontsource-variable/plus-jakarta-sans';
+import '../styles/interaction.css';
 import '@fontsource/jetbrains-mono/500.css';
 
 const canonical = 'https://juanmaav92.github.io/pulso';
@@ -102,7 +103,7 @@ const appSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   </head>
 
-  <body>
+  <body class="world-pulso">
     <header class="nav">
       <a class="brand" href="#top">
         <img src="/pulso/logo.png" alt="Pulso" width="26" height="26" />
@@ -342,7 +343,7 @@ const appSchema = {
       .sv { font-family: var(--mono); font-size: 0.86rem; color: var(--ink-2); }
       .dec-title { text-align: center; font-weight: 700; color: var(--ink); font-size: 1.3rem; margin: 3rem 0 0; }
       .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; margin-top: 1.6rem; }
-      .decision { background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--coral);
+      .decision { background: var(--bg); border: 1px solid var(--line); border-left: 1px solid var(--coral);
         border-radius: 10px; padding: 1.3rem 1.4rem; }
       .decision h4 { font-weight: 700; color: var(--ink); font-size: 1rem; margin-bottom: 0.45rem; }
       .decision p { color: var(--gray); font-size: 0.9rem; }

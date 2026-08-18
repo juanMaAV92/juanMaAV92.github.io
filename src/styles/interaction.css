@@ -1,0 +1,20 @@
+/* Shared interaction floor across the portfolio. */
+:where(button, input, textarea, select) {
+  font: inherit;
+}
+
+:where(a, button, input, textarea, select, summary):focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 5px rgba(255, 209, 102, 0.95);
+}
+
+:where(.btn, .btn-primary, .btn-ghost, .tab, summary) {
+  min-height: 44px;
+}
+
+@media (pointer: coarse) {
+  :where(.nav-links a, .contact-links a, .repo-link, .btn, .btn-primary, .btn-ghost, .tab, summary) {
+    min-height: 44px;
+  }
+}

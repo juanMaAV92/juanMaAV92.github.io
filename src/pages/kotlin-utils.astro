@@ -3,6 +3,7 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '@fontsource-variable/fraunces';
+import '../styles/interaction.css';
 
 const repo = 'https://github.com/juanMaAV92/kotlin-utils';
 const canonical = 'https://juanmaav92.github.io/kotlin-utils';
@@ -229,7 +230,7 @@ dependencies {
     <script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
   </head>
 
-  <body>
+  <body class="world-kotlin-utils">
     <div class="bg" aria-hidden="true">
       <div class="mesh-glow"></div>
 
@@ -612,7 +613,7 @@ dependencies {
     --bg: #0d0f12;
     --bg-soft: #14171c;
     --ink: #d7dce3;
-    --muted: #6b7280;
+    --muted: #8793a3;
     --line: #20252d;
     --accent: #6ee7a8;
     --amber: #e8c07d;
@@ -621,6 +622,8 @@ dependencies {
     --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
     --display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
   }
+
+  body.world-kotlin-utils { --accent: #b48eff; --muted: #a0a6b8; --blue: #8dc7ff; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -646,9 +649,8 @@ dependencies {
       radial-gradient(40% 50% at 18% 22%, rgba(110, 231, 168, 0.16), transparent 70%),
       radial-gradient(38% 45% at 82% 30%, rgba(90, 169, 230, 0.12), transparent 70%),
       radial-gradient(45% 50% at 60% 85%, rgba(180, 142, 255, 0.08), transparent 72%);
-    filter: blur(14px);
-    animation: drift 26s ease-in-out infinite alternate;
-    will-change: transform;
+    filter: blur(18px);
+    opacity: 0.72;
   }
   @keyframes drift {
     0%   { transform: translate(0, 0) scale(1); }
@@ -656,15 +658,15 @@ dependencies {
     100% { transform: translate(-2%, 2%) scale(1.02); }
   }
 
-  .circuits { opacity: 0.5; transition: transform 0.3s ease-out; }
+  .circuits { opacity: 0.28; transition: transform 0.3s ease-out; }
   .circuits .trace path {
     fill: none; stroke: rgba(90, 169, 230, 0.22); stroke-width: 1.4;
-    stroke-dasharray: 10 14; animation: flow 8s linear infinite;
+    stroke-dasharray: 10 14;
   }
   .circuits .trace-pads circle { fill: rgba(90, 169, 230, 0.35); }
   @keyframes flow { to { stroke-dashoffset: -48; } }
 
-  .mesh { opacity: 0.85; transition: transform 0.3s ease-out; }
+  .mesh { opacity: 0.56; transition: transform 0.3s ease-out; }
   .mesh .edges use { stroke: rgba(110, 231, 168, 0.10); stroke-width: 1; fill: none; }
   .mesh .dnode {
     fill: rgba(110, 231, 168, 0.55);
@@ -676,7 +678,7 @@ dependencies {
   }
   .mesh .packet {
     r: 2.2; fill: rgba(174, 245, 207, 0.7);
-    filter: drop-shadow(0 0 2px rgba(110, 231, 168, 0.45));
+    filter: none;
   }
 
   .vignette { background: radial-gradient(120% 80% at 50% 25%, transparent 35%, rgba(13, 15, 18, 0.55) 100%); }
@@ -819,7 +821,7 @@ dependencies {
   .name {
     font-family: var(--display); font-weight: 380;
     font-size: clamp(2.4rem, 8vw, 4.2rem); line-height: 1.02; letter-spacing: -0.02em;
-    color: #fff; margin-bottom: 1.1rem; text-shadow: 0 2px 40px rgba(110, 231, 168, 0.12);
+    color: #fff; margin-bottom: 1.1rem;
   }
   .name .surname { font-weight: 300; color: #6b7480; text-shadow: none; }
   .lede { max-width: 60ch; color: #aab2bd; font-size: 0.95rem; margin-bottom: 1.5rem; }
@@ -846,7 +848,7 @@ dependencies {
     transition: transform 0.15s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
   }
   .btn-primary { color: var(--bg); background: var(--accent); border: 1px solid transparent; }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110, 231, 168, 0.25); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28); }
   .btn-primary .goto { color: var(--bg); margin-left: 0.25rem; transition: transform 0.2s; }
   .btn-primary:hover .goto { transform: translate(2px, -2px); }
   .btn-ghost { color: var(--ink); background: rgba(255, 255, 255, 0.02); border: 1px solid var(--line); }
