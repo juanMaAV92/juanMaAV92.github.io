@@ -50,7 +50,7 @@ const appSchema = {
     <title>PDF Tool · Edita tus PDFs sin subir nada a internet</title>
     <meta name="description" content="App de escritorio gratis y de código abierto para comprimir, unir, dividir, proteger y marcar tus PDFs. Todo ocurre en tu equipo — tus archivos nunca salen de tu ordenador. macOS y Windows." />
     <meta name="author" content="Juan Manuel Armero Viveros" />
-    <meta name="theme-color" content="#0c0a0b" />
+    <meta name="theme-color" content="#5F5A9F" />
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content="PDF Tool · Edita tus PDFs sin subir nada a internet" />
     <meta property="og:description" content="Comprime, une, divide, protege y marca tus PDFs desde tu propio ordenador. Gratis, open source y sin anuncios." />
@@ -158,14 +158,14 @@ const appSchema = {
         <ol class="steps reveal" data-panel="mac">
           <li><span class="n">1</span><p>Descarga el archivo <code>.dmg</code> y ábrelo.</p></li>
           <li><span class="n">2</span><p>Arrastra <strong>PDF Tool</strong> a la carpeta <em>Aplicaciones</em>.</p></li>
-          <li><span class="n">3</span><p>Ábrela desde <em>Aplicaciones</em>. macOS la bloqueará con un aviso del tipo <em>«Se ha bloqueado “pdf-tool” para proteger tu Mac»</em>. Es normal: la app no está firmada, pero es segura. Cierra ese aviso.</p></li>
+          <li><span class="n">3</span><p>Ábrela desde <em>Aplicaciones</em>. macOS mostrará un aviso porque la app no está firmada por Apple. Cierra ese aviso para continuar.</p></li>
           <li><span class="n">4</span><p>Ve a <strong>Menú Apple () → Ajustes del Sistema → Privacidad y Seguridad</strong> y baja hasta la sección <strong>Seguridad</strong>.</p></li>
-          <li><span class="n">5</span><p>Verás el mensaje de que se bloqueó <em>“pdf-tool”</em>. Pulsa <strong>Abrir igualmente</strong> y confirma con tu contraseña o Touch ID. <span class="hint">Solo la primera vez — después se abre con doble clic como cualquier app.</span></p></li>
+          <li><span class="n">5</span><p>Verás el mensaje de que se bloqueó <em>“pdf-tool”</em>. Pulsa <strong>Abrir igualmente</strong> y confirma con tu contraseña o Touch ID. <span class="hint">Comprueba que descargaste la versión desde la release oficial; solo tendrás que autorizarla la primera vez.</span></p></li>
         </ol>
 
         <ol class="steps is-hidden" data-panel="win">
           <li><span class="n">1</span><p>Descarga el <strong>instalador</strong> (<code>.exe</code>) y ejecútalo.</p></li>
-          <li><span class="n">2</span><p>Si aparece <strong>SmartScreen</strong>: pulsa <em>Más información</em> → <strong>Ejecutar de todas formas</strong>. <span class="hint">El aviso sale porque el instalador no está firmado; es seguro.</span></p></li>
+          <li><span class="n">2</span><p>Si aparece <strong>SmartScreen</strong>: pulsa <em>Más información</em> → <strong>Ejecutar de todas formas</strong>. <span class="hint">El aviso aparece porque el instalador no está firmado; comprueba que lo descargaste desde la release oficial.</span></p></li>
         </ol>
 
         <a class="btn btn-lg install-cta reveal" href={release}>⬇️ Ir a la página de descargas</a>
@@ -246,14 +246,15 @@ const appSchema = {
 
     <style is:global>
       :root {
-        --bg: #0c0a0b;
-        --panel: #161214;
-        --line: rgba(255, 255, 255, 0.08);
-        --ink: #f6f1ef;
-        --body: #c2b9b6;
-        --muted: #8a807d;
-        --red: #ff5b52;
-        --red-deep: #e23b34;
+        --bg: #F8F7FF;
+        --panel: #FFFFFF;
+        --line: #DEDDEA;
+        --ink: #20202B;
+        --body: #4D4D61;
+        --muted: #696A7F;
+        --accent: #5F5A9F;
+        --accent-deep: #4A4685;
+        --accent-soft: #EEECFF;
         --display: 'Fraunces Variable', Georgia, serif;
         --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
         --mono: 'JetBrains Mono', monospace;
@@ -273,9 +274,9 @@ const appSchema = {
       .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
       .glow { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.32; }
       .glow-1 { width: 620px; height: 620px; top: -200px; right: -120px;
-        background: radial-gradient(circle, rgba(255, 91, 82, 0.5), transparent 70%); }
+        background: radial-gradient(circle, rgba(95, 90, 159, 0.22), transparent 70%); }
       .glow-2 { width: 520px; height: 520px; bottom: -160px; left: -140px;
-        background: radial-gradient(circle, rgba(255, 120, 80, 0.22), transparent 70%); }
+        background: radial-gradient(circle, rgba(153, 145, 220, 0.18), transparent 70%); }
       .grain {
         position: absolute; inset: 0; opacity: 0.035; mix-blend-mode: overlay;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -295,7 +296,7 @@ const appSchema = {
         position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
         justify-content: space-between; max-width: 1080px; margin: 0 auto;
         padding: 0.85rem 1.5rem;
-        backdrop-filter: blur(10px); background: rgba(12, 10, 11, 0.6);
+        backdrop-filter: blur(10px); background: rgba(248, 247, 255, 0.88);
         border-bottom: 1px solid var(--line);
       }
       .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none;
@@ -310,18 +311,18 @@ const appSchema = {
         display: inline-flex; align-items: center; gap: 0.55rem; text-decoration: none;
         font-weight: 600; font-size: 0.92rem; border-radius: 10px;
         padding: 0.65rem 1.1rem; color: #fff;
-        background: linear-gradient(180deg, var(--red), var(--red-deep));
-        min-height: 44px; box-shadow: 0 6px 22px rgba(30, 16, 16, 0.28); border: 1px solid rgba(255, 140, 130, 0.4);
+        background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+        min-height: 44px; box-shadow: 0 8px 24px rgba(74, 70, 133, 0.2); border: 1px solid rgba(74, 70, 133, 0.35);
         transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
       }
-      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(30, 16, 16, 0.34); filter: brightness(1.06); }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(74, 70, 133, 0.25); filter: brightness(1.04); }
       .btn-sm { padding: 0.45rem 0.9rem; font-size: 0.85rem; border-radius: 8px; }
       .btn-lg { padding: 0.85rem 1.4rem; font-size: 1rem; border-radius: 12px; }
       .btn-ghost {
         background: transparent; color: var(--ink); box-shadow: none;
         border: 1px solid var(--line);
       }
-      .btn-ghost:hover { border-color: rgba(255, 91, 82, 0.5); background: rgba(255, 91, 82, 0.06); }
+      .btn-ghost:hover { border-color: rgba(95, 90, 159, 0.5); background: rgba(95, 90, 159, 0.06); }
 
       /* ── HERO ──────────────────────────────────── */
       .hero {
@@ -330,13 +331,13 @@ const appSchema = {
       }
       .eyebrow {
         font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em;
-        text-transform: uppercase; color: var(--red); margin-bottom: 1.1rem;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 1.1rem;
       }
       .hero h1 {
         font-family: var(--display); font-weight: 440; color: var(--ink);
         font-size: clamp(2.3rem, 5.5vw, 3.9rem); line-height: 1.06; letter-spacing: -0.02em;
       }
-      .hero h1 em { font-style: italic; color: var(--red); font-weight: 500; }
+      .hero h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
       .lede { margin: 1.4rem auto 2rem; font-size: 1.1rem; color: var(--body); max-width: 52ch; }
       .cta { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
       .trust {
@@ -344,16 +345,16 @@ const appSchema = {
         margin-top: 1.8rem; font-size: 0.85rem; color: var(--muted);
       }
       .trust li { display: flex; align-items: center; gap: 0.45rem; }
-      .trust li::before { content: '✓'; color: var(--red); font-weight: 700; }
+      .trust li::before { content: '✓'; color: var(--accent); font-weight: 700; }
       .hero-help {
         margin-top: 1.3rem; display: inline-flex; align-items: center; gap: 0.4rem;
-        font-size: 0.9rem; font-weight: 600; color: var(--red); text-decoration: none;
+        font-size: 0.9rem; font-weight: 600; color: var(--accent); text-decoration: none;
         padding: 0.55rem 1.1rem; border-radius: 999px;
-        border: 1px solid rgba(255, 91, 82, 0.35); background: rgba(255, 91, 82, 0.05);
+        border: 1px solid rgba(95, 90, 159, 0.35); background: rgba(95, 90, 159, 0.05);
         transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
       }
       .hero-help:hover {
-        background: rgba(255, 91, 82, 0.12); border-color: rgba(255, 91, 82, 0.6);
+        background: rgba(95, 90, 159, 0.12); border-color: rgba(95, 90, 159, 0.6);
         transform: translateY(-1px);
       }
 
@@ -371,8 +372,8 @@ const appSchema = {
       /* ── PRIVACY ───────────────────────────────── */
       .privacy {
         display: flex; gap: 1.5rem; align-items: flex-start;
-        background: linear-gradient(135deg, rgba(255, 91, 82, 0.08), rgba(255, 91, 82, 0.02));
-        border: 1px solid rgba(255, 91, 82, 0.18); border-radius: 16px;
+        background: linear-gradient(135deg, rgba(95, 90, 159, 0.1), rgba(95, 90, 159, 0.03));
+        border: 1px solid rgba(95, 90, 159, 0.2); border-radius: 16px;
         padding: 2rem; margin: 1rem 0;
       }
       .privacy .lock { font-size: 2.2rem; line-height: 1; flex-shrink: 0; }
@@ -389,8 +390,8 @@ const appSchema = {
         background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
         padding: 1.5rem; transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
       }
-      .card:hover { transform: translateY(-4px); border-color: rgba(255, 91, 82, 0.4);
-        background: #1c1618; }
+      .card:hover { transform: translateY(-4px); border-color: rgba(95, 90, 159, 0.4);
+        background: #FCFBFF; }
       .card-ic { font-size: 1.7rem; display: block; margin-bottom: 0.8rem; }
       .card h3 { font-family: var(--display); font-weight: 500; color: var(--ink);
         font-size: 1.15rem; margin-bottom: 0.4rem; }
@@ -404,14 +405,14 @@ const appSchema = {
         background: transparent; border: 0; border-radius: 8px; padding: 0.5rem 1.1rem;
         cursor: pointer; transition: color 0.2s, background 0.2s;
       }
-      .tab.is-active { color: #fff; background: linear-gradient(180deg, var(--red), var(--red-deep)); }
+      .tab.is-active { color: #fff; background: linear-gradient(180deg, var(--accent), var(--accent-deep)); }
       .steps { list-style: none; display: flex; flex-direction: column; gap: 1rem; max-width: 64ch; }
       .steps.is-hidden { display: none; }
       .steps li { display: flex; gap: 1rem; align-items: flex-start; }
       .steps .n {
         flex-shrink: 0; width: 1.85rem; height: 1.85rem; border-radius: 50%;
         display: grid; place-items: center; font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
-        color: var(--red); background: rgba(255, 91, 82, 0.1); border: 1px solid rgba(255, 91, 82, 0.3);
+        color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(95, 90, 159, 0.25);
       }
       .steps p { color: var(--body); padding-top: 0.2rem; }
       .steps strong { color: var(--ink); }
@@ -426,21 +427,21 @@ const appSchema = {
         background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
         padding: 0 1.2rem; transition: border-color 0.2s;
       }
-      details[open] { border-color: rgba(255, 91, 82, 0.3); }
+      details[open] { border-color: rgba(95, 90, 159, 0.35); }
       summary {
         list-style: none; cursor: pointer; display: flex; justify-content: space-between;
         align-items: center; gap: 1rem; padding: 1.1rem 0; font-weight: 600; color: var(--ink);
         font-size: 1.02rem;
       }
       summary::-webkit-details-marker { display: none; }
-      .chev { color: var(--red); font-size: 1.3rem; transition: transform 0.25s ease; flex-shrink: 0; }
+      .chev { color: var(--accent); font-size: 1.3rem; transition: transform 0.25s ease; flex-shrink: 0; }
       details[open] .chev { transform: rotate(45deg); }
       details p { color: var(--body); padding: 0 0 1.2rem; max-width: 66ch; }
 
       /* ── FINAL ─────────────────────────────────── */
       .final {
         text-align: center; padding: 5rem 1.5rem; margin: 2rem 0 4rem;
-        background: radial-gradient(circle at 50% 0%, rgba(255, 91, 82, 0.1), transparent 65%);
+        background: radial-gradient(circle at 50% 0%, rgba(95, 90, 159, 0.12), transparent 65%);
         border: 1px solid var(--line); border-radius: 20px;
       }
       .final h2 { font-family: var(--display); font-weight: 460; color: var(--ink);
@@ -454,7 +455,7 @@ const appSchema = {
       }
       .cb-eyebrow {
         font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
-        text-transform: uppercase; color: var(--red); margin-bottom: 0.9rem;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem;
       }
       .contact-band h2 {
         font-family: var(--display); font-weight: 460; color: var(--ink);
@@ -470,7 +471,7 @@ const appSchema = {
         border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem;
       }
       .foot a { color: var(--body); text-decoration: none; transition: color 0.2s; }
-      .foot a:hover { color: var(--red); }
+      .foot a:hover { color: var(--accent); }
 
       /* ── ANIMACIÓN ─────────────────────────────── */
       .rise { opacity: 0; transform: translateY(14px);

@@ -9,9 +9,9 @@ const repo = 'https://github.com/juanMaAV92/go-utils';
 const canonical = 'https://juanmaav92.github.io/go-utils';
 const blueprint = 'https://github.com/juanMaAV92/go-echo-blueprint';
 
-const pageTitle = 'go-utils · Go utilities for AWS microservices';
+const pageTitle = 'go-utils · Production foundation for observable Go services';
 const description =
-  'Go utility library for AWS microservices: structured logging with OpenTelemetry trace correlation, typed errors, resilient HTTP client, RS256 JWT, Postgres/Redis/S3 adapters, SQS/SNS/EventBridge messaging and RBAC middleware. Config-from-env, interface-driven.';
+  'Production foundation for observable Go services: structured logging with OpenTelemetry trace correlation, typed errors, resilient HTTP client, data adapters and AWS messaging. Config-from-env, interface-driven.';
 
 const softwareSchema = {
   '@context': 'https://schema.org',
@@ -271,18 +271,19 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
       <article class="content">
 
         <section id="overview" class="hero">
-          <p class="prompt rise" style="--d: 60ms"><span class="sigil">$</span> whoami go-utils</p>
+          <p class="prompt rise" style="--d: 60ms"><span class="sigil">$</span> whoami go-utils // signal path</p>
           <h1 class="name rise" style="--d: 180ms">go<span class="surname">-utils</span></h1>
           <p class="lede rise" style="--d: 300ms">
-            Go utility library for AWS microservices — structured logging with trace correlation,
+            Production foundation for observable Go services: structured logging with trace correlation,
             typed errors, a resilient HTTP client, RS256 JWT, Postgres/Redis/S3 adapters and
-            SQS/SNS/EventBridge messaging. <em>Observability-first, config-from-env, interface-driven.</em>
+            SQS/SNS/EventBridge messaging. <em>Signals first, config from env, interfaces at the edge.</em>
           </p>
           <div class="badges rise" style="--d: 420ms" aria-label="Build info">
             <span class="chip chip-version">v{latestVersion}{publishedAt && <span class="chip-date"> · {publishedAt}</span>}</span>
             <span class="chip">Go 1.25</span>
             <span class="chip">AWS SDK v2</span>
             <span class="chip">OpenTelemetry</span>
+            <span class="chip chip-signal">service health</span>
             <span class="chip">MIT</span>
           </div>
           <div class="cta rise" style="--d: 510ms">
@@ -296,13 +297,13 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
 
         <section id="principles" class="block">
           <h2 class="section-head reveal">
-            <span class="sigil">$</span> <span class="cmd">cat</span> <span class="path">~/principles.md</span>
+            <span class="sigil">$</span> <span class="cmd">cat</span> <span class="path">~/signal-path.md</span>
             <a class="anchor" href="#principles" aria-label="Anchor">#</a>
           </h2>
           <div class="principles">
             <article class="principle reveal">
               <span class="p-num">01</span>
-              <h3>Observability-first</h3>
+              <h3>Signals first</h3>
               <p>Every package emits OpenTelemetry spans, and the logger injects <code>trace_id</code>/<code>span_id</code> from the context into every line — logs and traces correlate out of the box.</p>
             </article>
             <article class="principle reveal">
@@ -551,7 +552,8 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
     --ink: #d7dce3;
     --muted: #8793a3;
     --line: #20252d;
-    --accent: #6ee7a8;
+    --accent: #5f8ef7;
+    --accent-deep: #3f6fe0;
     --amber: #e8c07d;
     --blue: #5aa9e6;
     --purple: #b48eff;
@@ -559,7 +561,7 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
     --display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
   }
 
-  body.world-go-utils { --accent: #8ee6aa; --muted: #8793a3; }
+  body.world-go-utils { --accent: #5f8ef7; --accent-deep: #3f6fe0; --muted: #929bb0; --blue: #8fc5ff; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -582,9 +584,9 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
 
   .mesh-glow {
     background:
-      radial-gradient(40% 50% at 18% 22%, rgba(110, 231, 168, 0.16), transparent 70%),
-      radial-gradient(38% 45% at 82% 30%, rgba(90, 169, 230, 0.12), transparent 70%),
-      radial-gradient(45% 50% at 60% 85%, rgba(180, 142, 255, 0.08), transparent 72%);
+      radial-gradient(40% 50% at 18% 22%, rgba(95, 142, 247, 0.16), transparent 70%),
+      radial-gradient(38% 45% at 82% 30%, rgba(116, 199, 255, 0.12), transparent 70%),
+      radial-gradient(45% 50% at 60% 85%, rgba(180, 142, 255, 0.06), transparent 72%);
     filter: blur(18px);
     opacity: 0.72;
   }
@@ -596,16 +598,16 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
 
   .circuits { opacity: 0.28; transition: transform 0.3s ease-out; }
   .circuits .trace path {
-    fill: none; stroke: rgba(90, 169, 230, 0.22); stroke-width: 1.4;
+    fill: none; stroke: rgba(116, 199, 255, 0.22); stroke-width: 1.4;
     stroke-dasharray: 10 14;
   }
-  .circuits .trace-pads circle { fill: rgba(90, 169, 230, 0.35); }
+  .circuits .trace-pads circle { fill: rgba(116, 199, 255, 0.35); }
   @keyframes flow { to { stroke-dashoffset: -48; } }
 
   .mesh { opacity: 0.56; transition: transform 0.3s ease-out; }
-  .mesh .edges use { stroke: rgba(110, 231, 168, 0.10); stroke-width: 1; fill: none; }
+  .mesh .edges use { stroke: rgba(95, 142, 247, 0.12); stroke-width: 1; fill: none; }
   .mesh .dnode {
-    fill: rgba(110, 231, 168, 0.55);
+    fill: rgba(95, 142, 247, 0.55);
     animation: pulse 4s ease-in-out infinite; animation-delay: var(--nd, 0s);
   }
   @keyframes pulse {
@@ -613,7 +615,7 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
     50%      { opacity: 0.9; r: 4.5; }
   }
   .mesh .packet {
-    r: 2.2; fill: rgba(174, 245, 207, 0.7);
+    r: 2.2; fill: rgba(183, 220, 255, 0.72);
     filter: none;
   }
 
@@ -690,7 +692,7 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
   .toc-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.02); }
   .toc-link.is-active {
     color: var(--accent);
-    background: rgba(110, 231, 168, 0.05);
+    background: rgba(95, 142, 247, 0.05);
     border-left-color: var(--accent);
   }
   .toc-arrow { color: var(--line); font-size: 0.9em; transition: color 0.15s; }
@@ -769,12 +771,13 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
     border: 1px solid var(--line); border-radius: 5px; padding: 0.16rem 0.5rem; letter-spacing: 0.02em;
     transition: color 0.2s, border-color 0.2s, transform 0.2s;
   }
-  .chip:hover { color: var(--accent); border-color: rgba(110, 231, 168, 0.4); transform: translateY(-2px); }
+  .chip:hover { color: var(--accent); border-color: rgba(95, 142, 247, 0.45); transform: translateY(-2px); }
   .chip-version {
-    color: var(--accent); border-color: rgba(110, 231, 168, 0.4);
-    background: rgba(110, 231, 168, 0.06); font-weight: 500;
+    color: var(--accent); border-color: rgba(95, 142, 247, 0.45);
+    background: rgba(95, 142, 247, 0.08); font-weight: 500;
   }
   .chip-date { color: var(--muted); font-weight: 400; }
+  .chip-signal { color: #74c7ff; border-color: rgba(116, 199, 255, 0.32); background: rgba(116, 199, 255, 0.06); }
 
   .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; }
   .btn-primary, .btn-ghost {
@@ -788,7 +791,7 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
   .btn-primary .goto { color: var(--bg); margin-left: 0.25rem; transition: transform 0.2s; }
   .btn-primary:hover .goto { transform: translate(2px, -2px); }
   .btn-ghost { color: var(--ink); background: rgba(255, 255, 255, 0.02); border: 1px solid var(--line); }
-  .btn-ghost:hover { border-color: rgba(110, 231, 168, 0.4); color: var(--accent); }
+  .btn-ghost:hover { border-color: rgba(95, 142, 247, 0.45); color: var(--accent); }
 
   /* ── SECTION HEAD ── */
   .section-head {
@@ -821,8 +824,8 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
   .principle p { color: #a3acb9; font-size: 0.86rem; max-width: 52ch; }
   .principle code {
     font-family: var(--mono); font-size: 0.85em;
-    background: rgba(110, 231, 168, 0.06); color: var(--accent);
-    border: 1px solid rgba(110, 231, 168, 0.15);
+    background: rgba(95, 142, 247, 0.07); color: var(--accent);
+    border: 1px solid rgba(95, 142, 247, 0.18);
     border-radius: 4px; padding: 0.05rem 0.32rem;
   }
 
@@ -855,8 +858,8 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
   .mod-feats li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
   .mod-feats code, .compat code, .setup-intro code, .setup-foot code {
     font-family: var(--mono); font-size: 0.85em;
-    background: rgba(110, 231, 168, 0.06); color: var(--accent);
-    border: 1px solid rgba(110, 231, 168, 0.15);
+    background: rgba(95, 142, 247, 0.07); color: var(--accent);
+    border: 1px solid rgba(95, 142, 247, 0.18);
     border-radius: 4px; padding: 0.05rem 0.32rem;
   }
 
@@ -873,12 +876,12 @@ got, err <span class="c-op">:=</span> jwt.<span class="c-f">ValidateToken</span>
   }
   .code code { color: var(--ink); white-space: pre; display: block; }
   .code.tree code { color: var(--ink); }
-  .code.out { background: #07090b; border-color: rgba(110, 231, 168, 0.12); }
+  .code.out { background: #070b13; border-color: rgba(95, 142, 247, 0.16); }
   .code.out code { color: var(--accent); }
 
   .c-k { color: #b48eff; }
   .c-t { color: #5aa9e6; }
-  .c-f { color: #6ee7a8; }
+  .c-f { color: #74c7ff; }
   .c-s { color: #e8c07d; }
   .c-v { color: #f6a96b; }
   .c-c { color: #4a5662; font-style: italic; }

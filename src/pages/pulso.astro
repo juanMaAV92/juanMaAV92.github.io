@@ -8,64 +8,64 @@ const canonical = 'https://juanmaav92.github.io/pulso';
 const pillars = [
   {
     icon: '📅',
-    title: 'Books appointments 24/7',
-    desc: 'An AI bot chats with the customer, figures out which service they want and books the appointment — at 3am, on holidays, whenever — without anyone at the business lifting a finger.',
+    title: 'Agenda citas 24/7',
+    desc: 'Un asistente de IA conversa con el cliente, entiende qué servicio necesita y agenda la cita — de madrugada, en festivos o cuando el negocio está ocupado.',
   },
   {
     icon: '🔁',
-    title: 'Re-engages customers',
-    desc: 'It spots recurring customers who have gone quiet for a while and brings them back with a message at the right moment, before they drift away.',
+    title: 'Recupera clientes',
+    desc: 'Detecta clientes habituales que llevan un tiempo sin volver y los invita de nuevo en el momento adecuado, antes de que se vayan con la competencia.',
   },
   {
     icon: '💬',
-    title: 'Speaks like your brand',
-    desc: 'The bot takes on each business’s name, tone and personality. The owner can take over any conversation with a single click.',
+    title: 'Habla como tu negocio',
+    desc: 'El asistente adopta el nombre, tono y personalidad de cada negocio. El dueño puede tomar el control de cualquier conversación con un clic.',
   },
 ];
 
 const stack = [
-  { k: 'Backend', v: 'Go 1.25 · Echo · API REST + Worker' },
-  { k: 'Jobs / colas', v: 'Asynq sobre Redis 7' },
+  { k: 'Backend', v: 'Go 1.25 · Echo · API REST + worker' },
+  { k: 'Trabajos / colas', v: 'Asynq sobre Redis 7' },
   { k: 'Datos', v: 'PostgreSQL 16' },
   { k: 'Frontend', v: 'Next.js 15 · Tailwind · shadcn/ui' },
   { k: 'WhatsApp', v: 'Meta Cloud API / 360dialog (BSP)' },
   { k: 'IA', v: 'LLM intercambiable (Gemini · GPT-4o · Deepseek)' },
-  { k: 'Auth', v: 'Clerk' },
-  { k: 'Infra', v: 'DigitalOcean · Cloudflare Pages' },
+  { k: 'Autenticación', v: 'Clerk' },
+  { k: 'Infraestructura', v: 'DigitalOcean · Cloudflare Pages' },
 ];
 
 const decisions = [
   {
-    title: 'No overbooking, enforced by the database',
-    desc: 'Appointments can’t overlap thanks to a PostgreSQL exclusion constraint: the rule lives in the engine, not in application code, so it’s impossible to book two appointments at the same time even if they arrive at once.',
+    title: 'Sin citas solapadas, garantizado por la base de datos',
+    desc: 'Las citas no pueden solaparse gracias a una restricción de exclusión de PostgreSQL: la regla vive en el motor, no en el código de la aplicación.',
   },
   {
-    title: 'Decoupled messaging channels (ports & adapters)',
-    desc: 'WhatsApp today, but the bot logic knows nothing about WhatsApp. A channel abstraction lets me plug in Instagram or Telegram tomorrow without touching the core.',
+    title: 'Canales de mensajería desacoplados',
+    desc: 'WhatsApp hoy, pero la lógica del asistente no depende de WhatsApp. Una abstracción de canales permite añadir Instagram o Telegram sin tocar el núcleo.',
   },
   {
-    title: 'Credentials encrypted at rest',
-    desc: 'Each business’s WhatsApp tokens are stored encrypted, never in plain text. Authentication stays protected even against a misconfiguration.',
+    title: 'Credenciales cifradas en reposo',
+    desc: 'Los tokens de WhatsApp de cada negocio se almacenan cifrados, nunca en texto plano. La autenticación permanece protegida incluso ante una mala configuración.',
   },
   {
-    title: 'Swappable LLM by configuration',
-    desc: 'The AI provider changes with a single environment variable. No lock-in to one vendor: I tune cost and quality without rewriting anything.',
+    title: 'LLM intercambiable por configuración',
+    desc: 'El proveedor de IA cambia con una sola variable de entorno. Sin dependencia de un único proveedor: puedo ajustar coste y calidad sin reescribir el sistema.',
   },
 ];
 
 const built = [
-  'REST API and job worker in Go',
-  'Multi-tenant authentication with Clerk',
-  'WhatsApp Business connection (onboarding)',
-  'Overbooking prevention at the DB level',
-  'Credentials encrypted at rest',
-  'Web panel with the full design system',
+  'API REST y worker de trabajos en Go',
+  'Autenticación multi-tenant con Clerk',
+  'Conexión con WhatsApp Business (onboarding)',
+  'Prevención de citas solapadas en la base de datos',
+  'Credenciales cifradas en reposo',
+  'Panel web con el sistema de diseño completo',
 ];
 const next = [
-  'AI conversational engine for the bot',
-  'Automatic customer re-engagement',
-  'Real-time inbox (WebSocket)',
-  'Business metrics and reports',
+  'Motor conversacional de IA',
+  'Recuperación automática de clientes',
+  'Bandeja en tiempo real (WebSocket)',
+  'Métricas y reportes del negocio',
 ];
 
 const appSchema = {
@@ -74,31 +74,31 @@ const appSchema = {
   name: 'Pulso',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  description: 'B2B SaaS that automates appointment booking, customer re-engagement and WhatsApp conversations with an AI bot, for local service businesses in Colombia.',
+  description: 'SaaS B2B que automatiza la agenda de citas, la recuperación de clientes y las conversaciones de WhatsApp con un asistente de IA para negocios locales en Colombia.',
   url: canonical,
   author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
 };
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/pulso/logo.png" />
-    <title>Pulso · WhatsApp appointment-booking SaaS with AI — case study</title>
-    <meta name="description" content="Case study of Pulso: a B2B SaaS that books appointments, re-engages customers and handles WhatsApp conversations with an AI bot. Go, Next.js, PostgreSQL. A work-in-progress project by Juan Manuel Armero Viveros." />
+    <title>Pulso · Agenda citas por WhatsApp con IA — caso de estudio</title>
+    <meta name="description" content="Caso de estudio de Pulso: un SaaS B2B que agenda citas, recupera clientes y gestiona conversaciones de WhatsApp con un asistente de IA. Go, Next.js y PostgreSQL. Proyecto en desarrollo de Juan Manuel Armero Viveros." />
     <meta name="author" content="Juan Manuel Armero Viveros" />
     <meta name="theme-color" content="#E8634A" />
     <link rel="canonical" href={canonical} />
-    <meta property="og:title" content="Pulso · WhatsApp booking with AI — case study" />
-    <meta property="og:description" content="B2B SaaS for local businesses: the bot books, re-engages and chats over WhatsApp. Technical case study." />
+    <meta property="og:title" content="Pulso · Agenda citas por WhatsApp con IA" />
+    <meta property="og:description" content="SaaS B2B para negocios locales: el asistente agenda, recupera clientes y conversa por WhatsApp." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content="https://juanmaav92.github.io/pulso/inbox.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Pulso · WhatsApp booking with AI — case study" />
-    <meta name="twitter:description" content="B2B SaaS for local businesses: the bot books, re-engages and chats over WhatsApp." />
+    <meta name="twitter:title" content="Pulso · Agenda citas por WhatsApp con IA" />
+    <meta name="twitter:description" content="SaaS B2B para negocios locales: el asistente agenda, recupera clientes y conversa por WhatsApp." />
     <meta name="twitter:image" content="https://juanmaav92.github.io/pulso/inbox.png" />
     <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   </head>
@@ -110,8 +110,8 @@ const appSchema = {
         <span>Pulso</span>
       </a>
       <nav class="nav-links">
-        <span class="status">● Work in progress</span>
-        <a href="/" class="ghost">← Portfolio</a>
+        <span class="status">● En desarrollo</span>
+        <a href="/" class="ghost">← Portafolio</a>
       </nav>
     </header>
 
@@ -119,37 +119,37 @@ const appSchema = {
       <!-- ── HERO ──────────────────────────────────── -->
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow rise" style="--d: 0ms">Case study · B2B SaaS</p>
-          <h1 class="rise" style="--d: 90ms">Your business’s pulse, <span class="hl">always answering</span>.</h1>
+          <p class="eyebrow rise" style="--d: 0ms">Caso de estudio · SaaS B2B</p>
+          <h1 class="rise" style="--d: 90ms">El pulso de tu negocio, <span class="hl">siempre atento</span>.</h1>
           <p class="lede rise" style="--d: 180ms">
-            Pulso connects a service business’s WhatsApp and an AI bot books appointments,
-            re-engages customers and handles conversations — on autopilot.
+            Pulso conecta el WhatsApp de tu negocio con un asistente de IA que agenda citas,
+            recupera clientes y atiende conversaciones — incluso cuando estás ocupado.
           </p>
           <ul class="meta rise" style="--d: 270ms">
-            <li><span>Role</span>Design, architecture and full-stack development</li>
-            <li><span>Stack</span>Go · Next.js · PostgreSQL · AI</li>
-            <li><span>Status</span>Work in progress</li>
+            <li><span>Rol</span>Diseño, arquitectura y desarrollo full-stack</li>
+            <li><span>Stack</span>Go · Next.js · PostgreSQL · IA</li>
+            <li><span>Estado</span>En desarrollo</li>
           </ul>
         </div>
         <div class="hero-shot rise" style="--d: 280ms">
-          <img src="/pulso/inbox.png" alt="Pulso inbox: the bot books an appointment over WhatsApp" width="2560" height="1720" loading="eager" />
+          <img src="/pulso/inbox.png" alt="Bandeja de Pulso: el asistente agenda una cita por WhatsApp" width="2560" height="1720" loading="eager" />
         </div>
       </section>
 
       <!-- ── PROBLEMA ──────────────────────────────── -->
       <section class="band problem">
-        <p class="kicker">The problem</p>
-        <h2>Local businesses lose appointments because <span class="hl">nobody can answer</span> every message in time.</h2>
+        <p class="kicker">El problema</p>
+        <h2>Los negocios locales pierden citas porque <span class="hl">nadie puede responder</span> a tiempo todos los mensajes.</h2>
         <p class="band-sub">
-          A salon, a barbershop or a clinic get dozens of messages a day while they’re busy serving customers.
-          Every message left unanswered in time is an appointment — and a customer — lost to a competitor.
+          Una peluquería, una barbería o un consultorio reciben decenas de mensajes al día mientras atienden a sus clientes.
+          Cada mensaje sin respuesta a tiempo puede convertirse en una cita — y un cliente — para la competencia.
         </p>
       </section>
 
       <!-- ── SOLUCIÓN ──────────────────────────────── -->
       <section class="block">
-        <p class="kicker center">The solution</p>
-        <h2 class="center">An employee that never sleeps</h2>
+        <p class="kicker center">La solución</p>
+        <h2 class="center">Un asistente que nunca se desconecta</h2>
         <div class="pillars">
           {pillars.map((p) => (
             <article class="pillar">
@@ -163,24 +163,24 @@ const appSchema = {
 
       <!-- ── PRODUCTO ──────────────────────────────── -->
       <section class="block">
-        <p class="kicker center">The product</p>
-        <h2 class="center">Built for the owner, not for a techie</h2>
-        <p class="block-sub center">Mobile-first, warm language and an inbox that feels like WhatsApp. A custom design system on top of Pulso’s coral brand.</p>
+        <p class="kicker center">El producto</p>
+        <h2 class="center">Hecho para el dueño, no para un técnico</h2>
+        <p class="block-sub center">Diseño mobile-first, lenguaje cercano y una bandeja que se siente como WhatsApp. Un sistema de diseño propio sobre la marca coral de Pulso.</p>
         <figure class="shot">
-          <img src="/pulso/dashboard.png" alt="Pulso dashboard with business KPIs" width="2560" height="1720" loading="lazy" />
-          <figcaption>Dashboard — the business at a glance: appointments, customers, re-engagement and bot success rate.</figcaption>
+          <img src="/pulso/dashboard.png" alt="Panel de Pulso con los indicadores del negocio" width="2560" height="1720" loading="lazy" />
+          <figcaption>Panel — el negocio de un vistazo: citas, clientes, recuperaciones y tasa de éxito del asistente.</figcaption>
         </figure>
         <figure class="shot">
-          <img src="/pulso/inbox.png" alt="Pulso inbox with the bot chatting" width="2560" height="1720" loading="lazy" />
-          <figcaption>Inbox — the bot chats and books; the owner can take over any conversation whenever they want.</figcaption>
+          <img src="/pulso/inbox.png" alt="Bandeja de Pulso con el asistente conversando" width="2560" height="1720" loading="lazy" />
+          <figcaption>Bandeja — el asistente conversa y agenda; el dueño puede tomar el control cuando quiera.</figcaption>
         </figure>
       </section>
 
       <!-- ── ARQUITECTURA ──────────────────────────── -->
       <section class="block tech">
-        <p class="kicker center">Under the hood</p>
-        <h2 class="center">Architecture built to scale</h2>
-        <p class="block-sub center">A monorepo with independent backend and panel that talk over REST and WebSocket.</p>
+        <p class="kicker center">Por dentro</p>
+        <h2 class="center">Arquitectura preparada para crecer</h2>
+        <p class="block-sub center">Un monorepo con backend y panel independientes que se comunican por REST y WebSocket.</p>
 
         <div class="stack-grid">
           {stack.map((s) => (
@@ -188,7 +188,7 @@ const appSchema = {
           ))}
         </div>
 
-        <h3 class="dec-title">Engineering decisions</h3>
+        <h3 class="dec-title">Decisiones de ingeniería</h3>
         <div class="decisions">
           {decisions.map((d) => (
             <article class="decision">
@@ -201,15 +201,15 @@ const appSchema = {
 
       <!-- ── ESTADO ────────────────────────────────── -->
       <section class="block status-sec">
-        <p class="kicker center">Current status</p>
-        <h2 class="center">Work in progress — and honest about it</h2>
+        <p class="kicker center">Estado actual</p>
+        <h2 class="center">En desarrollo, y con honestidad</h2>
         <div class="status-cols">
           <div class="status-col done">
-            <h3>✓ Already built</h3>
+            <h3>✓ Ya construido</h3>
             <ul>{built.map((b) => <li>{b}</li>)}</ul>
           </div>
           <div class="status-col todo">
-            <h3>→ On the way</h3>
+            <h3>→ En camino</h3>
             <ul>{next.map((n) => <li>{n}</li>)}</ul>
           </div>
         </div>
@@ -217,14 +217,14 @@ const appSchema = {
 
       <!-- ── CTA ───────────────────────────────────── -->
       <section class="cta-band">
-        <h2>One of the projects I’m building right now.</h2>
-        <p>If you’re into what I do or want to talk about a project, let’s chat.</p>
-        <a class="btn" href="/#contacto">Get in touch →</a>
+        <h2>Uno de los proyectos que estoy construyendo ahora.</h2>
+        <p>Si te interesa lo que hago o quieres hablar de un proyecto, conversemos.</p>
+        <a class="btn" href="/#contacto">Hablemos →</a>
       </section>
     </main>
 
     <footer class="foot">
-      <span>Pulso · work in progress</span>
+      <span>Pulso · en desarrollo</span>
       <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
     </footer>
 
@@ -245,7 +245,8 @@ const appSchema = {
     <style is:global>
       :root {
         --coral: #E8634A;
-        --coral-dark: #C4502F;
+        --coral-ink: #B6402D;
+        --coral-dark: #B23B27;
         --coral-light: #FFF5F0;
         --ink: #1A202C;
         --ink-2: #2D3748;
@@ -277,7 +278,7 @@ const appSchema = {
       .hl { color: var(--coral); }
       .kicker {
         font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em;
-        text-transform: uppercase; color: var(--coral); font-weight: 500; margin-bottom: 0.9rem;
+        text-transform: uppercase; color: var(--coral-ink); font-weight: 500; margin-bottom: 0.9rem;
       }
       .block-sub, .band-sub { color: var(--gray); font-size: 1.05rem; max-width: 52ch; margin: 0.9rem auto 0; }
 
@@ -289,9 +290,9 @@ const appSchema = {
         border-bottom: 1px solid var(--line);
       }
       .brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none;
-        font-weight: 800; color: var(--coral); font-size: 1.2rem; letter-spacing: -0.01em; }
+        font-weight: 800; color: var(--coral-ink); font-size: 1.2rem; letter-spacing: -0.01em; }
       .nav-links { display: flex; align-items: center; gap: 1.1rem; }
-      .status { font-size: 0.78rem; font-weight: 600; color: var(--coral);
+      .status { font-size: 0.78rem; font-weight: 600; color: var(--coral-ink);
         background: var(--coral-light); padding: 0.3rem 0.7rem; border-radius: 999px; }
       .status::first-letter { font-size: 0.7rem; }
       .ghost { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
@@ -300,7 +301,7 @@ const appSchema = {
       /* HERO */
       .hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3rem; align-items: center; padding: 4rem 0; }
       .eyebrow { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em;
-        text-transform: uppercase; color: var(--coral); margin-bottom: 1rem; }
+        text-transform: uppercase; color: var(--coral-ink); margin-bottom: 1rem; }
       .hero h1 { font-family: var(--sans); font-weight: 800; color: var(--ink);
         font-size: clamp(2.1rem, 5vw, 3.3rem); line-height: 1.08; letter-spacing: -0.03em; }
       .lede { margin: 1.3rem 0 1.8rem; font-size: 1.1rem; color: var(--ink-2); max-width: 46ch; }
@@ -339,7 +340,7 @@ const appSchema = {
         max-width: 760px; margin: 2.6rem auto 0; }
       .stack-row { display: flex; flex-direction: column; gap: 0.15rem; background: var(--bg);
         border: 1px solid var(--line); border-radius: 10px; padding: 0.85rem 1.1rem; }
-      .sk { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--coral); font-weight: 600; }
+      .sk { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--coral-ink); font-weight: 600; }
       .sv { font-family: var(--mono); font-size: 0.86rem; color: var(--ink-2); }
       .dec-title { text-align: center; font-weight: 700; color: var(--ink); font-size: 1.3rem; margin: 3rem 0 0; }
       .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; margin-top: 1.6rem; }
@@ -372,7 +373,7 @@ const appSchema = {
       .foot { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 3rem;
         display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
         border-top: 1px solid var(--line); color: var(--gray); font-size: 0.85rem; }
-      .foot a { color: var(--coral); text-decoration: none; font-weight: 600; }
+      .foot a { color: var(--coral-ink); text-decoration: none; font-weight: 600; }
 
       /* REVEAL */
       .rise { opacity: 0; transform: translateY(14px);

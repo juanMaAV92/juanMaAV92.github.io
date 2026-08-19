@@ -11,6 +11,8 @@ export type Repo = {
   featured?: boolean;
   /** optional: internal product page (e.g. "/pdf-tool"). If set, the card opens this page instead of the repo. */
   page?: string;
+  /** optional portfolio context shown under the repository description */
+  context?: string;
 };
 
 export type Job = {
@@ -78,11 +80,12 @@ export const projects: Repo[] = [
   {
     name: 'steer',
     description:
-      'Open-source CLI + TUI (in progress) that brings PaaS-like deploys to your own AWS. Single Go binary, guardrails, interactive deploys; cloud-agnostic core ready for multi-cloud.',
+      'Open-source CLI + TUI (in progress) that brings PaaS-like deploys to your own AWS. Single Go binary, guardrails and interactive deploys; capability-driven core with AWS as the first target.',
     url: '/steer',
     tags: ['Go', 'AWS', 'CLI/TUI', 'DevOps'],
     featured: true,
     page: '/steer',
+    context: 'Dev tool · teams on AWS · in progress',
   },
   {
     name: 'pulso',
@@ -92,6 +95,7 @@ export const projects: Repo[] = [
     tags: ['Go', 'Next.js', 'AI', 'WhatsApp'],
     featured: true,
     page: '/pulso',
+    context: 'Product · local service businesses · in progress',
   },
   {
     name: 'pdf-tool',
@@ -101,6 +105,7 @@ export const projects: Repo[] = [
     tags: ['Python', 'Flet', 'Desktop'],
     featured: true,
     page: '/pdf-tool',
+    context: 'Desktop app · private PDF workflows · open source',
   },
 ];
 
@@ -111,20 +116,22 @@ export const libraries: Repo[] = [
   {
     name: 'go-utils',
     description:
-      'Go utility library for AWS microservices: structured logging, OpenTelemetry tracing, validation, errors, Postgres/Redis/S3 and SQS/SNS. Interface-driven, config-from-env.',
+      'Production foundation for observable Go services: structured logging, OpenTelemetry tracing, typed errors, data adapters and messaging. Interface-driven, config-from-env.',
     url: 'https://github.com/juanMaAV92/go-utils',
     tags: ['Go', 'Library', 'Observability'],
     featured: true,
     page: '/go-utils',
+    context: 'Library · observable Go services · open source',
   },
   {
     name: 'kotlin-utils',
     description:
-      'Framework-agnostic Kotlin library (coroutines-native): a saga/flow orchestration engine, structured logging, backoff retry and a validation DSL. Zero framework coupling.',
+      'Portable Kotlin/JVM flow engine (coroutines-native): saga orchestration, structured logging, backoff retry and a validation DSL. Zero framework coupling.',
     url: 'https://github.com/juanMaAV92/kotlin-utils',
     tags: ['Kotlin', 'Library', 'JVM'],
     featured: true,
     page: '/kotlin-utils',
+    context: 'Library · Kotlin/JVM teams · open source',
   },
   {
     name: 'go-echo-blueprint',

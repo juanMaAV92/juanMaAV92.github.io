@@ -24,6 +24,7 @@ const { items } = Astro.props;
             <span class="goto" aria-hidden="true">{internal ? '→' : '↗'}</span>
           </div>
           <p class="repo-desc">{repo.description}</p>
+          {repo.context && <p class="repo-context">{repo.context}</p>}
         </a>
       </li>
     );
