@@ -140,6 +140,12 @@ const packets = [
           <a class="hero-btn hero-btn-ghost" href="#contacto">Let’s talk <span aria-hidden="true">→</span></a>
         </div>
         <p class="hero-availability rise" style="--d: 500ms">{profile.availability}</p>
+        <nav class="hero-contact rise" style="--d: 540ms" aria-label="Contact links">
+          <a class="hero-contact-primary" href="#contacto">Send a message <span aria-hidden="true">↗</span></a>
+          {profile.links.map((l) => (
+            <a href={l.url} target="_blank" rel="noopener noreferrer">{l.label} <span aria-hidden="true">↗</span></a>
+          ))}
+        </nav>
         <div class="stack rise" style="--d: 560ms" aria-label="Tech stack">
           {stack.map((t) => <span class="chip">{t}</span>)}
         </div>
@@ -445,6 +451,17 @@ const packets = [
   .hero-btn-ghost { color: var(--ink); border: 1px solid var(--line); }
   .hero-btn-ghost:hover { color: var(--accent); border-color: rgba(110, 231, 168, 0.45); background: var(--bg-soft); }
   .hero-availability { color: var(--muted); font-size: 0.76rem; margin-bottom: 1.35rem; }
+  .hero-contact {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 0.15rem 0.85rem;
+    margin: -0.75rem 0 1.2rem;
+  }
+  .hero-contact a {
+    display: inline-flex; align-items: center; gap: 0.3rem; min-height: 44px;
+    color: var(--muted); text-decoration: none; font-size: 0.76rem;
+    border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .hero-contact a:hover, .hero-contact a:focus-visible { color: var(--accent); border-bottom-color: rgba(110, 231, 168, 0.45); }
+  .hero-contact-primary { color: var(--accent) !important; }
 
   .stack { display: flex; flex-wrap: wrap; gap: 0.45rem; max-width: 56ch; }
   .chip {
@@ -644,6 +661,8 @@ const packets = [
   @media (max-width: 560px) {
     .hero-actions { align-items: stretch; flex-direction: column; }
     .hero-btn { justify-content: center; width: 100%; }
+    .hero-contact { gap: 0.15rem 0.55rem; }
+    .hero-contact a { font-size: 0.74rem; }
     .blurb { font-size: 1rem; }
     .job-period { font-size: 0.8rem; }
   }
