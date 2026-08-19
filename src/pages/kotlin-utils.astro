@@ -704,17 +704,25 @@ dependencies {
     max-width: 1100px; margin: 0 auto;
     padding: 0.75rem clamp(1rem, 4vw, 2rem);
     display: flex; align-items: center; gap: 0.5rem;
-    font-size: 0.85rem; color: var(--muted);
+    min-height: 58px; font-size: 0.85rem; color: var(--muted);
   }
+  .brand, .crumb-sep, .crumb-link, .crumb-current { flex: 0 0 auto; white-space: nowrap; }
   .brand { color: var(--accent); text-decoration: none; font-weight: 500; }
   .brand:hover { color: #fff; }
   .crumb-sep { color: var(--line); }
   .crumb-link { color: var(--muted); text-decoration: none; }
   .crumb-link:hover { color: var(--ink); }
   .crumb-current { color: var(--ink); }
-  .topbar-links { margin-left: auto; }
-  .topbar-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+  .topbar-links { display: flex; align-items: center; margin-left: auto; flex: 0 0 auto; }
+  .topbar-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
+    text-decoration: none; font-size: 0.82rem; white-space: nowrap; transition: color 0.2s; }
   .topbar-links a:hover { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .topbar-inner { gap: 0.35rem; padding-block: 0.5rem; font-size: 0.76rem; overflow-x: auto; scrollbar-width: none; }
+    .topbar-inner::-webkit-scrollbar { display: none; }
+    .topbar-links a { font-size: 0.74rem; }
+  }
 
   /* ── LAYOUT: sidebar + content ── */
   .wrap {

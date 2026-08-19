@@ -266,15 +266,18 @@ const decisions = [
 
       /* NAV */
       .nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
-        justify-content: space-between; max-width: 1040px; margin: 0 auto; padding: 0.85rem 1.5rem;
+        justify-content: space-between; gap: 1rem; max-width: 1040px; margin: 0 auto;
+        padding: 0.7rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
         background: rgba(10, 14, 19, 0.72); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
       .brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
-        font-weight: 700; color: #fff; font-size: 1.1rem; }
-      .nav-links { display: flex; align-items: center; gap: 1.1rem; }
+        flex: 0 0 auto; white-space: nowrap; font-weight: 700; color: #fff; font-size: 1.1rem; }
+      .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 0.8rem;
+        min-width: 0; flex: 0 1 auto; flex-wrap: nowrap; white-space: nowrap; }
       .status { font-size: 0.74rem; font-weight: 500; color: var(--accent);
         background: rgba(43, 200, 232, 0.1); padding: 0.28rem 0.65rem; border-radius: 999px;
-        border: 1px solid rgba(43, 200, 232, 0.25); }
-      .ghost { color: var(--muted); text-decoration: none; font-size: 0.86rem; transition: color 0.2s; }
+        border: 1px solid rgba(43, 200, 232, 0.25); white-space: nowrap; }
+      .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
+        text-decoration: none; font-size: 0.86rem; white-space: nowrap; transition: color 0.2s; }
       .ghost:hover { color: var(--ink); }
 
       /* HERO */
@@ -395,10 +398,12 @@ const decisions = [
         .role-arrow { transform: rotate(90deg); }
       }
       @media (max-width: 600px) {
-        .nav { align-items: flex-start; gap: 0.75rem; padding-inline: 1rem; }
-        .nav-links { min-width: 0; flex: 1; flex-wrap: wrap; justify-content: flex-end; gap: 0.35rem 0.7rem; }
-        .nav-links .status { max-width: 100%; font-size: 0.68rem; text-align: right; }
-        .nav-links .ghost { font-size: 0.78rem; }
+        .nav { gap: 0.55rem; padding-block: 0.5rem; }
+        .brand { gap: 0.4rem; font-size: 1rem; }
+        .nav-links { gap: 0.1rem; overflow-x: auto; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .nav-links .status { display: none; }
+        .nav-links .ghost { padding-inline: 0.2rem; font-size: 0.76rem; }
         .tui { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: hidden; }
         .tui .topbar, .tui .botbar { white-space: normal; overflow-wrap: anywhere; }
         .tui .row { display: block; }

@@ -235,13 +235,16 @@ const toc = headings.filter((h) => h.depth === 2);
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
       .nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
-        justify-content: space-between; padding: 0.85rem 1.5rem; max-width: 1240px; margin: 0 auto;
+        justify-content: space-between; gap: 1rem; padding: 0.7rem clamp(1rem, 4vw, 1.5rem);
+        min-height: 64px; max-width: 1240px; margin: 0 auto;
         background: rgba(10, 14, 19, 0.72); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
       .brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
-        font-weight: 700; color: #fff; font-size: 1.05rem; }
+        flex: 0 0 auto; white-space: nowrap; font-weight: 700; color: #fff; font-size: 1.05rem; }
       .brand-docs { color: var(--accent); font-weight: 500; }
-      .nav-links { display: flex; align-items: center; gap: 1.1rem; }
-      .ghost { color: var(--muted); text-decoration: none; font-size: 0.86rem; transition: color 0.2s; }
+      .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem;
+        min-width: 0; flex: 0 1 auto; flex-wrap: nowrap; white-space: nowrap; }
+      .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
+        text-decoration: none; font-size: 0.86rem; white-space: nowrap; transition: color 0.2s; }
       .ghost:hover { color: var(--ink); }
 
       .wrap { display: grid; grid-template-columns: 208px minmax(0, 1fr) 188px; gap: 2.6rem;
@@ -292,6 +295,13 @@ const toc = headings.filter((h) => h.depth === 2);
           text-transform: uppercase; letter-spacing: 0.08em; list-style: none;
           display: flex; justify-content: space-between; }
         .side-mobile .side-list { margin-top: 0.7rem; }
+      }
+      @media (max-width: 560px) {
+        .nav { gap: 0.45rem; padding-block: 0.5rem; }
+        .brand { gap: 0.35rem; font-size: 0.95rem; }
+        .nav-links { gap: 0.25rem; overflow-x: auto; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .ghost { padding-inline: 0.15rem; font-size: 0.76rem; }
       }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
     </style>
