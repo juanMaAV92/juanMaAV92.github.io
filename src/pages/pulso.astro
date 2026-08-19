@@ -285,17 +285,21 @@ const appSchema = {
       /* NAV */
       .nav {
         position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
-        justify-content: space-between; max-width: 1080px; margin: 0 auto; padding: 0.85rem 1.5rem;
+        justify-content: space-between; gap: 1rem; max-width: 1080px; margin: 0 auto;
+        padding: 0.7rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
         background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
         border-bottom: 1px solid var(--line);
       }
       .brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none;
-        font-weight: 800; color: var(--coral-ink); font-size: 1.2rem; letter-spacing: -0.01em; }
-      .nav-links { display: flex; align-items: center; gap: 1.1rem; }
+        flex: 0 0 auto; white-space: nowrap; font-weight: 800; color: var(--coral-ink);
+        font-size: 1.2rem; letter-spacing: -0.01em; }
+      .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 0.65rem;
+        min-width: 0; flex: 0 1 auto; flex-wrap: nowrap; white-space: nowrap; }
       .status { font-size: 0.78rem; font-weight: 600; color: var(--coral-ink);
-        background: var(--coral-light); padding: 0.3rem 0.7rem; border-radius: 999px; }
+        background: var(--coral-light); padding: 0.3rem 0.6rem; border-radius: 999px; white-space: nowrap; }
       .status::first-letter { font-size: 0.7rem; }
-      .ghost { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+      .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--gray);
+        text-decoration: none; font-size: 0.9rem; white-space: nowrap; transition: color 0.2s; }
       .ghost:hover { color: var(--ink); }
 
       /* HERO */
