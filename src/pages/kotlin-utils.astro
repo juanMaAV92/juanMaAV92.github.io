@@ -9,9 +9,9 @@ const repo = 'https://github.com/juanMaAV92/kotlin-utils';
 const canonical = 'https://juanmaav92.github.io/kotlin-utils';
 const release = `${repo}/releases`;
 
-const pageTitle = 'kotlin-utils · Framework-agnostic Kotlin utilities';
+const pageTitle = 'kotlin-utils · Portable Kotlin/JVM flow engine';
 const description =
-  'Framework-agnostic Kotlin library: saga/flow orchestration, structured JSON logging, exception hierarchy, exponential backoff retry, validation DSL and traceable context. Coroutines-native. Zero framework coupling.';
+  'Portable Kotlin/JVM flow engine: saga orchestration, structured JSON logging, exception hierarchy, exponential backoff retry, validation DSL and traceable context. Coroutines-native. Zero framework coupling.';
 
 const softwareSchema = {
   '@context': 'https://schema.org',
@@ -344,11 +344,11 @@ dependencies {
       <article class="content">
 
         <section id="overview" class="hero">
-          <p class="prompt rise" style="--d: 60ms"><span class="sigil">$</span> whoami kotlin-utils</p>
+          <p class="prompt rise" style="--d: 60ms"><span class="sigil">$</span> whoami kotlin-utils // flow model</p>
           <h1 class="name rise" style="--d: 180ms">kotlin<span class="surname">-utils</span></h1>
           <p class="lede rise" style="--d: 300ms">
-            Framework-agnostic Kotlin library — saga/flow orchestration, structured logging,
-            exception hierarchy, backoff retry, validation DSL. <em>Coroutines-native, zero framework coupling.</em>
+            Portable flow engine for Kotlin/JVM — saga orchestration, structured logging,
+            exception hierarchy, backoff retry and validation DSL. <em>Coroutines-native, zero framework coupling.</em>
           </p>
           <div class="badges rise" style="--d: 420ms" aria-label="Build info">
             <span class="chip chip-version">v{latestVersion}{publishedAt && <span class="chip-date"> · {publishedAt}</span>}</span>
@@ -368,13 +368,13 @@ dependencies {
 
         <section id="principles" class="block">
           <h2 class="section-head reveal">
-            <span class="sigil">$</span> <span class="cmd">cat</span> <span class="path">~/principles.md</span>
+            <span class="sigil">$</span> <span class="cmd">cat</span> <span class="path">~/flow-model.md</span>
             <a class="anchor" href="#principles" aria-label="Anchor">#</a>
           </h2>
           <div class="principles">
             <article class="principle reveal">
               <span class="p-num">01</span>
-              <h3>Zero framework coupling</h3>
+              <h3>Flow over framework</h3>
               <p>Only depends on <code>kotlinx-coroutines</code> and <code>slf4j</code>. Works with Ktor, Quarkus, Spring, Compose, or any Kotlin/JVM project.</p>
             </article>
             <article class="principle reveal">
@@ -615,7 +615,8 @@ dependencies {
     --ink: #d7dce3;
     --muted: #8793a3;
     --line: #20252d;
-    --accent: #6ee7a8;
+    --accent: #b48eff;
+    --accent-deep: #8c6be8;
     --amber: #e8c07d;
     --blue: #5aa9e6;
     --purple: #b48eff;
@@ -623,7 +624,7 @@ dependencies {
     --display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
   }
 
-  body.world-kotlin-utils { --accent: #b48eff; --muted: #a0a6b8; --blue: #8dc7ff; }
+  body.world-kotlin-utils { --accent: #b48eff; --accent-deep: #8c6be8; --muted: #a0a6b8; --blue: #8dc7ff; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -646,7 +647,7 @@ dependencies {
 
   .mesh-glow {
     background:
-      radial-gradient(40% 50% at 18% 22%, rgba(110, 231, 168, 0.16), transparent 70%),
+      radial-gradient(40% 50% at 18% 22%, rgba(180, 142, 255, 0.16), transparent 70%),
       radial-gradient(38% 45% at 82% 30%, rgba(90, 169, 230, 0.12), transparent 70%),
       radial-gradient(45% 50% at 60% 85%, rgba(180, 142, 255, 0.08), transparent 72%);
     filter: blur(18px);
@@ -667,9 +668,9 @@ dependencies {
   @keyframes flow { to { stroke-dashoffset: -48; } }
 
   .mesh { opacity: 0.56; transition: transform 0.3s ease-out; }
-  .mesh .edges use { stroke: rgba(110, 231, 168, 0.10); stroke-width: 1; fill: none; }
+  .mesh .edges use { stroke: rgba(180, 142, 255, 0.12); stroke-width: 1; fill: none; }
   .mesh .dnode {
-    fill: rgba(110, 231, 168, 0.55);
+    fill: rgba(180, 142, 255, 0.55);
     animation: pulse 4s ease-in-out infinite; animation-delay: var(--nd, 0s);
   }
   @keyframes pulse {
@@ -677,7 +678,7 @@ dependencies {
     50%      { opacity: 0.9; r: 4.5; }
   }
   .mesh .packet {
-    r: 2.2; fill: rgba(174, 245, 207, 0.7);
+    r: 2.2; fill: rgba(214, 193, 255, 0.72);
     filter: none;
   }
 
@@ -754,7 +755,7 @@ dependencies {
   .toc-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.02); }
   .toc-link.is-active {
     color: var(--accent);
-    background: rgba(110, 231, 168, 0.05);
+    background: rgba(180, 142, 255, 0.06);
     border-left-color: var(--accent);
   }
   .toc-arrow { color: var(--line); font-size: 0.9em; transition: color 0.15s; }
@@ -833,10 +834,10 @@ dependencies {
     border: 1px solid var(--line); border-radius: 5px; padding: 0.16rem 0.5rem; letter-spacing: 0.02em;
     transition: color 0.2s, border-color 0.2s, transform 0.2s;
   }
-  .chip:hover { color: var(--accent); border-color: rgba(110, 231, 168, 0.4); transform: translateY(-2px); }
+  .chip:hover { color: var(--accent); border-color: rgba(180, 142, 255, 0.45); transform: translateY(-2px); }
   .chip-version {
-    color: var(--accent); border-color: rgba(110, 231, 168, 0.4);
-    background: rgba(110, 231, 168, 0.06); font-weight: 500;
+    color: var(--accent); border-color: rgba(180, 142, 255, 0.45);
+    background: rgba(180, 142, 255, 0.08); font-weight: 500;
   }
   .chip-date { color: var(--muted); font-weight: 400; }
 
@@ -852,7 +853,7 @@ dependencies {
   .btn-primary .goto { color: var(--bg); margin-left: 0.25rem; transition: transform 0.2s; }
   .btn-primary:hover .goto { transform: translate(2px, -2px); }
   .btn-ghost { color: var(--ink); background: rgba(255, 255, 255, 0.02); border: 1px solid var(--line); }
-  .btn-ghost:hover { border-color: rgba(110, 231, 168, 0.4); color: var(--accent); }
+  .btn-ghost:hover { border-color: rgba(180, 142, 255, 0.45); color: var(--accent); }
 
   /* ── SECTION HEAD ── */
   .section-head {
@@ -885,8 +886,8 @@ dependencies {
   .principle p { color: #a3acb9; font-size: 0.86rem; max-width: 52ch; }
   .principle code {
     font-family: var(--mono); font-size: 0.85em;
-    background: rgba(110, 231, 168, 0.06); color: var(--accent);
-    border: 1px solid rgba(110, 231, 168, 0.15);
+    background: rgba(180, 142, 255, 0.07); color: var(--accent);
+    border: 1px solid rgba(180, 142, 255, 0.18);
     border-radius: 4px; padding: 0.05rem 0.32rem;
   }
 
@@ -919,8 +920,8 @@ dependencies {
   .mod-feats li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
   .mod-feats code, .compat code, .setup-intro code, .setup-foot code {
     font-family: var(--mono); font-size: 0.85em;
-    background: rgba(110, 231, 168, 0.06); color: var(--accent);
-    border: 1px solid rgba(110, 231, 168, 0.15);
+    background: rgba(180, 142, 255, 0.07); color: var(--accent);
+    border: 1px solid rgba(180, 142, 255, 0.18);
     border-radius: 4px; padding: 0.05rem 0.32rem;
   }
 
@@ -937,12 +938,12 @@ dependencies {
   }
   .code code { color: var(--ink); white-space: pre; display: block; }
   .code.tree code { color: var(--ink); }
-  .code.out { background: #07090b; border-color: rgba(110, 231, 168, 0.12); }
+  .code.out { background: #0a0910; border-color: rgba(180, 142, 255, 0.16); }
   .code.out code { color: var(--accent); }
 
   .c-k { color: #b48eff; }
   .c-t { color: #5aa9e6; }
-  .c-f { color: #6ee7a8; }
+  .c-f { color: #8dc7ff; }
   .c-s { color: #e8c07d; }
   .c-v { color: #f6a96b; }
   .c-c { color: #4a5662; font-style: italic; }
