@@ -78,6 +78,16 @@ export const experience: Job[] = [
 // ─────────────────────────────────────────────────────────────
 export const projects: Repo[] = [
   {
+    name: 'mermaid-styler',
+    description:
+      'Local-first presentation layer for AI-generated Mermaid: paste the source, tune the visual system, and export a shareable SVG or PNG without sending the diagram away.',
+    url: 'https://github.com/juanMaAV92/mermaid-styler',
+    tags: ['Astro', 'Mermaid', 'SVG/PNG'],
+    featured: true,
+    page: '/mermaid-styler',
+    context: 'Developer tool · local-first · work in progress',
+  },
+  {
     name: 'steer',
     description:
       'Open-source CLI + TUI (in progress) that brings PaaS-like deploys to your own AWS. Single Go binary, guardrails and interactive deploys; capability-driven core with AWS as the first target.',
