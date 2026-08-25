@@ -166,7 +166,7 @@ const appSchema = {
       </main>
 
       <footer class="foot">
-        <span><span class="footer-rule" aria-hidden="true"></span>Mermaid Styler · work in progress</span>
+        <span><span class="footer-rule" aria-hidden="true"></span>Mermaid Styler · MVP deployed</span>
         <nav aria-label="Project links"><a href={appUrl} target="_blank" rel="noopener noreferrer">Open app ↗</a><a href={repo} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="/">Juan Manuel Armero Viveros</a></nav>
       </footer>
     </div>
@@ -200,7 +200,7 @@ const appSchema = {
   .brand-mark { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--signal); border-radius: 50%; }
   .brand-mark span { width: 8px; height: 8px; background: var(--signal); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
   .nav-links, .foot nav { display: flex; align-items: center; gap: 22px; font-family: var(--font-code); font-size: 11px; }
-  .nav-links a, .foot a { color: var(--steel); text-decoration: none; transition: color .16s ease; }
+  .nav-links a, .foot a { color: var(--steel); text-decoration: none; white-space: nowrap; transition: color .16s ease; }
   .nav-links a:hover, .nav-links a:focus-visible, .foot a:hover, .foot a:focus-visible { color: var(--signal); }
   .nav-portfolio { color: var(--signal-soft) !important; }
   .hero { position: relative; z-index: 1; padding: clamp(70px, 11vw, 142px) 0 96px; }

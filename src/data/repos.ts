@@ -85,7 +85,7 @@ export const projects: Repo[] = [
     tags: ['Astro', 'Mermaid', 'SVG/PNG'],
     featured: true,
     page: '/mermaid-styler',
-    context: 'Developer tool · local-first · work in progress',
+    context: 'Developer tool · local-first · MVP deployed',
   },
   {
     name: 'steer',
