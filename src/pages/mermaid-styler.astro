@@ -1,0 +1,256 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource-variable/plus-jakarta-sans';
+
+const repo = 'https://github.com/juanMaAV92/mermaid-styler';
+const appUrl = 'https://mermaid-styler.duckdns.org/';
+const canonical = 'https://juanmaav92.github.io/mermaid-styler';
+
+const steps = [
+  { number: '01', title: 'Paste the source', description: 'Bring the Mermaid syntax an AI already helped you write.' },
+  { number: '02', title: 'Tune the visual system', description: 'Set the surface, nodes, lines, type and emphasis without touching theme config.' },
+  { number: '03', title: 'Take the artifact', description: 'Copy or export an SVG or PNG that is ready for Jira, docs or a pull request.' },
+];
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Mermaid Styler',
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Web',
+  description: 'A local-first presentation layer for AI-generated Mermaid diagrams. Style and export SVG or PNG without sending source code to a remote service.',
+  url: appUrl,
+  sameAs: [repo, canonical],
+  author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 8 62 38l30 12-30 12-12 30-12-30L8 50l30-12L50 8Z' fill='%2369e6f7'/%3E%3C/svg%3E" />
+    <title>Mermaid Styler · Style Mermaid. Export the image.</title>
+    <meta name="description" content="A local-first tool for turning AI-generated Mermaid into a styled SVG or PNG ready to share." />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#0b0f14" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content="Mermaid Styler · Style Mermaid. Export the image." />
+    <meta property="og:description" content="Paste Mermaid, tune the visual system and export a shareable SVG or PNG. Local-first and browser-based." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  </head>
+
+  <body>
+    <div class="page-shell">
+      <header class="nav">
+        <a class="brand" href="#top" aria-label="Mermaid Styler home">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span>Mermaid Styler</span>
+        </a>
+        <nav class="nav-links" aria-label="Project navigation">
+          <a href={appUrl} target="_blank" rel="noopener noreferrer">Open app ↗</a>
+          <a href={repo} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a class="nav-portfolio" href="/">← Portfolio</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="kicker"><span class="kicker-mark" aria-hidden="true"></span> Mermaid styling tool · local-first</p>
+            <h1>Style Mermaid. <em>Export the image.</em></h1>
+            <p class="lede">
+              Paste the Mermaid an AI gave you, adjust the colors and typography,
+              then download a polished SVG or PNG for Jira, docs or your next pull request.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href={appUrl} target="_blank" rel="noopener noreferrer">Open the app <span aria-hidden="true">↗</span></a>
+              <a class="button button-quiet" href="#features">See what it does <span aria-hidden="true">↓</span></a>
+            </div>
+            <p class="hero-note"><span aria-hidden="true">●</span> Rendered in your browser · no source upload · SVG + PNG</p>
+          </div>
+
+          <div class="workbench" aria-label="Mermaid Styler workbench preview">
+            <div class="workbench-bar">
+              <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span>mermaid-styler / untitled-diagram</span>
+              <span class="workbench-state">rendered</span>
+            </div>
+            <div class="workbench-grid">
+              <section class="bench-panel source-panel">
+                <div class="panel-heading"><span>source</span><span>flowchart LR</span></div>
+                <pre><code><span class="code-muted">flowchart LR</span>
+  A[AI source] <span class="code-cyan">--&gt;</span> B&#123;Style it&#125;
+  B <span class="code-cyan">--&gt;</span> C[Shareable SVG]</code></pre>
+                <span class="panel-foot">38 chars · Mermaid</span>
+              </section>
+              <section class="bench-panel stage-panel">
+                <div class="panel-heading panel-heading-light"><span>artifact stage</span><span>preview</span></div>
+                <div class="diagram-stage">
+                  <svg viewBox="0 0 520 250" role="img" aria-labelledby="diagram-title diagram-desc">
+                    <title id="diagram-title">Mermaid Styler workflow diagram</title>
+                    <desc id="diagram-desc">AI source flows into styling and becomes a shareable SVG.</desc>
+                    <path class="diagram-line" d="M137 122h56m138 0h56" />
+                    <path class="diagram-arrow" d="m184 114 10 8-10 8m138-16 10 8-10 8" />
+                    <rect class="diagram-node" x="24" y="80" width="113" height="84" rx="5" />
+                    <rect class="diagram-node diagram-node-accent" x="193" y="80" width="118" height="84" rx="5" />
+                    <rect class="diagram-node" x="384" y="80" width="113" height="84" rx="5" />
+                    <text class="diagram-kicker" x="80.5" y="111" text-anchor="middle">SOURCE</text>
+                    <text class="diagram-label" x="80.5" y="136" text-anchor="middle">AI code</text>
+                    <text class="diagram-kicker" x="252" y="111" text-anchor="middle">STYLE</text>
+                    <text class="diagram-label" x="252" y="136" text-anchor="middle">Your system</text>
+                    <text class="diagram-kicker" x="440.5" y="111" text-anchor="middle">OUTPUT</text>
+                    <text class="diagram-label" x="440.5" y="136" text-anchor="middle">SVG / PNG</text>
+                    <text class="diagram-caption" x="260" y="216" text-anchor="middle">registration pass · ready to share</text>
+                  </svg>
+                </div>
+              </section>
+              <section class="bench-panel style-panel">
+                <div class="panel-heading"><span>style</span><span>custom</span></div>
+                <div class="style-controls">
+                  <span class="control-label">preset</span>
+                  <div class="preset-row"><span class="preset is-active">Light</span><span class="preset">Dark</span></div>
+                  <span class="control-label">colors</span>
+                  <div class="swatches"><i style="--swatch:#d8eceb"></i><i style="--swatch:#50727c"></i><i style="--swatch:#20303a"></i><i style="--swatch:#69e6f7"></i></div>
+                  <span class="control-label">background</span>
+                  <div class="select-line"><span>paper</span><span>⌄</span></div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <section id="features" class="workflow section">
+          <div class="section-intro">
+            <p class="section-label">How it works</p>
+            <h2>One clean path from Mermaid to a shareable image.</h2>
+            <p>Keep the source you already have. Mermaid Styler gives it a visual system without making you learn theme configuration first.</p>
+          </div>
+          <ol class="steps">
+            {steps.map((step) => (
+              <li class="step">
+                <span class="step-number">{step.number}</span>
+                <div><h3>{step.title}</h3><p>{step.description}</p></div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section class="privacy section">
+          <div class="privacy-mark" aria-hidden="true">&lt;/&gt;</div>
+          <div>
+            <p class="section-label">Private by default</p>
+            <h2>Nothing to upload. Nothing to manage.</h2>
+            <p>Mermaid renders in your browser. There is no account, project database or diagram history in the first version — just a fast path from source to an exportable artifact.</p>
+          </div>
+          <span class="privacy-status">LOCAL RENDERING ONLY</span>
+        </section>
+
+        <section class="brief section">
+          <div class="section-intro">
+            <p class="section-label">Under the hood</p>
+            <h2>Focused on the artifact.</h2>
+          </div>
+          <dl class="spec-list">
+            <div><dt>Interface</dt><dd>Astro + TypeScript + vanilla client scripts</dd></div>
+            <div><dt>Renderer</dt><dd>Mermaid running in the browser</dd></div>
+            <div><dt>Artifacts</dt><dd>Sanitized SVG · PNG through canvas</dd></div>
+            <div><dt>Deployment</dt><dd>Static output · Dokploy-ready</dd></div>
+          </dl>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span><span class="footer-rule" aria-hidden="true"></span>Mermaid Styler · MVP deployed</span>
+        <nav aria-label="Project links"><a href={appUrl} target="_blank" rel="noopener noreferrer">Open app ↗</a><a href={repo} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="/">Juan Manuel Armero Viveros</a></nav>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  :root {
+    --ink: #0b0f14;
+    --graphite: #151c24;
+    --graphite-raised: #1b2530;
+    --paper: #f4f1e8;
+    --signal: #69e6f7;
+    --signal-soft: #b9f5fb;
+    --ember: #ff6b57;
+    --steel: #8b98a8;
+    --steel-light: #c7d0d9;
+    --line: #2a3542;
+    --font-ui: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-code: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; min-width: 320px; background: var(--ink); color: var(--steel-light); font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .page-shell { min-height: 100vh; overflow: hidden; background: radial-gradient(circle at 50% 0%, rgba(105,230,247,.07), transparent 42rem), var(--ink); }
+  .page-shell::before { content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .24; background: radial-gradient(circle at 18% 12%, rgba(105,230,247,.14), transparent 24rem), radial-gradient(circle at 82% 38%, rgba(105,230,247,.07), transparent 28rem); filter: blur(18px); }
+  .nav, main, .foot { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+  .nav { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 72px; border-bottom: 1px solid var(--line); }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--paper); font-family: var(--font-code); font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .brand-mark { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--signal); border-radius: 50%; }
+  .brand-mark span { width: 8px; height: 8px; background: var(--signal); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+  .nav-links, .foot nav { display: flex; align-items: center; gap: 22px; font-family: var(--font-code); font-size: 11px; }
+  .nav-links a, .foot a { color: var(--steel); text-decoration: none; white-space: nowrap; transition: color .16s ease; }
+  .nav-links a:hover, .nav-links a:focus-visible, .foot a:hover, .foot a:focus-visible { color: var(--signal); }
+  .nav-portfolio { color: var(--signal-soft) !important; }
+  .hero { position: relative; z-index: 1; padding: clamp(70px, 11vw, 142px) 0 96px; }
+  .hero-copy { max-width: 760px; }
+  .kicker, .section-label { margin: 0 0 18px; color: var(--signal); font-family: var(--font-code); font-size: 10px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; }
+  .kicker { display: inline-flex; align-items: center; gap: 9px; }
+  .kicker-mark { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 4px rgba(105,230,247,.1); }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { max-width: 760px; margin-bottom: 24px; color: var(--paper); font-size: clamp(3rem, 8vw, 6.8rem); font-weight: 500; letter-spacing: -.065em; line-height: .95; }
+  h1 em { color: var(--signal); font-style: normal; }
+  .lede { max-width: 61ch; margin-bottom: 30px; color: var(--steel-light); font-size: clamp(16px, 2vw, 19px); line-height: 1.65; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 0 17px; border: 1px solid var(--line); border-radius: 4px; font-family: var(--font-code); font-size: 11px; font-weight: 600; text-decoration: none; transition: transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease; }
+  .button:hover, .button:focus-visible { transform: translateY(-2px); }
+  .button-primary { border-color: var(--signal); color: var(--ink); background: var(--signal); }
+  .button-primary:hover, .button-primary:focus-visible { background: var(--signal-soft); }
+  .button-quiet { color: var(--steel-light); background: transparent; }
+  .button-quiet:hover, .button-quiet:focus-visible { border-color: var(--steel); color: var(--paper); background: var(--graphite); }
+  .hero-note { margin: 20px 0 0; color: var(--steel); font-family: var(--font-code); font-size: 10px; }
+  .hero-note span { color: var(--signal); }
+  .workbench { margin-top: 74px; border: 1px solid var(--line); background: rgba(21,28,36,.9); box-shadow: 0 28px 80px rgba(0,0,0,.3); }
+  .workbench-bar { display: flex; align-items: center; gap: 12px; min-height: 42px; padding: 0 14px; border-bottom: 1px solid var(--line); color: var(--steel); font-family: var(--font-code); font-size: 10px; }
+  .window-dots { display: inline-flex; gap: 5px; }
+  .window-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .window-dots i:first-child { background: var(--ember); }
+  .workbench-state { margin-left: auto; color: var(--signal); text-transform: uppercase; letter-spacing: .08em; }
+  .workbench-grid { display: grid; grid-template-columns: .9fr 1.45fr .62fr; min-height: 390px; }
+  .bench-panel { min-width: 0; border-right: 1px solid var(--line); }
+  .bench-panel:last-child { border-right: 0; }
+  .panel-heading { display: flex; justify-content: space-between; gap: 12px; padding: 16px; border-bottom: 1px solid var(--line); color: var(--steel); font-family: var(--font-code); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+  .panel-heading-light { color: #63747a; border-color: rgba(11,15,20,.12); }
+  .source-panel { background: #10171e; }
+  .source-panel pre { margin: 0; padding: 24px 16px; color: #d7e4e6; font-family: var(--font-code); font-size: 11px; line-height: 1.8; white-space: pre-wrap; }
+  .code-muted { color: var(--steel); }.code-cyan { color: var(--signal); }
+  .panel-foot { display: block; padding: 16px; color: #607080; font-family: var(--font-code); font-size: 9px; }
+  .stage-panel { background: var(--paper); }
+  .diagram-stage { display: grid; place-items: center; min-height: 320px; padding: 20px; }
+  .diagram-stage svg { width: 100%; max-width: 560px; height: auto; }
+  .diagram-line, .diagram-arrow { fill: none; stroke: #50727c; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .diagram-node { fill: #d8eceb; stroke: #50727c; stroke-width: 2; }.diagram-node-accent { fill: var(--signal); }
+  .diagram-kicker { fill: #50727c; font-family: var(--font-code); font-size: 9px; font-weight: 700; letter-spacing: .12em; }.diagram-label { fill: #20303a; font-family: var(--font-ui); font-size: 13px; font-weight: 600; }.diagram-caption { fill: #50727c; font-family: var(--font-code); font-size: 9px; letter-spacing: .08em; }
+  .style-panel { background: var(--graphite); }.style-controls { display: grid; gap: 12px; padding: 22px 16px; }.control-label { color: var(--steel); font-family: var(--font-code); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }.preset-row, .swatches, .select-line { display: flex; align-items: center; gap: 6px; }.preset { padding: 6px 7px; border: 1px solid var(--line); color: var(--steel); font-family: var(--font-code); font-size: 9px; }.preset.is-active { border-color: var(--signal); color: var(--signal); }.swatches i { width: 17px; height: 17px; border: 1px solid var(--line); background: var(--swatch); }.select-line { justify-content: space-between; padding: 8px; border: 1px solid var(--line); color: var(--steel-light); font-family: var(--font-code); font-size: 10px; }
+  .section { position: relative; z-index: 1; padding: 100px 0; border-top: 1px solid var(--line); }
+  .section-intro { max-width: 580px; }.section-intro h2, .privacy h2 { margin-bottom: 18px; color: var(--paper); font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 500; letter-spacing: -.055em; line-height: 1; }.section-intro > p:last-child, .privacy p:last-child { color: var(--steel-light); font-size: 16px; line-height: 1.7; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 64px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .step { display: grid; grid-template-columns: auto 1fr; gap: 20px; padding: 24px 24px 0 0; border-right: 1px solid var(--line); }.step + .step { padding-left: 24px; }.step:last-child { border-right: 0; }.step-number { color: var(--signal); font-family: var(--font-code); font-size: 11px; }.step h3 { margin-bottom: 10px; color: var(--paper); font-size: 16px; font-weight: 600; }.step p { margin: 0; color: var(--steel); font-size: 14px; line-height: 1.6; }
+  .privacy { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 28px; padding-block: 70px; background: rgba(21,28,36,.58); }.privacy-mark { display: grid; place-items: center; width: 58px; height: 58px; border: 1px solid var(--signal); color: var(--signal); font-family: var(--font-code); font-size: 16px; }.privacy h2 { margin-bottom: 12px; font-size: clamp(1.7rem, 3vw, 2.5rem); }.privacy p:last-child { max-width: 62ch; margin-bottom: 0; }.privacy-status { color: var(--signal); font-family: var(--font-code); font-size: 9px; letter-spacing: .1em; white-space: nowrap; }
+  .brief { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; }.spec-list { margin: 0; }.spec-list > div { display: grid; grid-template-columns: 140px 1fr; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line); }.spec-list dt { color: var(--signal); font-family: var(--font-code); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }.spec-list dd { margin: 0; color: var(--steel-light); font-size: 14px; }
+  .foot { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 20px; padding: 26px 0 34px; border-top: 1px solid var(--line); color: var(--steel); font-family: var(--font-code); font-size: 10px; }.foot > span { display: inline-flex; align-items: center; gap: 10px; }.footer-rule { width: 24px; height: 1px; background: var(--signal); }
+  @media (max-width: 900px) { .workbench-grid { grid-template-columns: 1fr 1.2fr; }.style-panel { grid-column: 1 / -1; border-top: 1px solid var(--line); border-right: 0; }.style-controls { grid-template-columns: repeat(4, 1fr); align-items: center; }.style-controls .control-label { align-self: end; }.brief { gap: 40px; } }
+  @media (max-width: 640px) { .nav, main, .foot { width: min(100% - 32px, 1180px); }.nav { min-height: 64px; }.nav-links { gap: 12px; font-size: 10px; }.hero { padding: 64px 0 70px; }.hero h1 { font-size: clamp(2.7rem, 14vw, 4.5rem); }.lede { font-size: 15px; }.hero-actions { flex-direction: column; }.button { width: 100%; }.workbench { margin-top: 52px; }.workbench-grid { display: flex; flex-direction: column; }.bench-panel { border-right: 0; border-bottom: 1px solid var(--line); }.bench-panel:last-child { border-bottom: 0; }.diagram-stage { min-height: 240px; padding: 10px; }.style-controls { display: grid; grid-template-columns: 1fr 1fr; }.style-controls .control-label { align-self: center; }.section { padding: 72px 0; }.steps { display: block; margin-top: 40px; }.step, .step + .step { grid-template-columns: 38px 1fr; padding: 20px 0; border-right: 0; border-bottom: 1px solid var(--line); }.step:last-child { border-bottom: 0; }.privacy, .brief { display: block; }.privacy-mark { margin-bottom: 24px; }.privacy-status { display: inline-block; margin-top: 24px; }.brief .spec-list { margin-top: 40px; }.spec-list > div { grid-template-columns: 110px 1fr; gap: 12px; }.foot { align-items: flex-start; flex-direction: column; }.foot nav { flex-wrap: wrap; gap: 12px; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.button { transition: none; } }
+</style>
