@@ -125,7 +125,7 @@ const appSchema = {
       <!-- ── SHOWCASE ──────────────────────────────── -->
       <section class="showcase rise" style="--d: 420ms">
         <div class="frame">
-          <img src="/pdf-tool/screenshot.png" alt="Pantalla de inicio de PDF Tool con sus seis herramientas" width="1958" height="1352" loading="eager" />
+          <img src="/pdf-tool/screenshot.png" alt="Pantalla de inicio de PDF Tool con sus seis herramientas" width="1960" height="1360" loading="eager" />
         </div>
       </section>
 
@@ -164,13 +164,13 @@ const appSchema = {
         <div class="shots">
           <figure class="shot reveal">
             <div class="frame">
-              <img src="/pdf-tool/compress-result.png" alt="Resultado de comprimir varios PDFs: tamaño antes y después y porcentaje ahorrado en cada archivo" width="1960" height="1360" loading="lazy" />
+              <img src="/pdf-tool/compress-result.png" alt="Resultado de comprimir varios PDFs: tamaño antes y después y porcentaje ahorrado en cada archivo" width="2500" height="1638" loading="lazy" />
             </div>
             <figcaption>Al comprimir ves cuánto pesaba cada archivo, cuánto pesa ahora y cuánto ahorraste.</figcaption>
           </figure>
           <figure class="shot reveal">
             <div class="frame">
-              <img src="/pdf-tool/merge.png" alt="Unir PDFs con una miniatura de cada documento para ordenarlos" width="1960" height="1360" loading="lazy" />
+              <img src="/pdf-tool/merge.png" alt="Unir PDFs con una miniatura de cada documento para ordenarlos" width="2586" height="1540" loading="lazy" />
             </div>
             <figcaption>Ordena los documentos viendo una miniatura de cada uno antes de unirlos.</figcaption>
           </figure>
@@ -449,7 +449,8 @@ const appSchema = {
       /* ── NOVEDADES ─────────────────────────────── */
       .shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; margin-top: 2.4rem; }
       .shot .frame { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); }
-      .shot .frame img { aspect-ratio: auto; object-fit: contain; }
+      /* Misma proporción para las dos capturas (recorte mínimo) y tarjetas parejas. */
+      .shot .frame img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; }
       .shot figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 0.8rem; }
 
       /* ── INSTALL ───────────────────────────────── */
@@ -476,7 +477,7 @@ const appSchema = {
       .steps .hint { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
       .verify { color: var(--muted); font-size: 0.9rem; max-width: 64ch; margin-top: 1.6rem; }
       .verify code { font-family: var(--mono); font-size: 0.85em; background: var(--panel);
-        padding: 0.1em 0.35em; border-radius: 5px; }
+        padding: 0.1em 0.35em; border-radius: 5px; white-space: nowrap; }
       .install-cta { margin-top: 2rem; }
 
       /* ── FAQ ───────────────────────────────────── */
