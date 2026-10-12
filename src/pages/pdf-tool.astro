@@ -124,9 +124,10 @@ const appSchema = {
 
       <!-- ── SHOWCASE ──────────────────────────────── -->
       <section class="showcase rise" style="--d: 420ms">
-        <div class="frame">
+        <button type="button" class="frame zoomable" aria-label="Ampliar captura">
           <img src="/pdf-tool/screenshot.png" alt="Pantalla de inicio de PDF Tool con sus seis herramientas" width="1960" height="1360" loading="eager" />
-        </div>
+          <span class="zoom-hint" aria-hidden="true">🔍 Ampliar</span>
+        </button>
       </section>
 
       <!-- ── PRIVACY BAND ──────────────────────────── -->
@@ -163,15 +164,17 @@ const appSchema = {
         <p class="section-sub reveal">Más clara, más rápida y pensada para no perder nunca tu trabajo.</p>
         <div class="shots">
           <figure class="shot reveal">
-            <div class="frame">
+            <button type="button" class="frame zoomable" aria-label="Ampliar captura">
               <img src="/pdf-tool/compress-result.png" alt="Resultado de comprimir varios PDFs: tamaño antes y después y porcentaje ahorrado en cada archivo" width="2500" height="1638" loading="lazy" />
-            </div>
+              <span class="zoom-hint" aria-hidden="true">🔍 Ampliar</span>
+            </button>
             <figcaption>Al comprimir ves cuánto pesaba cada archivo, cuánto pesa ahora y cuánto ahorraste.</figcaption>
           </figure>
           <figure class="shot reveal">
-            <div class="frame">
+            <button type="button" class="frame zoomable" aria-label="Ampliar captura">
               <img src="/pdf-tool/merge.png" alt="Unir PDFs con una miniatura de cada documento para ordenarlos" width="2586" height="1540" loading="lazy" />
-            </div>
+              <span class="zoom-hint" aria-hidden="true">🔍 Ampliar</span>
+            </button>
             <figcaption>Ordena los documentos viendo una miniatura de cada uno antes de unirlos.</figcaption>
           </figure>
         </div>
@@ -253,7 +256,27 @@ const appSchema = {
       <span>Por <a href="/">Juan Manuel Armero Viveros</a></span>
     </footer>
 
+    <!-- Captura ampliada: se abre al pulsar cualquier captura; Esc o clic cierra. -->
+    <dialog class="lightbox" aria-label="Captura ampliada">
+      <button type="button" class="lightbox-close" aria-label="Cerrar">✕</button>
+      <img alt="" />
+    </dialog>
+
     <script>
+      // Ampliar capturas
+      const lightbox = document.querySelector<HTMLDialogElement>('.lightbox');
+      const lightboxImg = lightbox?.querySelector('img');
+      document.querySelectorAll<HTMLButtonElement>('.zoomable').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const img = btn.querySelector('img');
+          if (!lightbox || !lightboxImg || !img) return;
+          lightboxImg.src = img.currentSrc || img.src;
+          lightboxImg.alt = img.alt;
+          lightbox.showModal();
+        });
+      });
+      lightbox?.addEventListener('click', () => lightbox.close());
+
       // Tabs de instalación
       const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
       const panels = document.querySelectorAll<HTMLElement>('.steps');
@@ -416,6 +439,35 @@ const appSchema = {
       }
       .frame img {
         width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center;
+      }
+
+      /* ── AMPLIAR CAPTURAS ───────────────────────── */
+      button.frame {
+        display: block; width: 100%; padding: 0; background: none;
+        font: inherit; color: inherit; cursor: zoom-in;
+      }
+      .zoomable:focus-visible { outline: 3px solid rgba(95, 90, 159, 0.7); outline-offset: 4px; }
+      .zoom-hint {
+        position: absolute; right: 12px; bottom: 12px; padding: 0.35rem 0.75rem;
+        border-radius: 999px; background: rgba(22, 20, 40, 0.8); color: #fff;
+        font-size: 0.8rem; font-weight: 600; opacity: 0; transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      .zoomable:hover .zoom-hint, .zoomable:focus-visible .zoom-hint { opacity: 1; }
+      @media (hover: none) { .zoom-hint { opacity: 1; } }
+      .lightbox {
+        border: 0; padding: 0; background: transparent; overflow: visible;
+        max-width: 96vw; max-height: 94vh; margin: auto;
+      }
+      .lightbox::backdrop { background: rgba(14, 12, 28, 0.82); backdrop-filter: blur(4px); }
+      .lightbox img {
+        display: block; max-width: 96vw; max-height: 90vh; width: auto; height: auto;
+        border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); cursor: zoom-out;
+      }
+      .lightbox-close {
+        position: absolute; top: -14px; right: -14px; width: 36px; height: 36px;
+        border: 0; border-radius: 50%; background: #fff; color: #222; font-size: 1rem;
+        cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
       }
 
       /* ── PRIVACY ───────────────────────────────── */
