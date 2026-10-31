@@ -110,12 +110,12 @@ export const projects: Repo[] = [
   {
     name: 'pdf-tool',
     description:
-      'Desktop app in Python + Flet. Plugin architecture, logic/UI split, pytest, and automated macOS/Windows releases.',
+      'Desktop app and CLI in Python + Flet. Plugin architecture, logic/UI split, pytest, automated macOS/Windows releases, published on PyPI, and a Claude Code plugin for AI agents.',
     url: 'https://github.com/juanMaAV92/pdf-tool',
-    tags: ['Python', 'Flet', 'Desktop'],
+    tags: ['Python', 'Flet', 'CLI', 'PyPI'],
     featured: true,
     page: '/pdf-tool',
-    context: 'Desktop app · private PDF workflows · open source',
+    context: 'Desktop app + CLI · private PDF workflows · open source',
   },
 ];
 
