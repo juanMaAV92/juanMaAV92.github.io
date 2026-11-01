@@ -18,12 +18,18 @@ const features = [
 ];
 
 const news = [
-  { icon: '⏹️', name: 'Cancela cuando quieras', desc: 'Detén una tarea larga en cualquier momento. Lo que ya terminó se conserva.' },
-  { icon: '🧭', name: 'Sin perder tu trabajo', desc: 'Cambia de herramienta y vuelve: tu lista de archivos y la tarea en curso siguen ahí.' },
-  { icon: '📊', name: 'Resultados que se entienden', desc: 'Tamaño antes y después, porcentaje ahorrado y un aviso claro si alguna página dejó de tener texto seleccionable.' },
-  { icon: '🧱', name: 'Un archivo dañado no frena el lote', desc: 'Si un PDF falla, el resto se procesa igual y ves qué pasó con cada uno.' },
-  { icon: '⌨️', name: 'Atajos de teclado', desc: '⌘O / Ctrl+O para añadir archivos y ⌘↩ / Ctrl+Enter para empezar.' },
-  { icon: '✅', name: 'Descargas verificables', desc: 'Cada versión publica su huella SHA-256 para que compruebes que el instalador es el oficial.' },
+  { icon: '🗜️', name: 'Comprime sin perder el texto', desc: 'Primero reduce las imágenes; solo convierte páginas en imagen si no hay otra forma de llegar al tamaño que pediste.' },
+  { icon: '🔒', name: 'Sin rastro de la contraseña anterior', desc: 'Al quitar o cambiar la contraseña, el PDF nuevo ya no guarda nada de la antigua.' },
+  { icon: '🧱', name: 'Detecta archivos dañados', desc: 'Un PDF roto ya no se da por comprimido aunque pese poco: te avisa de que no se pudo abrir.' },
+  { icon: '💻', name: 'Ahora también en la terminal', desc: 'Las seis herramientas, como comando: pdf-tool. Se instala con pipx install pdf-tool-cli.' },
+  { icon: '🤖', name: 'Lista para agentes de IA', desc: 'Un plugin para Claude Code le enseña a usar pdf-tool en vez de escribir scripts improvisados.' },
+  { icon: '⏹️', name: 'Y todo lo de la 1.0', desc: 'Cancelar tareas largas, resultados con el ahorro de cada archivo, atajos de teclado y descargas verificables.' },
+];
+
+const cli = [
+  { label: 'Instala la línea de comandos (Python 3.11 o superior)', code: 'pipx install pdf-tool-cli' },
+  { label: 'Comprime un PDF a 2 MB y lee el resultado en JSON', code: 'pdf-tool compress informe.pdf --target-mb 2 --json' },
+  { label: 'Instala el plugin dentro de Claude Code', code: '/plugin marketplace add juanMaAV92/pdf-tool\n/plugin install pdf-tool@pdf-tool' },
 ];
 
 const faqs = [
@@ -33,6 +39,7 @@ const faqs = [
   { q: '¿Por qué mi sistema muestra un aviso al abrirla?', a: 'Porque la app no está firmada con un certificado de pago. Es completamente segura —el código es abierto y cualquiera puede revisarlo—, solo hay que autorizarla una vez. Abajo te explico el paso exacto para macOS y Windows.' },
   { q: '¿En qué sistemas funciona?', a: 'En macOS y Windows. Descarga el archivo correspondiente a tu sistema y listo.' },
   { q: '¿Cómo se actualiza?', a: 'Cuando publico una versión nueva, la app te lo indica con una barra en la parte superior. Descargas el instalador nuevo y lo instalas encima; tus ajustes se guardan aparte, así que se conservan.' },
+  { q: '¿Puedo usarla desde la terminal o con un agente de IA?', a: 'Sí. Desde la versión 1.1 hay una línea de comandos (pipx install pdf-tool-cli) con las mismas seis herramientas y salida en JSON, y un plugin para Claude Code que la usa por ti. Todo sigue ocurriendo en tu equipo.' },
   { q: '¿Cómo sé que la descarga es la oficial?', a: 'Cada versión publica, junto a los instaladores, un archivo SHA256SUMS.txt con la huella de cada uno, y GitHub certifica que se construyeron desde el código del repositorio. Si la huella de tu archivo coincide, es exactamente el publicado.' },
 ];
 
@@ -46,7 +53,7 @@ const appSchema = {
   url: canonical,
   downloadUrl: release,
   softwareLicense: 'MIT',
-  softwareVersion: '1.0.0',
+  softwareVersion: '1.1.1',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
 };
@@ -97,7 +104,7 @@ const appSchema = {
     <main id="top">
       <!-- ── HERO ──────────────────────────────────── -->
       <section class="hero">
-        <p class="eyebrow rise" style="--d: 0ms">App de escritorio · macOS &amp; Windows · versión 1.0</p>
+        <p class="eyebrow rise" style="--d: 0ms">App de escritorio · macOS &amp; Windows · versión 1.1</p>
         <h1 class="rise" style="--d: 90ms">Tus PDFs, <em>resueltos</em><br />— sin subir nada a internet.</h1>
         <p class="lede rise" style="--d: 180ms">
           Comprime, une, divide, protege y marca tus documentos —y conviértelos desde imágenes—
@@ -125,7 +132,7 @@ const appSchema = {
       <!-- ── SHOWCASE ──────────────────────────────── -->
       <section class="showcase rise" style="--d: 420ms">
         <button type="button" class="frame zoomable" aria-label="Ampliar captura">
-          <img src="/pdf-tool/screenshot.png" alt="Pantalla de inicio de PDF Tool con sus seis herramientas" width="1960" height="1360" loading="eager" />
+          <img src="/pdf-tool/screenshot.png" alt="Pantalla de inicio de PDF Tool con sus seis herramientas" width="2000" height="1482" loading="eager" />
           <span class="zoom-hint" aria-hidden="true">🔍 Ampliar</span>
         </button>
       </section>
@@ -158,10 +165,10 @@ const appSchema = {
         </div>
       </section>
 
-      <!-- ── NOVEDADES 1.0 ─────────────────────────── -->
+      <!-- ── NOVEDADES 1.1 ─────────────────────────── -->
       <section class="block news">
-        <h2 class="section-title reveal">Novedades de la versión 1.0</h2>
-        <p class="section-sub reveal">Más clara, más rápida y pensada para no perder nunca tu trabajo.</p>
+        <h2 class="section-title reveal">Novedades de la versión 1.1</h2>
+        <p class="section-sub reveal">Comprime mejor, protege mejor y ahora también trabaja desde la terminal.</p>
         <div class="shots">
           <figure class="shot reveal">
             <button type="button" class="frame zoomable" aria-label="Ampliar captura">
@@ -187,6 +194,27 @@ const appSchema = {
             </article>
           ))}
         </div>
+      </section>
+
+      <!-- ── DEVS Y AGENTES ────────────────────────── -->
+      <section class="block devs" id="terminal">
+        <h2 class="section-title reveal">Para desarrolladores y agentes de IA</h2>
+        <p class="section-sub reveal">
+          Las mismas seis herramientas como comando, con salida en JSON para scripts y agentes.
+          Igual de local: nada sale de tu equipo.
+        </p>
+        <div class="cmds">
+          {cli.map((c, i) => (
+            <figure class="cmd reveal" style={`--i: ${i}`}>
+              <figcaption>{c.label}</figcaption>
+              <pre><code>{c.code}</code></pre>
+            </figure>
+          ))}
+        </div>
+        <p class="devs-links reveal">
+          <a href="https://pypi.org/project/pdf-tool-cli/" target="_blank" rel="noopener">Ver en PyPI →</a>
+          <a href={`${repo}#readme`} target="_blank" rel="noopener">Documentación en GitHub →</a>
+        </p>
       </section>
 
       <!-- ── INSTALL ───────────────────────────────── -->
@@ -504,6 +532,19 @@ const appSchema = {
       /* Misma proporción para las dos capturas (recorte mínimo) y tarjetas parejas. */
       .shot .frame img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; }
       .shot figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 0.8rem; }
+
+      /* ── DEVS Y AGENTES ────────────────────────── */
+      .cmds { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.2rem; max-width: 72ch; }
+      .cmd figcaption { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.45rem; }
+      .cmd pre {
+        background: #1E1C33; color: #ECEAFF; border-radius: 12px; padding: 0.95rem 1.15rem;
+        font-family: var(--mono); font-size: 0.88rem; line-height: 1.6;
+        overflow-x: auto; border: 1px solid rgba(95, 90, 159, 0.35);
+      }
+      .cmd.reveal { transition-delay: calc(var(--i) * 70ms); }
+      .devs-links { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-top: 1.6rem; }
+      .devs-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
+      .devs-links a:hover { text-decoration: underline; }
 
       /* ── INSTALL ───────────────────────────────── */
       .tabs { display: inline-flex; gap: 0.4rem; margin: 2.2rem 0 1.8rem;
