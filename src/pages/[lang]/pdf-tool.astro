@@ -1,0 +1,16 @@
+---
+// Una página por cada diccionario de src/i18n/pdf-tool/ (salvo el de por
+// defecto, que vive en /pdf-tool): añadir un idioma no toca este archivo.
+import PdfToolPage from '../../components/pdf-tool/PdfToolPage.astro';
+import { DEFAULT_LANG, dictionaries } from '../../i18n/pdf-tool';
+
+export function getStaticPaths() {
+  return dictionaries
+    .filter((d) => d.lang !== DEFAULT_LANG)
+    .map((d) => ({ params: { lang: d.lang }, props: { dict: d } }));
+}
+
+const { dict } = Astro.props;
+---
+
+<PdfToolPage dict={dict} />

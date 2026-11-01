@@ -1,0 +1,635 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/hanken-grotesk';
+import '../../styles/interaction.css';
+import type { PdfToolDict } from '../../i18n/pdf-tool/types';
+import { DEFAULT_LANG, dictionaries, pathFor, urlFor } from '../../i18n/pdf-tool';
+
+interface Props {
+  dict: PdfToolDict;
+}
+
+const { dict: d } = Astro.props;
+import '@fontsource/jetbrains-mono/500.css';
+
+const release = 'https://github.com/juanMaAV92/pdf-tool/releases/latest';
+const repo = 'https://github.com/juanMaAV92/pdf-tool';
+const canonical = urlFor(d.lang);
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'PDF Tool',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'macOS, Windows',
+  description: d.meta.schemaDescription,
+  inLanguage: d.lang,
+  url: canonical,
+  downloadUrl: release,
+  softwareLicense: 'MIT',
+  softwareVersion: '1.1.1',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
+};
+---
+
+<!doctype html>
+<html lang={d.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/pdf-tool/icon.png" />
+    <title>{d.meta.title}</title>
+    <meta name="description" content={d.meta.description} />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#5F5A9F" />
+    <link rel="canonical" href={canonical} />
+    {dictionaries.map((alt) => <link rel="alternate" hreflang={alt.lang} href={urlFor(alt.lang)} />)}
+    <link rel="alternate" hreflang="x-default" href={urlFor(DEFAULT_LANG)} />
+    <meta property="og:title" content={d.meta.title} />
+    <meta property="og:description" content={d.meta.ogDescription} />
+    <meta property="og:locale" content={d.lang} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://juanmaav92.github.io/pdf-tool/screenshot.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={d.meta.title} />
+    <meta name="twitter:description" content={d.meta.ogDescription} />
+    <meta name="twitter:image" content="https://juanmaav92.github.io/pdf-tool/screenshot.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  </head>
+
+  <body class="world-pdf-tool">
+    <div class="bg" aria-hidden="true">
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+      <div class="grain"></div>
+    </div>
+
+    <!-- ── NAV ─────────────────────────────────────── -->
+    <header class="nav">
+      <a class="brand" href="#top">
+        <img src="/pdf-tool/icon.png" alt="PDF Tool" width="30" height="30" />
+        <span>PDF Tool</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/" class="ghost">{d.nav.portfolio}</a>
+        <span class="langs" role="group" aria-label={d.nav.language}>
+          {dictionaries.map((alt) =>
+            alt.lang === d.lang ? (
+              <span class="lang is-current" aria-current="true">{alt.lang.toUpperCase()}</span>
+            ) : (
+              <a class="lang" href={pathFor(alt.lang)} hreflang={alt.lang} lang={alt.lang} title={alt.languageName}>
+                {alt.lang.toUpperCase()}
+              </a>
+            )
+          )}
+        </span>
+        <a href={release} class="btn btn-sm">{d.nav.download}</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ── HERO ──────────────────────────────────── -->
+      <section class="hero">
+        <p class="eyebrow rise" style="--d: 0ms">{d.hero.eyebrow}</p>
+        <h1 class="rise" style="--d: 90ms" set:html={d.hero.titleHtml} />
+        <p class="lede rise" style="--d: 180ms">{d.hero.lede}</p>
+        <div class="cta rise" style="--d: 270ms">
+          <a class="btn btn-lg" href={release}>
+            <svg viewBox="0 0 384 512" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+            {d.hero.downloadMac}
+          </a>
+          <a class="btn btn-lg" href={release}>
+            <svg viewBox="0 0 448 512" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"/></svg>
+            {d.hero.downloadWin}
+          </a>
+        </div>
+        <a class="hero-help rise" style="--d: 315ms" href="#instalar">{d.hero.help}</a>
+        <ul class="trust rise" style="--d: 360ms">
+          {d.hero.trust.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <!-- ── SHOWCASE ──────────────────────────────── -->
+      <section class="showcase rise" style="--d: 420ms">
+        <button type="button" class="frame zoomable" aria-label={d.zoom.label}>
+          <img src="/pdf-tool/screenshot.png" alt={d.screenshotAlt} width="2000" height="1482" loading="eager" />
+          <span class="zoom-hint" aria-hidden="true">{d.zoom.hint}</span>
+        </button>
+      </section>
+
+      <!-- ── PRIVACY BAND ──────────────────────────── -->
+      <section class="privacy reveal">
+        <div class="lock" aria-hidden="true">🔐</div>
+        <div>
+          <h2>{d.privacy.title}</h2>
+          <p set:html={d.privacy.bodyHtml} />
+        </div>
+      </section>
+
+      <!-- ── FEATURES ──────────────────────────────── -->
+      <section class="block">
+        <h2 class="section-title reveal">{d.features.title}</h2>
+        <p class="section-sub reveal">{d.features.sub}</p>
+        <div class="grid">
+          {d.features.items.map((f, i) => (
+            <article class="card reveal" style={`--i: ${i}`}>
+              <span class="card-ic" aria-hidden="true">{f.icon}</span>
+              <h3>{f.name}</h3>
+              <p>{f.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── NOVEDADES 1.1 ─────────────────────────── -->
+      <section class="block news">
+        <h2 class="section-title reveal">{d.news.title}</h2>
+        <p class="section-sub reveal">{d.news.sub}</p>
+        <div class="shots">
+          {d.news.shots.map((shot) => (
+            <figure class="shot reveal">
+              <button type="button" class="frame zoomable" aria-label={d.zoom.label}>
+                <img src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" />
+                <span class="zoom-hint" aria-hidden="true">{d.zoom.hint}</span>
+              </button>
+              <figcaption>{shot.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <div class="grid">
+          {d.news.items.map((f, i) => (
+            <article class="card reveal" style={`--i: ${i}`}>
+              <span class="card-ic" aria-hidden="true">{f.icon}</span>
+              <h3>{f.name}</h3>
+              <p>{f.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── DEVS Y AGENTES ────────────────────────── -->
+      <section class="block devs" id="terminal">
+        <h2 class="section-title reveal">{d.devs.title}</h2>
+        <p class="section-sub reveal">{d.devs.sub}</p>
+        <div class="cmds">
+          {d.devs.commands.map((c, i) => (
+            <figure class="cmd reveal" style={`--i: ${i}`}>
+              <figcaption>{c.label}</figcaption>
+              <pre><code>{c.code}</code></pre>
+            </figure>
+          ))}
+        </div>
+        <p class="devs-links reveal">
+          <a href="https://pypi.org/project/pdf-tool-cli/" target="_blank" rel="noopener">{d.devs.pypi}</a>
+          <a href={`${repo}#readme`} target="_blank" rel="noopener">{d.devs.docs}</a>
+        </p>
+      </section>
+
+      <!-- ── INSTALL ───────────────────────────────── -->
+      <section class="block install" id="instalar">
+        <h2 class="section-title reveal">{d.install.title}</h2>
+        <p class="section-sub reveal">{d.install.sub}</p>
+        <div class="tabs reveal" role="tablist">
+          <button class="tab is-active" data-tab="mac" role="tab" aria-selected="true">🍎 macOS</button>
+          <button class="tab" data-tab="win" role="tab" aria-selected="false">🪟 Windows</button>
+        </div>
+
+        <ol class="steps reveal" data-panel="mac">
+          {d.install.macSteps.map((step, i) => (
+            <li><span class="n">{i + 1}</span><p set:html={step} /></li>
+          ))}
+        </ol>
+
+        <ol class="steps is-hidden" data-panel="win">
+          {d.install.winSteps.map((step, i) => (
+            <li><span class="n">{i + 1}</span><p set:html={step} /></li>
+          ))}
+        </ol>
+
+        <p class="verify reveal" set:html={d.install.verifyHtml} />
+
+        <a class="btn btn-lg install-cta reveal" href={release}>{d.install.cta}</a>
+      </section>
+
+      <!-- ── FAQ ───────────────────────────────────── -->
+      <section class="block faq">
+        <h2 class="section-title reveal">{d.faq.title}</h2>
+        <div class="faq-list">
+          {d.faq.items.map((f) => (
+            <details class="reveal">
+              <summary>{f.q}<span class="chev" aria-hidden="true">+</span></summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── FINAL CTA ─────────────────────────────── -->
+      <section class="final reveal">
+        <h2 set:html={d.final.titleHtml} />
+        <div class="cta">
+          <a class="btn btn-lg" href={release}>{d.final.download}</a>
+          <a class="btn btn-ghost btn-lg" href={repo} target="_blank" rel="noopener">{d.final.code}</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── CONTACTO ──────────────────────────────── -->
+    <section class="contact-band reveal">
+      <p class="cb-eyebrow">{d.contact.eyebrow}</p>
+      <h2>{d.contact.title}</h2>
+      <p class="cb-sub">{d.contact.sub}</p>
+      <a class="btn btn-lg" href="/#contacto">{d.contact.cta}</a>
+    </section>
+
+    <footer class="foot">
+      <span set:html={d.footer.madeWithHtml} />
+      <span set:html={d.footer.byHtml} />
+    </footer>
+
+    <!-- Captura ampliada: se abre al pulsar cualquier captura; Esc o clic cierra. -->
+    <dialog class="lightbox" aria-label={d.zoom.dialog}>
+      <button type="button" class="lightbox-close" aria-label={d.zoom.close}>✕</button>
+      <img alt="" />
+    </dialog>
+
+    <script>
+      // Ampliar capturas
+      const lightbox = document.querySelector<HTMLDialogElement>('.lightbox');
+      const lightboxImg = lightbox?.querySelector('img');
+      document.querySelectorAll<HTMLButtonElement>('.zoomable').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const img = btn.querySelector('img');
+          if (!lightbox || !lightboxImg || !img) return;
+          lightboxImg.src = img.currentSrc || img.src;
+          lightboxImg.alt = img.alt;
+          lightbox.showModal();
+        });
+      });
+      lightbox?.addEventListener('click', () => lightbox.close());
+
+      // Tabs de instalación
+      const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
+      const panels = document.querySelectorAll<HTMLElement>('.steps');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+          tabs.forEach((t) => {
+            const on = t === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', String(on));
+          });
+          panels.forEach((p) => p.classList.toggle('is-hidden', p.dataset.panel !== target));
+        });
+      });
+
+      // Scroll reveal (mismo patrón que la home)
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #F8F7FF;
+        --panel: #FFFFFF;
+        --line: #DEDDEA;
+        --ink: #20202B;
+        --body: #4D4D61;
+        --muted: #696A7F;
+        --accent: #5F5A9F;
+        --accent-deep: #4A4685;
+        --accent-soft: #EEECFF;
+        --display: 'Fraunces Variable', Georgia, serif;
+        --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg); color: var(--body); font-family: var(--sans);
+        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      a { color: inherit; }
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+
+    <style>
+      /* ── FONDO ─────────────────────────────────── */
+      .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+      .glow { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.32; }
+      .glow-1 { width: 620px; height: 620px; top: -200px; right: -120px;
+        background: radial-gradient(circle, rgba(95, 90, 159, 0.22), transparent 70%); }
+      .glow-2 { width: 520px; height: 520px; bottom: -160px; left: -140px;
+        background: radial-gradient(circle, rgba(153, 145, 220, 0.18), transparent 70%); }
+      .grain {
+        position: absolute; inset: 0; opacity: 0.035; mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      /* ── LAYOUT ────────────────────────────────── */
+      main { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+      .block { padding: 5rem 0; }
+      .section-title {
+        font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.1; letter-spacing: -0.01em;
+      }
+      .section-sub { color: var(--muted); margin-top: 0.7rem; font-size: 1.02rem; max-width: 48ch; }
+
+      /* ── NAV ───────────────────────────────────── */
+      .nav {
+        position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; gap: 1rem; max-width: 1080px; margin: 0 auto;
+        padding: 0.7rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
+        backdrop-filter: blur(10px); background: rgba(248, 247, 255, 0.88);
+        border-bottom: 1px solid var(--line);
+      }
+      .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none;
+        flex: 0 1 auto; min-width: 0; white-space: nowrap; font-family: var(--display);
+        font-weight: 500; color: var(--ink); font-size: 1.1rem; }
+      .brand img { border-radius: 7px; }
+      .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 0.65rem;
+        min-width: 0; flex: 0 1 auto; flex-wrap: nowrap; white-space: nowrap; }
+      .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
+        text-decoration: none; font-size: 0.9rem; white-space: nowrap; transition: color 0.2s; }
+      .ghost:hover { color: var(--ink); }
+      .langs { display: inline-flex; align-items: center; gap: 0.15rem; font-family: var(--mono);
+        font-size: 0.74rem; letter-spacing: 0.04em; }
+      .lang { display: inline-flex; align-items: center; justify-content: center; min-width: 32px;
+        min-height: 32px; padding: 0 0.35rem; border-radius: 7px; color: var(--muted);
+        text-decoration: none; transition: color 0.2s, background 0.2s; }
+      a.lang:hover { color: var(--ink); background: rgba(95, 90, 159, 0.08); }
+      .lang.is-current { color: var(--accent); font-weight: 600; }
+
+      /* ── BOTONES ───────────────────────────────── */
+      .btn {
+        display: inline-flex; align-items: center; gap: 0.55rem; text-decoration: none;
+        font-weight: 600; font-size: 0.92rem; border-radius: 10px;
+        padding: 0.65rem 1.1rem; color: #fff;
+        background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+        min-height: 44px; box-shadow: 0 8px 24px rgba(74, 70, 133, 0.2); border: 1px solid rgba(74, 70, 133, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(74, 70, 133, 0.25); filter: brightness(1.04); }
+      .btn-sm { padding: 0.45rem 0.9rem; font-size: 0.85rem; border-radius: 8px; }
+      .btn-lg { padding: 0.85rem 1.4rem; font-size: 1rem; border-radius: 12px; }
+      .btn-ghost {
+        background: transparent; color: var(--ink); box-shadow: none;
+        border: 1px solid var(--line);
+      }
+      .btn-ghost:hover { border-color: rgba(95, 90, 159, 0.5); background: rgba(95, 90, 159, 0.06); }
+
+      /* ── HERO ──────────────────────────────────── */
+      .hero {
+        text-align: center; max-width: 760px; margin: 0 auto;
+        padding: 5rem 0 3rem; display: flex; flex-direction: column; align-items: center;
+      }
+      .eyebrow {
+        font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 1.1rem;
+      }
+      .hero h1 {
+        font-family: var(--display); font-weight: 440; color: var(--ink);
+        font-size: clamp(2.3rem, 5.5vw, 3.9rem); line-height: 1.06; letter-spacing: -0.02em;
+      }
+      .hero h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+      .lede { margin: 1.4rem auto 2rem; font-size: 1.1rem; color: var(--body); max-width: 52ch; }
+      .cta { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
+      .trust {
+        list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.3rem;
+        margin-top: 1.8rem; font-size: 0.85rem; color: var(--muted);
+      }
+      .trust li { display: flex; align-items: center; gap: 0.45rem; }
+      .trust li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+      .hero-help {
+        margin-top: 1.3rem; display: inline-flex; align-items: center; gap: 0.4rem;
+        font-size: 0.9rem; font-weight: 600; color: var(--accent); text-decoration: none;
+        padding: 0.55rem 1.1rem; border-radius: 999px;
+        border: 1px solid rgba(95, 90, 159, 0.35); background: rgba(95, 90, 159, 0.05);
+        transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      }
+      .hero-help:hover {
+        background: rgba(95, 90, 159, 0.12); border-color: rgba(95, 90, 159, 0.6);
+        transform: translateY(-1px);
+      }
+
+      /* ── SHOWCASE ──────────────────────────────── */
+      .showcase { padding: 1rem 0 3rem; }
+      .frame {
+        position: relative; max-width: 940px; margin: 0 auto;
+        border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
+      }
+      .frame img {
+        width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center;
+      }
+
+      /* ── AMPLIAR CAPTURAS ───────────────────────── */
+      button.frame {
+        display: block; width: 100%; padding: 0; background: none;
+        font: inherit; color: inherit; cursor: zoom-in;
+      }
+      .zoomable:focus-visible { outline: 3px solid rgba(95, 90, 159, 0.7); outline-offset: 4px; }
+      .zoom-hint {
+        position: absolute; right: 12px; bottom: 12px; padding: 0.35rem 0.75rem;
+        border-radius: 999px; background: rgba(22, 20, 40, 0.8); color: #fff;
+        font-size: 0.8rem; font-weight: 600; opacity: 0; transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      .zoomable:hover .zoom-hint, .zoomable:focus-visible .zoom-hint { opacity: 1; }
+      @media (hover: none) { .zoom-hint { opacity: 1; } }
+      .lightbox {
+        border: 0; padding: 0; background: transparent; overflow: visible;
+        max-width: 96vw; max-height: 94vh; margin: auto;
+      }
+      .lightbox::backdrop { background: rgba(14, 12, 28, 0.82); backdrop-filter: blur(4px); }
+      .lightbox img {
+        display: block; max-width: 96vw; max-height: 90vh; width: auto; height: auto;
+        border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); cursor: zoom-out;
+      }
+      .lightbox-close {
+        position: absolute; top: -14px; right: -14px; width: 36px; height: 36px;
+        border: 0; border-radius: 50%; background: #fff; color: #222; font-size: 1rem;
+        cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      }
+
+      /* ── PRIVACY ───────────────────────────────── */
+      .privacy {
+        display: flex; gap: 1.5rem; align-items: flex-start;
+        background: linear-gradient(135deg, rgba(95, 90, 159, 0.1), rgba(95, 90, 159, 0.03));
+        border: 1px solid rgba(95, 90, 159, 0.2); border-radius: 16px;
+        padding: 2rem; margin: 1rem 0;
+      }
+      .privacy .lock { font-size: 2.2rem; line-height: 1; flex-shrink: 0; }
+      .privacy h2 { font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+      .privacy p { color: var(--body); max-width: 66ch; }
+      .privacy strong { color: var(--ink); }
+
+      /* ── FEATURES ──────────────────────────────── */
+      .grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.4rem;
+      }
+      .card {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+        padding: 1.5rem; transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      }
+      .card:hover { transform: translateY(-4px); border-color: rgba(95, 90, 159, 0.4);
+        background: #FCFBFF; }
+      .card-ic { font-size: 1.7rem; display: block; margin-bottom: 0.8rem; }
+      .card h3 { font-family: var(--display); font-weight: 500; color: var(--ink);
+        font-size: 1.15rem; margin-bottom: 0.4rem; }
+      .card p { color: var(--muted); font-size: 0.92rem; }
+
+      /* ── NOVEDADES ─────────────────────────────── */
+      .shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; margin-top: 2.4rem; }
+      .shot .frame { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); }
+      /* Misma proporción para las dos capturas (recorte mínimo) y tarjetas parejas. */
+      .shot .frame img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; }
+      .shot figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 0.8rem; }
+
+      /* ── DEVS Y AGENTES ────────────────────────── */
+      .cmds { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.2rem; max-width: 72ch; }
+      .cmd figcaption { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.45rem; }
+      .cmd pre {
+        background: #1E1C33; color: #ECEAFF; border-radius: 12px; padding: 0.95rem 1.15rem;
+        font-family: var(--mono); font-size: 0.88rem; line-height: 1.6;
+        overflow-x: auto; border: 1px solid rgba(95, 90, 159, 0.35);
+      }
+      .cmd.reveal { transition-delay: calc(var(--i) * 70ms); }
+      .devs-links { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-top: 1.6rem; }
+      .devs-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
+      .devs-links a:hover { text-decoration: underline; }
+
+      /* ── INSTALL ───────────────────────────────── */
+      .tabs { display: inline-flex; gap: 0.4rem; margin: 2.2rem 0 1.8rem;
+        background: var(--panel); padding: 0.35rem; border-radius: 11px; border: 1px solid var(--line); }
+      .tab {
+        font-family: var(--sans); font-size: 0.92rem; font-weight: 600; color: var(--muted);
+        background: transparent; border: 0; border-radius: 8px; padding: 0.5rem 1.1rem;
+        cursor: pointer; transition: color 0.2s, background 0.2s;
+      }
+      .tab.is-active { color: #fff; background: linear-gradient(180deg, var(--accent), var(--accent-deep)); }
+      .steps { list-style: none; display: flex; flex-direction: column; gap: 1rem; max-width: 64ch; }
+      .steps.is-hidden { display: none; }
+      .steps li { display: flex; gap: 1rem; align-items: flex-start; }
+      .steps .n {
+        flex-shrink: 0; width: 1.85rem; height: 1.85rem; border-radius: 50%;
+        display: grid; place-items: center; font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
+        color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(95, 90, 159, 0.25);
+      }
+      .steps p { color: var(--body); padding-top: 0.2rem; }
+      .steps strong { color: var(--ink); }
+      .steps code { font-family: var(--mono); font-size: 0.85em; background: var(--panel);
+        border: 1px solid var(--line); border-radius: 5px; padding: 0.05rem 0.35rem; color: var(--ink); }
+      .steps .hint { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
+      .verify { color: var(--muted); font-size: 0.9rem; max-width: 64ch; margin-top: 1.6rem; }
+      .verify code { font-family: var(--mono); font-size: 0.85em; background: var(--panel);
+        padding: 0.1em 0.35em; border-radius: 5px; white-space: nowrap; }
+      .install-cta { margin-top: 2rem; }
+
+      /* ── FAQ ───────────────────────────────────── */
+      .faq-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.7rem; max-width: 72ch; }
+      details {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+        padding: 0 1.2rem; transition: border-color 0.2s;
+      }
+      details[open] { border-color: rgba(95, 90, 159, 0.35); }
+      summary {
+        list-style: none; cursor: pointer; display: flex; justify-content: space-between;
+        align-items: center; gap: 1rem; padding: 1.1rem 0; font-weight: 600; color: var(--ink);
+        font-size: 1.02rem;
+      }
+      summary::-webkit-details-marker { display: none; }
+      .chev { color: var(--accent); font-size: 1.3rem; transition: transform 0.25s ease; flex-shrink: 0; }
+      details[open] .chev { transform: rotate(45deg); }
+      details p { color: var(--body); padding: 0 0 1.2rem; max-width: 66ch; }
+
+      /* ── FINAL ─────────────────────────────────── */
+      .final {
+        text-align: center; padding: 5rem 1.5rem; margin: 2rem 0 4rem;
+        background: radial-gradient(circle at 50% 0%, rgba(95, 90, 159, 0.12), transparent 65%);
+        border: 1px solid var(--line); border-radius: 20px;
+      }
+      .final h2 { font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.8rem, 4.5vw, 2.8rem); margin-bottom: 1.8rem; letter-spacing: -0.01em; }
+      .final .cta { justify-content: center; }
+
+      /* ── CONTACT BAND ──────────────────────────── */
+      .contact-band {
+        max-width: 1080px; margin: 0 auto 1rem; padding: 3rem 1.5rem;
+        text-align: center; border-top: 1px solid var(--line);
+      }
+      .cb-eyebrow {
+        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem;
+      }
+      .contact-band h2 {
+        font-family: var(--display); font-weight: 460; color: var(--ink);
+        font-size: clamp(1.4rem, 3.4vw, 2.1rem); line-height: 1.15; letter-spacing: -0.01em;
+        max-width: 24ch; margin: 0 auto;
+      }
+      .cb-sub { color: var(--muted); margin: 0.8rem auto 1.8rem; max-width: 46ch; }
+
+      /* ── FOOTER ────────────────────────────────── */
+      .foot {
+        max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 3rem;
+        display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+        border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem;
+      }
+      .foot a { color: var(--body); text-decoration: none; transition: color 0.2s; }
+      .foot a:hover { color: var(--accent); }
+
+      /* ── ANIMACIÓN ─────────────────────────────── */
+      .rise { opacity: 0; transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+      .reveal { opacity: 0; transform: translateY(18px);
+        transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+      .card.reveal { transition-delay: calc(var(--i) * 70ms); }
+      .reveal.in { opacity: 1; transform: translateY(0); }
+
+      /* ── RESPONSIVE ────────────────────────────── */
+      @media (max-width: 860px) {
+        .hero { padding-top: 3rem; }
+        .grid { grid-template-columns: repeat(2, 1fr); }
+        .shots { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 560px) {
+        .nav { gap: 0.5rem; padding-block: 0.5rem; }
+        .brand { gap: 0.45rem; font-size: 1rem; }
+        .brand img { width: 28px; height: 28px; }
+        .nav-links { gap: 0.3rem; }
+        .ghost { padding-inline: 0.15rem; font-size: 0.78rem; }
+        .lang { min-width: 26px; padding-inline: 0.2rem; font-size: 0.7rem; }
+        .btn-sm { padding-inline: 0.7rem; font-size: 0.8rem; }
+        .grid { grid-template-columns: 1fr; }
+        .cta .btn { flex: 1; justify-content: center; }
+        .privacy { flex-direction: column; gap: 1rem; }
+        .foot { flex-direction: column; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rise { animation: none; opacity: 1; transform: none; }
+        .reveal { transition: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </body>
+</html>
