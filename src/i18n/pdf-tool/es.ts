@@ -52,18 +52,18 @@ const es: PdfToolDict = {
     sub: 'Comprime mejor, protege mejor y ahora también trabaja desde la terminal.',
     shots: [
       {
-        src: '/pdf-tool/compress-result.png',
-        alt: 'Resultado de comprimir varios PDFs: tamaño antes y después y porcentaje ahorrado en cada archivo',
+        src: '/pdf-tool/compress-es.webp',
+        alt: 'Resultado de comprimir un PDF: tamaño antes y después y porcentaje ahorrado',
         caption: 'Al comprimir ves cuánto pesaba cada archivo, cuánto pesa ahora y cuánto ahorraste.',
-        width: 2500,
-        height: 1638,
+        width: 1920,
+        height: 1375,
       },
       {
-        src: '/pdf-tool/merge.png',
+        src: '/pdf-tool/merge-es.webp',
         alt: 'Unir PDFs con una miniatura de cada documento para ordenarlos',
         caption: 'Ordena los documentos viendo una miniatura de cada uno antes de unirlos.',
-        width: 2586,
-        height: 1540,
+        width: 1920,
+        height: 1375,
       },
     ],
     items: [

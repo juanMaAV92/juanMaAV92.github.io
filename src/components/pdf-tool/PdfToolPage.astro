@@ -51,11 +51,11 @@ const appSchema = {
     <meta property="og:locale" content={d.lang} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content="https://juanmaav92.github.io/pdf-tool/screenshot.png" />
+    <meta property="og:image" content={`https://juanmaav92.github.io/pdf-tool/home-${d.lang}.png`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={d.meta.title} />
     <meta name="twitter:description" content={d.meta.ogDescription} />
-    <meta name="twitter:image" content="https://juanmaav92.github.io/pdf-tool/screenshot.png" />
+    <meta name="twitter:image" content={`https://juanmaav92.github.io/pdf-tool/home-${d.lang}.png`} />
     <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   </head>
 
@@ -114,7 +114,7 @@ const appSchema = {
       <!-- ── SHOWCASE ──────────────────────────────── -->
       <section class="showcase rise" style="--d: 420ms">
         <button type="button" class="frame zoomable" aria-label={d.zoom.label}>
-          <img src="/pdf-tool/screenshot.png" alt={d.screenshotAlt} width="2000" height="1482" loading="eager" />
+          <img src={`/pdf-tool/home-${d.lang}.webp`} alt={d.screenshotAlt} width="1920" height="1375" loading="eager" />
           <span class="zoom-hint" aria-hidden="true">{d.zoom.hint}</span>
         </button>
       </section>
@@ -438,7 +438,7 @@ const appSchema = {
         box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
       }
       .frame img {
-        width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center;
+        width: 100%;
       }
 
       /* ── AMPLIAR CAPTURAS ───────────────────────── */
@@ -501,8 +501,6 @@ const appSchema = {
       /* ── NOVEDADES ─────────────────────────────── */
       .shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; margin-top: 2.4rem; }
       .shot .frame { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); }
-      /* Misma proporción para las dos capturas (recorte mínimo) y tarjetas parejas. */
-      .shot .frame img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; }
       .shot figcaption { color: var(--muted); font-size: 0.92rem; margin-top: 0.8rem; }
 
       /* ── DEVS Y AGENTES ────────────────────────── */
