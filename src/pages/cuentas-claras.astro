@@ -1,0 +1,431 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/hanken-grotesk';
+import '@fontsource/jetbrains-mono/500.css';
+import '../styles/interaction.css';
+
+const canonical = 'https://juanmaav92.github.io/cuentas-claras';
+
+const pillars = [
+  {
+    tag: '01',
+    title: 'Planear antes de registrar',
+    desc: 'La primera pregunta del mes no es «¿en qué gasté?», sino «¿cómo repartimos lo que entra?». Ingresos, gastos esenciales y montos se deciden primero; el registro de pagos viene después.',
+  },
+  {
+    tag: '02',
+    title: 'El margen siempre visible',
+    desc: 'Cuánto queda por asignar y cuánto queda por pagar, a la vista. Lo pendiente se marca en ámbar; el rojo se reserva para el sobregasto real.',
+  },
+  {
+    tag: '03',
+    title: 'Compartido sin perder contexto',
+    desc: 'Presupuestos de pareja con roles de owner y member, y participantes sin cuenta (un familiar que no usa la app) a quienes igual se les asignan pagos e ingresos.',
+  },
+  {
+    tag: '04',
+    title: 'Patrimonio como segunda capa',
+    desc: 'Inversiones en CDT, ETF, cripto y divisas valoradas en COP con la TRM, snapshots históricos y evolución del patrimonio. También incluye un simulador de créditos con los supuestos a la vista.',
+  },
+];
+
+const stack = [
+  { k: 'Monorepo', v: 'TypeScript · pnpm workspaces' },
+  { k: 'Frontend', v: 'Vite · React 19 · TanStack Router/Query' },
+  { k: 'API', v: 'Hono · capas routes → services → repositories' },
+  { k: 'Datos', v: 'SQLite · Drizzle ORM · migraciones versionadas' },
+  { k: 'Auth', v: 'Better Auth · contraseña + passkeys' },
+  { k: 'Design system', v: '@cc/ui · Tailwind 4 sobre tokens' },
+  { k: 'Calidad', v: 'Vitest · Playwright e2e · Biome · presupuesto de bundle' },
+  { k: 'Infraestructura', v: 'Docker · Dokploy en VPS propio · Traefik' },
+];
+
+const decisions = [
+  {
+    title: 'Cero lógica de negocio en el front',
+    desc: 'Prorrateos, valoraciones, desvíos y clonación de periodos viven en los services de la API. El front pide y pinta, y consume la API con un contrato tipado de punta a punta (Hono RPC): nunca un fetch a mano.',
+  },
+  {
+    title: 'Sin fallback silencioso entre APIs de precios',
+    desc: 'Cada símbolo declara su proveedor (Yahoo, CoinGecko, TRM de datos.gov.co). Si un proveedor falla, se conserva el último precio y se marca como desactualizado. Prefiero mostrar un dato viejo marcado como viejo antes que mezclar fuentes sin avisar.',
+  },
+  {
+    title: 'Backups que se verifican, migraciones que se ensayan',
+    desc: 'Copias diarias de SQLite con VACUUM INTO, un manifest con sha256 e integrity_check, retención escalonada (7 diarios, 8 semanales, 12 mensuales) y copia cifrada fuera del VPS con restic. Cada migración se ensaya primero sobre una copia, y hay un runbook de restauración.',
+  },
+  {
+    title: 'Solo se entra por invitación',
+    desc: 'El registro público está cerrado. Los tokens de invitación son de un solo uso, vencen en 7 días y se guardan hasheados. Cualquier token inválido devuelve el mismo 404, para no dar pistas a quien prueba tokens. Emitir invitaciones tiene un cupo por persona.',
+  },
+  {
+    title: 'Una réplica, a propósito',
+    desc: 'SQLite en volumen, jobs en proceso y migraciones al arrancar implican que nunca puede haber dos contenedores a la vez: despliegue stop-first, aceptando unos segundos sin servicio. El contenedor corre como usuario sin privilegios bajo tini, con el código de solo lectura.',
+  },
+  {
+    title: 'El design system lo vigila el linter',
+    desc: 'Ninguna página define su propio botón, tabla o input: Biome prohíbe esos elementos fuera de @cc/ui, y todo componente nuevo se cataloga en /ui-kit en el mismo PR. La PWA nunca cachea /api: mostrar plata vieja como si fuera de hoy es peor que no mostrar nada.',
+  },
+];
+
+const built = [
+  'Presupuesto mensual personal y compartido',
+  'Onboarding guiado del primer presupuesto',
+  'Inversiones, valoración y evolución del patrimonio',
+  'Simulador de créditos con abonos a capital',
+  'Invitaciones, roles y passkeys',
+  'Backups verificados, restic y runbook de restauración',
+  'CI: lint → typecheck → test → build → size → e2e',
+];
+const next = [
+  'Suscripciones y su costo anual real',
+  'Seguimiento de un crédito ya adquirido',
+  'Compromisos recurrentes y activos físicos (vivienda, carro)',
+];
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Cuentas Claras',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Web',
+  description: 'App self-hosted para planificar gastos personales y compartidos, seguir su ejecución durante el mes e inversiones, con evolución del patrimonio.',
+  url: canonical,
+  author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cuentas Claras · Presupuesto compartido e inversiones (caso de estudio)</title>
+    <meta name="description" content="Caso de estudio de Cuentas Claras: app self-hosted de presupuesto personal y compartido e inversiones que reemplazó un Google Sheet. TypeScript, Hono, SQLite y PWA. Proyecto de Juan Manuel Armero Viveros." />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#3a2015" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content="Cuentas Claras · Presupuesto compartido e inversiones" />
+    <meta property="og:description" content="Planear el mes en pareja, ver el margen y seguir el patrimonio. App self-hosted en uso real." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://juanmaav92.github.io/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  </head>
+
+  <body class="world-cc">
+    <header class="nav">
+      <a class="brand" href="#top">Cuentas <em>Claras</em></a>
+      <nav class="nav-links">
+        <span class="status">● En uso</span>
+        <a href="/" class="ghost">← Portafolio</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow rise" style="--d: 0ms">Caso de estudio · producto self-hosted</p>
+          <h1 class="rise" style="--d: 90ms">Planear el mes <em>en pareja</em>, sin un sheet de por medio.</h1>
+          <p class="lede rise" style="--d: 180ms">
+            Cuentas Claras reemplazó el Google Sheet con el que mi familia planeaba el presupuesto
+            cada mes. Sirve para repartir el dinero del mes, saber quién tiene qué asignado, actuar
+            antes de quedarse sin margen y, como segunda capa, seguir las inversiones y el patrimonio.
+          </p>
+          <ul class="meta rise" style="--d: 270ms">
+            <li><span>Rol</span>Producto, diseño, arquitectura, desarrollo y operación</li>
+            <li><span>Stack</span>TypeScript · React · Hono · SQLite</li>
+            <li><span>Estado</span>En uso real · repositorio privado</li>
+          </ul>
+        </div>
+
+        <figure class="mock rise" style="--d: 280ms" aria-label="Ilustración del resumen del mes con datos de ejemplo">
+          <div class="band">
+            <p class="band-label">Noviembre · Hogar</p>
+            <div class="band-row">
+              <div><span class="b-k">Por asignar</span><span class="b-v">$ 320.000</span></div>
+              <div><span class="b-k">Por pagar</span><span class="b-v warn">$ 1.150.000</span></div>
+            </div>
+            <div class="track" aria-hidden="true"><span style="width: 63%"></span></div>
+            <p class="band-foot">63% del mes ya pagado</p>
+          </div>
+          <ul class="rows">
+            <li><span>arriendo</span><span class="pill ok">pagado</span><span class="amt">$ 1.400.000</span></li>
+            <li><span>mercado</span><span class="pill pend">pendiente</span><span class="amt">$ 900.000</span></li>
+            <li><span>servicios</span><span class="pill pend">pendiente</span><span class="amt">$ 250.000</span></li>
+            <li><span>ahorro</span><span class="pill ok">pagado</span><span class="amt">$ 600.000</span></li>
+          </ul>
+          <figcaption>Ilustración con datos de ejemplo</figcaption>
+        </figure>
+      </section>
+
+      <!-- PROBLEMA -->
+      <section class="problem block">
+        <p class="kicker">El problema</p>
+        <h2>Un sheet sirve para <em>anotar</em> lo que pasó. Lo difícil es <em>decidir</em> qué va a pasar.</h2>
+        <p class="sub">
+          Cada mes había que copiar la hoja, ajustar fórmulas a mano y adivinar quién ya había pagado qué.
+          Las inversiones vivían en otra pestaña con precios copiados uno por uno. Funcionaba, pero
+          dependía de que nadie rompiera una fórmula.
+        </p>
+      </section>
+
+      <!-- PRODUCTO -->
+      <section class="block">
+        <p class="kicker center">El producto</p>
+        <h2 class="center">Cuatro principios, en este orden</h2>
+        <div class="pillars">
+          {pillars.map((p) => (
+            <article class="pillar">
+              <span class="p-tag">{p.tag}</span>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ARQUITECTURA -->
+      <section class="block tech">
+        <p class="kicker center">Por dentro</p>
+        <h2 class="center">Pequeña en usuarios, seria en ingeniería</h2>
+        <p class="sub center">
+          Hoy la usan dos personas, pero maneja dinero real. Por eso se construyó y se opera como
+          un sistema de producción: un SPA estático y una API con toda la lógica, en un solo contenedor.
+        </p>
+        <div class="stack-grid">
+          {stack.map((s) => (
+            <div class="stack-row"><span class="sk">{s.k}</span><span class="sv">{s.v}</span></div>
+          ))}
+        </div>
+
+        <h3 class="dec-title">Decisiones de ingeniería</h3>
+        <div class="decisions">
+          {decisions.map((d) => (
+            <article class="decision">
+              <h4>{d.title}</h4>
+              <p>{d.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ESTADO -->
+      <section class="block">
+        <p class="kicker center">Estado actual</p>
+        <h2 class="center">En producción, con roadmap propio</h2>
+        <div class="status-cols">
+          <div class="status-col done">
+            <h3>✓ Ya en uso</h3>
+            <ul>{built.map((b) => <li>{b}</li>)}</ul>
+          </div>
+          <div class="status-col todo">
+            <h3>→ Siguiente</h3>
+            <ul>{next.map((n) => <li>{n}</li>)}</ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta-band block">
+        <h2>Software que uso todos los meses, construido como si fuera para muchos.</h2>
+        <p>El repositorio es privado porque contiene la operación de un producto en uso. Si quieres ver el código o hablar de cómo lo construí, conversemos.</p>
+        <a class="btn" href="/#contacto">Hablemos →</a>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Cuentas Claras · self-hosted · en uso</span>
+      <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
+    </footer>
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.block');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.04 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #e9dac4;
+        --card: #fffdf8;
+        --border: #e8dfce;
+        --fg: #2b1d16;
+        --muted: #574436;
+        --faint: #6f5b4c;
+        --primary: #3a2015;
+        --primary-ink: #fff8ec;
+        --positive: #17643f;
+        --positive-bg: #e3f0e8;
+        --warning: #a6710e;
+        --warning-strong: #7f5100;
+        --warning-bg: #f7ecd4;
+        --band-from: #5a3423;
+        --band-to: #3f2416;
+        --band-muted: #e6d8c6;
+        --band-track: #6f4a36;
+        --band-accent: #b9d47a;
+        --band-warning: #e8b04a;
+        --serif: 'Fraunces Variable', Georgia, serif;
+        --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg); color: var(--fg); font-family: var(--sans);
+        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      a { color: inherit; }
+    </style>
+
+    <style>
+      main { max-width: 1080px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 1.5rem); }
+      .block { padding: 4.5rem 0; }
+      .center { text-align: center; }
+      h1, h2, h3, h4 { font-family: var(--serif); color: var(--primary); font-weight: 600; }
+      h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.18; letter-spacing: -0.01em; }
+      em { font-style: italic; color: var(--positive); }
+      .kicker, .eyebrow {
+        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em;
+        text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem;
+      }
+      .sub { color: var(--muted); font-size: 1.05rem; max-width: 60ch; margin: 1rem auto 0; }
+
+      /* NAV */
+      .nav {
+        position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; gap: 1rem; max-width: 1080px; margin: 0 auto;
+        padding: 0.7rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
+        background: rgba(233, 218, 196, 0.88); backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(58, 32, 21, 0.12);
+      }
+      .brand { font-family: var(--serif); font-weight: 600; font-size: 1.25rem;
+        color: var(--primary); text-decoration: none; white-space: nowrap; }
+      .nav-links { display: flex; align-items: center; gap: 0.65rem; white-space: nowrap; }
+      .status { font-size: 0.78rem; font-weight: 600; color: var(--positive);
+        background: var(--positive-bg); padding: 0.3rem 0.6rem; border-radius: 999px; }
+      .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
+        text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+      .ghost:hover { color: var(--primary); }
+
+      /* HERO */
+      .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center; padding: 4rem 0 3rem; }
+      .hero h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.08; letter-spacing: -0.02em; }
+      .lede { margin: 1.3rem 0 1.8rem; font-size: 1.08rem; color: var(--muted); max-width: 50ch; }
+      .meta { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+      .meta li { font-size: 0.92rem; }
+      .meta li span { display: inline-block; min-width: 70px; color: var(--faint);
+        font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-right: 0.6rem; }
+
+      /* MOCK */
+      .mock { background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+        padding: 1rem; box-shadow: 0 30px 70px rgba(58, 32, 21, 0.18); }
+      .band { background: linear-gradient(160deg, var(--band-from), var(--band-to));
+        color: var(--primary-ink); border-radius: 16px; padding: 1.3rem 1.4rem; }
+      .band-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--band-muted); }
+      .band-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.8rem 0 1rem; }
+      .b-k { display: block; font-size: 0.78rem; color: var(--band-muted); }
+      .b-v { display: block; font-family: var(--serif); font-size: clamp(1.3rem, 3vw, 1.7rem);
+        font-variant-numeric: tabular-nums; color: var(--band-accent); }
+      .b-v.warn { color: var(--band-warning); }
+      .track { height: 8px; border-radius: 999px; background: var(--band-track); overflow: hidden; }
+      .track span { display: block; height: 100%; background: var(--band-accent); border-radius: 999px; }
+      .band-foot { font-size: 0.78rem; color: var(--band-muted); margin-top: 0.5rem; }
+      .rows { list-style: none; margin-top: 0.6rem; }
+      .rows li { display: grid; grid-template-columns: 1fr auto auto; gap: 0.8rem; align-items: center;
+        padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+      .rows li:last-child { border-bottom: 0; }
+      .amt { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; min-width: 8ch; }
+      .pill { font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.55rem; border-radius: 999px; }
+      .pill.ok { color: var(--positive); background: var(--positive-bg); }
+      .pill.pend { color: var(--warning-strong); background: var(--warning-bg); }
+      .mock figcaption { text-align: center; font-size: 0.75rem; color: var(--faint); margin-top: 0.4rem; }
+
+      /* PROBLEMA */
+      .problem { text-align: center; background: var(--card); border: 1px solid var(--border);
+        border-radius: 24px; padding: 4rem clamp(1.2rem, 4vw, 2.5rem); }
+      .problem h2 { max-width: 24ch; margin: 0 auto; }
+
+      /* PILARES */
+      .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2.6rem; }
+      .pillar { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.7rem; }
+      .p-tag { font-family: var(--mono); font-size: 0.75rem; color: var(--positive); }
+      .pillar h3 { font-size: 1.25rem; margin: 0.4rem 0 0.5rem; }
+      .pillar p { color: var(--muted); font-size: 0.95rem; }
+
+      /* TECH */
+      .tech { background: var(--primary); border-radius: 24px; padding: 4rem clamp(1.2rem, 4vw, 2.5rem); color: var(--primary-ink); }
+      .tech h2, .tech .dec-title { color: var(--primary-ink); }
+      .tech .kicker, .tech .sub { color: var(--band-muted); }
+      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; max-width: 780px; margin: 2.6rem auto 0; }
+      .stack-row { display: flex; flex-direction: column; gap: 0.15rem; background: rgba(255, 248, 236, 0.06);
+        border: 1px solid rgba(255, 248, 236, 0.14); border-radius: 10px; padding: 0.85rem 1.1rem; }
+      .sk { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--band-accent); font-weight: 600; }
+      .sv { font-family: var(--mono); font-size: 0.85rem; }
+      .dec-title { text-align: center; font-size: 1.35rem; margin: 3rem 0 0; }
+      .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.6rem; }
+      .decision { background: var(--card); color: var(--fg); border-radius: 12px; padding: 1.3rem 1.4rem; }
+      .decision h4 { font-size: 1.05rem; margin-bottom: 0.45rem; }
+      .decision p { color: var(--muted); font-size: 0.92rem; }
+
+      /* ESTADO */
+      .status-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2.6rem; }
+      .status-col { border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; }
+      .status-col.done { background: var(--positive-bg); }
+      .status-col.todo { background: var(--warning-bg); }
+      .status-col h3 { font-size: 1.15rem; margin-bottom: 1rem; }
+      .status-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+      .status-col li { font-size: 0.95rem; }
+
+      /* CTA */
+      .cta-band { text-align: center; padding: 4.5rem clamp(1.2rem, 4vw, 2rem); margin: 0 0 3rem;
+        background: linear-gradient(160deg, var(--band-from), var(--band-to)); border-radius: 24px; }
+      .cta-band h2 { color: var(--primary-ink); max-width: 26ch; margin: 0 auto; }
+      .cta-band p { color: var(--band-muted); margin: 0.9rem auto 1.8rem; max-width: 52ch; }
+      .btn { display: inline-flex; align-items: center; text-decoration: none; font-weight: 700;
+        color: var(--primary); background: var(--band-accent); padding: 0.85rem 1.6rem; border-radius: 10px;
+        transition: transform 0.2s ease; }
+      .btn:hover { transform: translateY(-2px); }
+
+      /* FOOTER */
+      .foot { max-width: 1080px; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 1.5rem) 3rem;
+        display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+        border-top: 1px solid rgba(58, 32, 21, 0.15); color: var(--muted); font-size: 0.85rem; }
+      .foot a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+      /* MOTION */
+      .rise { opacity: 0; transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+      .block { opacity: 0; transform: translateY(20px);
+        transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+      .block.in { opacity: 1; transform: translateY(0); }
+
+      @media (max-width: 880px) {
+        .hero { grid-template-columns: 1fr; gap: 2.2rem; }
+        .pillars, .stack-grid, .decisions, .status-cols { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 420px) {
+        .nav-links .status { display: none; }
+        .rows li { grid-template-columns: 1fr auto; }
+        .rows .pill { display: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rise { animation: none; opacity: 1; transform: none; }
+        .block { transition: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </body>
+</html>
