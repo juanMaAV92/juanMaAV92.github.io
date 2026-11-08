@@ -38,3 +38,17 @@ Formato:
 - **Formato:** MP4 H.264, de unos 25 s y de 3 MB o menos. Póster en WebP.
 - **Reproducción:** `muted loop playsinline`, con botón visible de pausa y reproducción. Con `prefers-reduced-motion` no arranca solo.
 - **Referencia:** `src/pages/mermaid-styler.astro`.
+
+### Idiomas: todo existe en inglés y en español
+
+- **Rutas:** el inglés vive en la raíz (`/steer`) y el español bajo `/es/` (`/es/steer`). Una página nueva se publica en los dos idiomas o no se publica.
+- **Textos:** van en diccionarios `src/i18n/<página>/{types,en,es}.ts` (ejemplo: `src/i18n/pdf-tool/`). El markup vive en `src/components/<página>/<Nombre>Page.astro` con la prop `lang`.
+- **Rutas de página:**
+  - `src/pages/<página>.astro` renderiza `lang="en"`.
+  - `src/pages/es/<página>.astro` renderiza `lang="es"`.
+- **Enlaces internos:** siempre con `localePath(lang, '/ruta')` de `src/i18n/site.ts`, para que la navegación no cambie de idioma.
+- **`<head>`:** `<I18nHead lang path />`, que pone canonical, `hreflang` y `og:locale`.
+- **Nav:** `<LangSwitch lang path />`, que lleva a la misma página en el otro idioma.
+- **Sin redirección automática** por idioma del navegador.
+- **Sitemap:** `src/pages/sitemap.xml.ts` genera las dos versiones. Una página nueva se agrega a su lista `PAGES`.
+- **Tono del español:** neutro colombiano, de tú. Los términos técnicos van en inglés cuando así se dicen (deploy, backend…). El código, los comandos y los flags no se traducen.

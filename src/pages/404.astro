@@ -4,6 +4,23 @@ import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '@fontsource-variable/fraunces';
 import '../styles/interaction.css';
+
+// GitHub Pages sirve este único 404.html para cualquier ruta, en cualquier idioma:
+// se renderiza en inglés y un script inline lo pasa a español si la ruta empieza por /es/
+// (o, si la ruta no lo dice, si el navegador está en español).
+const links = [
+  { path: '/', label: '~/', key: 'home', en: 'home', es: 'inicio' },
+  { path: '/pdf-tool', label: '~/pdf-tool', key: 'pdf', en: 'PDF desktop app', es: 'app de escritorio para PDFs' },
+  { path: '/steer', label: '~/steer', key: 'steer', en: 'PaaS-on-your-AWS CLI', es: 'CLI tipo PaaS sobre tu AWS' },
+  { path: '/cuentas-claras', label: '~/cuentas-claras', key: 'cc', en: 'self-hosted budgeting app', es: 'app self-hosted de presupuesto' },
+  { path: '/mermaid-styler', label: '~/mermaid-styler', key: 'mermaid', en: 'Mermaid diagram styler', es: 'estilos para diagramas Mermaid' },
+  { path: '/pulso', label: '~/pulso', key: 'pulso', en: 'SaaS (work in progress)', es: 'SaaS (en construcción)' },
+];
+const es = {
+  title: '404 · página no encontrada · juanMaAV92',
+  blurb: 'Esta ruta no existe, pero puedes ir a cualquiera de estas:',
+  ...Object.fromEntries(links.map((l) => [l.key, `— ${l.es}`])),
+};
 ---
 
 <!doctype html>
@@ -31,21 +48,39 @@ import '../styles/interaction.css';
       </p>
 
       <h1 class="rise" style="--d: 260ms">404</h1>
-      <p class="blurb rise" style="--d: 360ms">
+      <p class="blurb rise" style="--d: 360ms" data-i18n="blurb">
         This route doesn't exist — but here's where you can go:
       </p>
 
       <nav class="links rise" style="--d: 460ms">
-        <a href="/"><span class="arrow">▸</span> ~/ <span class="note">— home</span></a>
-        <a href="/pdf-tool"><span class="arrow">▸</span> ~/pdf-tool <span class="note">— PDF desktop app</span></a>
-        <a href="/pulso"><span class="arrow">▸</span> ~/pulso <span class="note">— SaaS (work in progress)</span></a>
-        <a href="/steer"><span class="arrow">▸</span> ~/steer <span class="note">— PaaS-on-your-AWS CLI</span></a>
+        {links.map((l) => (
+          <a href={l.path} data-path={l.path}><span class="arrow">▸</span> {l.label} <span class="note" data-i18n={l.key}>— {l.en}</span></a>
+        ))}
       </nav>
 
       <p class="prompt rise" style="--d: 600ms">
         <span class="sigil">$</span> <span class="cursor">▮</span>
       </p>
     </main>
+
+    <script is:inline define:vars={{ es }}>
+      // Español si la ruta está bajo /es/; si no lo indica, según el idioma del navegador.
+      (function () {
+        var path = window.location.pathname;
+        var isEs = path === '/es' || path.indexOf('/es/') === 0 ||
+          (!/^\/en(\/|$)/.test(path) && /^es\b/i.test(navigator.language || ''));
+        if (!isEs) return;
+        document.documentElement.lang = 'es';
+        document.title = es.title;
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          var v = es[el.getAttribute('data-i18n')];
+          if (v) el.textContent = v;
+        });
+        document.querySelectorAll('a[data-path]').forEach(function (a) {
+          a.setAttribute('href', '/es' + a.getAttribute('data-path'));
+        });
+      })();
+    </script>
 
     <script>
       // Show the path the user actually tried, so the "no such file" is real

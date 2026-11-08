@@ -1,0 +1,18 @@
+---
+// URL heredada: hasta noviembre de 2026 el inglés vivía en /en/pdf-tool y las versiones de la app
+// ya publicadas siguen enlazando aquí. Redirige a /pdf-tool, que ahora es la versión en inglés.
+const target = '/pdf-tool';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PDF Tool</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={`https://juanmaav92.github.io${target}`} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>Moved to <a href={target}>{target}</a>.</p>
+  </body>
+</html>

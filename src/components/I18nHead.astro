@@ -1,0 +1,12 @@
+---
+// <head>: canonical, alternates hreflang y og:locale de una página que existe en todos los idiomas.
+import { DEFAULT_LANG, LANGS, OG_LOCALE, localeUrl, type Lang } from '../i18n/site';
+interface Props { lang: Lang; path: string }
+const { lang, path } = Astro.props;
+---
+<link rel="canonical" href={localeUrl(lang, path)} />
+{LANGS.map((l) => <link rel="alternate" hreflang={l} href={localeUrl(l, path)} />)}
+<link rel="alternate" hreflang="x-default" href={localeUrl(DEFAULT_LANG, path)} />
+<meta property="og:url" content={localeUrl(lang, path)} />
+<meta property="og:locale" content={OG_LOCALE[lang]} />
+{LANGS.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={OG_LOCALE[l]} />)}

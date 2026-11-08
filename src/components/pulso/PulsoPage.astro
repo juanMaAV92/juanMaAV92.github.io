@@ -1,0 +1,354 @@
+---
+import '@fontsource-variable/plus-jakarta-sans';
+import '../../styles/interaction.css';
+import '@fontsource/jetbrains-mono/500.css';
+import I18nHead from '../I18nHead.astro';
+import LangSwitch from '../LangSwitch.astro';
+import { localePath, localeUrl, type Lang } from '../../i18n/site';
+import type { PulsoDict } from '../../i18n/pulso/types';
+import en from '../../i18n/pulso/en';
+import es from '../../i18n/pulso/es';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const dicts: Record<Lang, PulsoDict> = { en, es };
+const t = dicts[lang];
+
+const path = '/pulso';
+const canonical = localeUrl(lang, path);
+const home = localePath(lang, '/');
+
+const pillarIcons = ['📅', '🔁', '💬'];
+const pillars = t.solution.pillars.map((p, i) => ({ icon: pillarIcons[i], ...p }));
+const stack = t.tech.stack;
+const decisions = t.tech.decisions;
+const built = t.status.built;
+const next = t.status.next;
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Pulso',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: t.meta.schemaDescription,
+  inLanguage: lang,
+  url: canonical,
+  author: { '@type': 'Person', name: 'Juan Manuel Armero Viveros', url: 'https://juanmaav92.github.io/' },
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/pulso/logo.png" />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#E8634A" />
+    <I18nHead lang={lang} path={path} />
+    <meta property="og:title" content={t.meta.ogTitle} />
+    <meta property="og:description" content={t.meta.ogDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://juanmaav92.github.io/pulso/inbox.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.meta.ogTitle} />
+    <meta name="twitter:description" content={t.meta.ogDescription} />
+    <meta name="twitter:image" content="https://juanmaav92.github.io/pulso/inbox.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  </head>
+
+  <body class="world-pulso">
+    <header class="nav">
+      <a class="brand" href="#top">
+        <img src="/pulso/logo.png" alt="Pulso" width="26" height="26" />
+        <span>Pulso</span>
+      </a>
+      <nav class="nav-links">
+        <span class="status">{t.nav.status}</span>
+        <LangSwitch lang={lang} path={path} class="ls" />
+        <a href={home} class="ghost">{t.nav.portfolio}</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ── HERO ──────────────────────────────────── -->
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow rise" style="--d: 0ms">{t.hero.eyebrow}</p>
+          <h1 class="rise" style="--d: 90ms">{t.hero.titleLead}<span class="hl">{t.hero.titleHl}</span>{t.hero.titleTail}</h1>
+          <p class="lede rise" style="--d: 180ms">{t.hero.lede}</p>
+          <ul class="meta rise" style="--d: 270ms">
+            {t.hero.meta.map((m) => <li><span>{m.label}</span>{m.value}</li>)}
+          </ul>
+        </div>
+        <div class="hero-shot rise" style="--d: 280ms">
+          <img src="/pulso/inbox.png" alt={t.hero.shotAlt} width="2560" height="1720" loading="eager" />
+        </div>
+      </section>
+
+      <!-- ── PROBLEMA ──────────────────────────────── -->
+      <section class="band problem">
+        <p class="kicker">{t.problem.kicker}</p>
+        <h2 set:html={t.problem.titleHtml} />
+        <p class="band-sub">{t.problem.sub}</p>
+      </section>
+
+      <!-- ── SOLUCIÓN ──────────────────────────────── -->
+      <section class="block">
+        <p class="kicker center">{t.solution.kicker}</p>
+        <h2 class="center">{t.solution.title}</h2>
+        <div class="pillars">
+          {pillars.map((p) => (
+            <article class="pillar">
+              <span class="p-ic" aria-hidden="true">{p.icon}</span>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── PRODUCTO ──────────────────────────────── -->
+      <section class="block">
+        <p class="kicker center">{t.product.kicker}</p>
+        <h2 class="center">{t.product.title}</h2>
+        <p class="block-sub center">{t.product.sub}</p>
+        <figure class="shot">
+          <img src="/pulso/dashboard.png" alt={t.product.dashboard.alt} width="2560" height="1720" loading="lazy" />
+          <figcaption>{t.product.dashboard.caption}</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/pulso/inbox.png" alt={t.product.inbox.alt} width="2560" height="1720" loading="lazy" />
+          <figcaption>{t.product.inbox.caption}</figcaption>
+        </figure>
+      </section>
+
+      <!-- ── ARQUITECTURA ──────────────────────────── -->
+      <section class="block tech">
+        <p class="kicker center">{t.tech.kicker}</p>
+        <h2 class="center">{t.tech.title}</h2>
+        <p class="block-sub center">{t.tech.sub}</p>
+
+        <div class="stack-grid">
+          {stack.map((s) => (
+            <div class="stack-row"><span class="sk">{s.k}</span><span class="sv">{s.v}</span></div>
+          ))}
+        </div>
+
+        <h3 class="dec-title">{t.tech.decisionsTitle}</h3>
+        <div class="decisions">
+          {decisions.map((d) => (
+            <article class="decision">
+              <h4>{d.title}</h4>
+              <p>{d.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── ESTADO ────────────────────────────────── -->
+      <section class="block status-sec">
+        <p class="kicker center">{t.status.kicker}</p>
+        <h2 class="center">{t.status.title}</h2>
+        <div class="status-cols">
+          <div class="status-col done">
+            <h3>{t.status.builtTitle}</h3>
+            <ul>{built.map((b) => <li>{b}</li>)}</ul>
+          </div>
+          <div class="status-col todo">
+            <h3>{t.status.nextTitle}</h3>
+            <ul>{next.map((n) => <li>{n}</li>)}</ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CTA ───────────────────────────────────── -->
+      <section class="cta-band">
+        <h2>{t.cta.title}</h2>
+        <p>{t.cta.body}</p>
+        <a class="btn" href={localePath(lang, '/#contacto')}>{t.cta.button}</a>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>{t.footer.status}</span>
+      <span>{t.footer.by} <a href={home}>Juan Manuel Armero Viveros</a></span>
+    </footer>
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.reveal, .band, .block, .cta-band');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.04 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --coral: #E8634A;
+        --coral-ink: #B6402D;
+        --coral-dark: #B23B27;
+        --coral-light: #FFF5F0;
+        --ink: #1A202C;
+        --ink-2: #2D3748;
+        --gray: #718096;
+        --line: #E2E8F0;
+        --bg: #FFFFFF;
+        --bg-2: #F7FAFC;
+        --sans: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg); color: var(--ink-2); font-family: var(--sans);
+        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      a { color: inherit; }
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+
+    <style>
+      main { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+      .block, .band { padding: 5rem 0; }
+      .center { text-align: center; }
+      h2 {
+        font-family: var(--sans); font-weight: 700; color: var(--ink);
+        font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.18; letter-spacing: -0.02em;
+      }
+      .hl { color: var(--coral); }
+      .kicker {
+        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em;
+        text-transform: uppercase; color: var(--coral-ink); font-weight: 500; margin-bottom: 0.9rem;
+      }
+      .block-sub, .band-sub { color: var(--gray); font-size: 1.05rem; max-width: 52ch; margin: 0.9rem auto 0; }
+
+      /* NAV */
+      .nav {
+        position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; gap: 1rem; max-width: 1080px; margin: 0 auto;
+        padding: 0.7rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
+        background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none;
+        flex: 0 0 auto; white-space: nowrap; font-weight: 800; color: var(--coral-ink);
+        font-size: 1.2rem; letter-spacing: -0.01em; }
+      .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 0.65rem;
+        min-width: 0; flex: 0 1 auto; flex-wrap: nowrap; white-space: nowrap; }
+      .status { font-size: 0.78rem; font-weight: 600; color: var(--coral-ink);
+        background: var(--coral-light); padding: 0.3rem 0.6rem; border-radius: 999px; white-space: nowrap; }
+      .status::first-letter { font-size: 0.7rem; }
+      .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--gray);
+        text-decoration: none; font-size: 0.9rem; white-space: nowrap; transition: color 0.2s; }
+      .ghost:hover { color: var(--ink); }
+      .nav-links :global(.ls) { color: var(--gray); --ls-active: var(--ink); --ls-hover: var(--ink); }
+
+      /* HERO */
+      .hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3rem; align-items: center; padding: 4rem 0; }
+      .eyebrow { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--coral-ink); margin-bottom: 1rem; }
+      .hero h1 { font-family: var(--sans); font-weight: 800; color: var(--ink);
+        font-size: clamp(2.1rem, 5vw, 3.3rem); line-height: 1.08; letter-spacing: -0.03em; }
+      .lede { margin: 1.3rem 0 1.8rem; font-size: 1.1rem; color: var(--ink-2); max-width: 46ch; }
+      .meta { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+      .meta li { font-size: 0.92rem; color: var(--ink-2); }
+      .meta li span { display: inline-block; min-width: 70px; color: var(--gray);
+        font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-right: 0.6rem; }
+      .hero-shot img {
+        border-radius: 14px; border: 1px solid var(--line);
+        box-shadow: 0 30px 70px rgba(26, 32, 44, 0.16), 0 0 0 1px rgba(232, 99, 74, 0.05);
+      }
+
+      /* PROBLEMA */
+      .problem { text-align: center; background: var(--bg-2); border-radius: 24px;
+        padding: 4rem 2rem; margin-top: 1rem; }
+      .problem h2 { max-width: 20ch; margin: 0 auto; }
+
+      /* PILARES */
+      .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; margin-top: 2.6rem; }
+      .pillar { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem;
+        transition: transform 0.25s ease, box-shadow 0.25s ease; }
+      .pillar:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26, 32, 44, 0.1); }
+      .p-ic { font-size: 1.9rem; display: block; margin-bottom: 0.9rem; }
+      .pillar h3 { font-weight: 700; color: var(--ink); font-size: 1.2rem; margin-bottom: 0.5rem; }
+      .pillar p { color: var(--gray); font-size: 0.95rem; }
+
+      /* SHOTS */
+      .shot { margin: 2.6rem 0 0; }
+      .shot img { border-radius: 14px; border: 1px solid var(--line);
+        box-shadow: 0 24px 60px rgba(26, 32, 44, 0.14); }
+      .shot figcaption { text-align: center; color: var(--gray); font-size: 0.9rem; margin-top: 1rem; }
+
+      /* TECH */
+      .tech { background: var(--bg-2); border-radius: 24px; padding: 4rem 2rem; }
+      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;
+        max-width: 760px; margin: 2.6rem auto 0; }
+      .stack-row { display: flex; flex-direction: column; gap: 0.15rem; background: var(--bg);
+        border: 1px solid var(--line); border-radius: 10px; padding: 0.85rem 1.1rem; }
+      .sk { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--coral-ink); font-weight: 600; }
+      .sv { font-family: var(--mono); font-size: 0.86rem; color: var(--ink-2); }
+      .dec-title { text-align: center; font-weight: 700; color: var(--ink); font-size: 1.3rem; margin: 3rem 0 0; }
+      .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; margin-top: 1.6rem; }
+      .decision { background: var(--bg); border: 1px solid var(--line); border-left: 1px solid var(--coral);
+        border-radius: 10px; padding: 1.3rem 1.4rem; }
+      .decision h4 { font-weight: 700; color: var(--ink); font-size: 1rem; margin-bottom: 0.45rem; }
+      .decision p { color: var(--gray); font-size: 0.9rem; }
+
+      /* ESTADO */
+      .status-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem; margin-top: 2.6rem; }
+      .status-col { border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem; }
+      .status-col.done { background: #F0FFF4; border-color: #C6F6D5; }
+      .status-col.todo { background: var(--coral-light); border-color: #FED7CC; }
+      .status-col h3 { font-weight: 700; color: var(--ink); font-size: 1.1rem; margin-bottom: 1rem; }
+      .status-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+      .status-col li { color: var(--ink-2); font-size: 0.95rem; padding-left: 0.2rem; }
+
+      /* CTA */
+      .cta-band { text-align: center; padding: 5rem 1.5rem; margin: 1rem 0 3rem;
+        background: var(--ink); border-radius: 24px; }
+      .cta-band h2 { color: #fff; }
+      .cta-band p { color: #cbd5e0; margin: 0.9rem auto 1.8rem; max-width: 46ch; }
+      .btn { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
+        font-weight: 700; font-size: 1rem; color: #fff; background: var(--coral);
+        padding: 0.85rem 1.6rem; border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(232, 99, 74, 0.4); transition: transform 0.2s ease, background 0.2s ease; }
+      .btn:hover { transform: translateY(-2px); background: var(--coral-dark); }
+
+      /* FOOTER */
+      .foot { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 3rem;
+        display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+        border-top: 1px solid var(--line); color: var(--gray); font-size: 0.85rem; }
+      .foot a { color: var(--coral-ink); text-decoration: none; font-weight: 600; }
+
+      /* REVEAL */
+      .rise { opacity: 0; transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+      .band, .block, .cta-band { opacity: 0; transform: translateY(20px);
+        transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+      .band.in, .block.in, .cta-band.in { opacity: 1; transform: translateY(0); }
+
+      /* RESPONSIVE */
+      @media (max-width: 880px) {
+        .hero { grid-template-columns: 1fr; gap: 2.2rem; }
+        .pillars, .stack-grid, .decisions, .status-cols { grid-template-columns: 1fr; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rise { animation: none; opacity: 1; transform: none; }
+        .band, .block, .cta-band { transition: none; opacity: 1; transform: none; }
+      }
+          @media (max-width: 440px) { .nav-links .status { display: none; } }
+</style>
+  </body>
+</html>

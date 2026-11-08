@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import SteerDocsLayout from '../../../../layouts/SteerDocsLayout.astro';
+
+export async function getStaticPaths() {
+  const docs = (await getCollection('steer-docs-es')).sort((a, b) => a.data.order - b.data.order);
+  return docs.map((doc) => ({
+    // getting-started es la portada: se sirve en /es/steer/docs
+    params: { slug: doc.slug === 'getting-started' ? undefined : doc.slug },
+    props: { doc, docs },
+  }));
+}
+
+const { doc, docs } = Astro.props;
+const { Content, headings } = await doc.render();
+---
+
+<SteerDocsLayout lang="es" doc={doc} docs={docs} headings={headings}>
+  <Content />
+</SteerDocsLayout>

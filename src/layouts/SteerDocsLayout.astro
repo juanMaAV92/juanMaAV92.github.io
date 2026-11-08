@@ -6,18 +6,27 @@ import '@fontsource-variable/fraunces';
 import type { CollectionEntry } from 'astro:content';
 import '../styles/interaction.css';
 import type { MarkdownHeading } from 'astro';
+import I18nHead from '../components/I18nHead.astro';
+import LangSwitch from '../components/LangSwitch.astro';
+import { localePath, type Lang } from '../i18n/site';
+import { docPath, steerDict } from '../i18n/steer';
+
+type SteerDoc = CollectionEntry<'steer-docs'> | CollectionEntry<'steer-docs-es'>;
 
 interface Props {
-  doc: CollectionEntry<'steer-docs'>;
-  docs: CollectionEntry<'steer-docs'>[];
+  lang: Lang;
+  doc: SteerDoc;
+  docs: SteerDoc[];
   headings: MarkdownHeading[];
 }
 
-const { doc, docs, headings } = Astro.props;
+const { lang, doc, docs, headings } = Astro.props;
+const t = steerDict(lang).docs;
 const repo = 'https://github.com/juanMaAV92/steer';
 
-const docHref = (slug: string) => (slug === 'getting-started' ? '/steer/docs' : `/steer/docs/${slug}`);
-const canonical = `https://juanmaav92.github.io${docHref(doc.slug)}`;
+// Las docs tienen los mismos slugs en todos los idiomas: la ruta en inglés identifica la página.
+const docHref = (slug: string) => localePath(lang, docPath(slug));
+const path = docPath(doc.slug);
 const idx = docs.findIndex((d) => d.slug === doc.slug);
 const prev = idx > 0 ? docs[idx - 1] : null;
 const next = idx >= 0 && idx < docs.length - 1 ? docs[idx + 1] : null;
@@ -25,20 +34,19 @@ const toc = headings.filter((h) => h.depth === 2);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%B5%3C/text%3E%3C/svg%3E" />
-    <title>{doc.data.title} · steer docs</title>
+    <title>{`${doc.data.title} · ${t.titleSuffix}`}</title>
     <meta name="description" content={doc.data.description} />
     <meta name="author" content="Juan Manuel Armero Viveros" />
     <meta name="theme-color" content="#0b0f14" />
-    <link rel="canonical" href={canonical} />
-    <meta property="og:title" content={`${doc.data.title} · steer docs`} />
+    <I18nHead lang={lang} path={path} />
+    <meta property="og:title" content={`${doc.data.title} · ${t.titleSuffix}`} />
     <meta property="og:description" content={doc.data.description} />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content={canonical} />
   </head>
 
   <body>
@@ -48,16 +56,17 @@ const toc = headings.filter((h) => h.depth === 2);
     </div>
 
     <header class="nav">
-      <a class="brand" href="/steer"><span aria-hidden="true">⛵</span> steer <span class="brand-docs">docs</span></a>
+      <a class="brand" href={localePath(lang, '/steer')}><span aria-hidden="true">⛵</span> steer <span class="brand-docs">docs</span></a>
       <nav class="nav-links">
-        <a href={repo} class="ghost" target="_blank" rel="noopener">GitHub ↗</a>
-        <a href="/steer" class="ghost">← Project page</a>
+        <a href={repo} class="ghost" target="_blank" rel="noopener">{t.github}</a>
+        <a href={localePath(lang, '/steer')} class="ghost">{t.projectPage}</a>
+        <LangSwitch lang={lang} path={path} />
       </nav>
     </header>
 
     <div class="wrap">
-      <aside class="side" aria-label="Documentation pages">
-        <p class="side-title">documentation</p>
+      <aside class="side" aria-label={t.sideAria}>
+        <p class="side-title">{t.sideTitle}</p>
         <ul class="side-list">
           {docs.map((d) => (
             <li>
@@ -65,12 +74,12 @@ const toc = headings.filter((h) => h.depth === 2);
             </li>
           ))}
         </ul>
-        <a class="side-back" href="/steer">← project page</a>
+        <a class="side-back" href={localePath(lang, '/steer')}>{t.sideBack}</a>
       </aside>
 
       <main class="doc-main">
         <details class="side-mobile">
-          <summary>documentation <span aria-hidden="true">+</span></summary>
+          <summary>{t.sideTitle} <span aria-hidden="true">+</span></summary>
           <ul class="side-list">
             {docs.map((d) => (
               <li><a class:list={['side-link', { on: d.slug === doc.slug }]} href={docHref(d.slug)}>{d.data.title}</a></li>
@@ -79,22 +88,22 @@ const toc = headings.filter((h) => h.depth === 2);
         </details>
 
         <article class="doc">
-          <p class="kicker">steer docs</p>
+          <p class="kicker">{t.kicker}</p>
           <h1>{doc.data.title}</h1>
           <p class="lede">{doc.data.description}</p>
           <slot />
         </article>
 
-        <nav class="pager" aria-label="Previous and next page">
+        <nav class="pager" aria-label={t.pagerAria}>
           {prev ? <a class="pager-link" href={docHref(prev.slug)}>← {prev.data.title}</a> : <span />}
           {next ? <a class="pager-link pager-next" href={docHref(next.slug)}>{next.data.title} →</a> : <span />}
         </nav>
       </main>
 
-      <aside class="toc" aria-label="On this page">
+      <aside class="toc" aria-label={t.tocAria}>
         {toc.length > 0 && (
           <>
-            <p class="toc-title"># on this page</p>
+            <p class="toc-title">{t.tocTitle}</p>
             <ul class="toc-list">
               {toc.map((h) => (
                 <li><a class="toc-link" href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>
@@ -106,8 +115,8 @@ const toc = headings.filter((h) => h.depth === 2);
     </div>
 
     <footer class="foot">
-      <span>Steer · open source (MIT)</span>
-      <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
+      <span>{t.foot}</span>
+      <span>{t.by} <a href={localePath(lang, '/')}>Juan Manuel Armero Viveros</a></span>
     </footer>
 
     <script>
@@ -246,6 +255,7 @@ const toc = headings.filter((h) => h.depth === 2);
       .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
         text-decoration: none; font-size: 0.86rem; white-space: nowrap; transition: color 0.2s; }
       .ghost:hover { color: var(--ink); }
+      .nav-links :global(.lang-switch) { color: var(--muted); --ls-active: var(--accent); --ls-hover: var(--ink); }
 
       .wrap { display: grid; grid-template-columns: 208px minmax(0, 1fr) 188px; gap: 2.6rem;
         max-width: 1240px; margin: 0 auto; padding: 2.2rem 1.5rem 3rem; align-items: start; }
@@ -304,6 +314,8 @@ const toc = headings.filter((h) => h.depth === 2);
         .ghost { padding-inline: 0.15rem; font-size: 0.76rem; }
       }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-    </style>
+          /* Celular: GitHub sigue en el footer; el nav deja sitio al selector de idioma. */
+      @media (max-width: 520px) { .nav-links a[href^="https://github.com"] { display: none; } }
+</style>
   </body>
 </html>

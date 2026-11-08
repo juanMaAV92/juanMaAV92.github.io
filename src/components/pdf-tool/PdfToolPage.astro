@@ -1,4 +1,5 @@
 ---
+import { localePath, type Lang } from '../../i18n/site';
 import '@fontsource-variable/fraunces';
 import '@fontsource-variable/hanken-grotesk';
 import '../../styles/interaction.css';
@@ -73,7 +74,7 @@ const appSchema = {
         <span>PDF Tool</span>
       </a>
       <nav class="nav-links">
-        <a href="/" class="ghost">{d.nav.portfolio}</a>
+        <a href={localePath(d.lang as Lang, '/')} class="ghost">{d.nav.portfolio}</a>
         <span class="langs" role="group" aria-label={d.nav.language}>
           {dictionaries.map((alt) =>
             alt.lang === d.lang ? (
@@ -241,7 +242,7 @@ const appSchema = {
       <p class="cb-eyebrow">{d.contact.eyebrow}</p>
       <h2>{d.contact.title}</h2>
       <p class="cb-sub">{d.contact.sub}</p>
-      <a class="btn btn-lg" href="/#contacto">{d.contact.cta}</a>
+      <a class="btn btn-lg" href={localePath(d.lang as Lang, '/#contacto')}>{d.contact.cta}</a>
     </section>
 
     <footer class="foot">
