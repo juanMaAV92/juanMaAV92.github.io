@@ -29,3 +29,12 @@ Formato:
 - Ancho máximo de 1600 px.
 - `width` y `height` declarados en el `<img>`.
 - `loading="lazy"` en todas menos la primera.
+
+### Videos de demo
+
+- **Origen:** se graban sobre la app real. No se recrea la interfaz.
+- **Dónde vive el proyecto de render (Remotion):** fuera de este repo y fuera del repo del producto, en una carpeta temporal en `~/Documents`. Aquí solo entran el video final y su póster.
+- **Idioma:** un solo video para todos los idiomas. Sin leyendas ni texto en el video, salvo el nombre del producto. El contexto lo da el texto de cada página.
+- **Formato:** MP4 H.264, de unos 25 s y de 3 MB o menos. Póster en WebP.
+- **Reproducción:** `muted loop playsinline`, con botón visible de pausa y reproducción. Con `prefers-reduced-motion` no arranca solo.
+- **Referencia:** `src/pages/mermaid-styler.astro`.
