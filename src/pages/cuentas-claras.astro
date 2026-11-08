@@ -1,86 +1,84 @@
 ---
 import '@fontsource-variable/fraunces';
-import '@fontsource-variable/hanken-grotesk';
+import '@fontsource-variable/schibsted-grotesk';
 import '@fontsource/jetbrains-mono/500.css';
 import '../styles/interaction.css';
 
 const canonical = 'https://juanmaav92.github.io/cuentas-claras';
 
-const pillars = [
+// Recorrido: cada principio del producto es el pie de su captura.
+const slides = [
   {
-    tag: '01',
+    tab: 'El mes',
+    src: '/cuentas-claras/mes-actual.webp',
+    width: 1600,
+    height: 1316,
+    alt: 'Vista del mes con gastos por grupo, pagados, pendientes en ámbar y un sobregasto en rojo',
     title: 'Planear antes de registrar',
-    desc: 'La primera pregunta del mes no es «¿en qué gasté?», sino «¿cómo repartimos lo que entra?». Ingresos, gastos esenciales y montos se deciden primero; el registro de pagos viene después.',
+    caption: 'Primero se reparte lo que entra; después se marcan los pagos. Lo pendiente va en ámbar y el rojo solo aparece con un sobregasto real. Cada gasto tiene responsable, incluso una abuela que no usa la app.',
   },
   {
-    tag: '02',
-    title: 'El margen siempre visible',
-    desc: 'Cuánto queda por asignar y cuánto queda por pagar, a la vista. Lo pendiente se marca en ámbar; el rojo se reserva para el sobregasto real.',
+    tab: 'Inversiones',
+    src: '/cuentas-claras/inversiones.webp',
+    width: 1600,
+    height: 1772,
+    alt: 'Inversiones: composición por tipo de activo y posiciones valoradas en COP',
+    title: 'El patrimonio como segunda capa',
+    caption: 'CDT, ETF, cripto y divisas valorados en COP con la TRM, cada uno con su proveedor de precio declarado.',
   },
   {
-    tag: '03',
-    title: 'Compartido sin perder contexto',
-    desc: 'Presupuestos de pareja con roles de owner y member, y participantes sin cuenta (un familiar que no usa la app) a quienes igual se les asignan pagos e ingresos.',
+    tab: 'Evolución',
+    src: '/cuentas-claras/evolucion.webp',
+    width: 1600,
+    height: 1000,
+    alt: 'Evolución del patrimonio mes a mes, por tipo de activo',
+    title: 'Mes a mes, sin copiar precios',
+    caption: 'Snapshots mensuales del patrimonio por tipo de activo, con aportes y retiros separados del rendimiento.',
   },
   {
-    tag: '04',
-    title: 'Patrimonio como segunda capa',
-    desc: 'Inversiones en CDT, ETF, cripto y divisas valoradas en COP con la TRM, snapshots históricos y evolución del patrimonio. También incluye un simulador de créditos con los supuestos a la vista.',
+    tab: 'Créditos',
+    src: '/cuentas-claras/credito-detalle.webp',
+    width: 1600,
+    height: 1000,
+    alt: 'Simulador de crédito hipotecario con cuota, intereses y seguros',
+    title: 'Simular antes de endeudarse',
+    caption: 'Cuota, intereses y seguros con los supuestos a la vista, y abonos a capital para comparar escenarios.',
+  },
+  {
+    tab: 'Primer mes',
+    src: '/cuentas-claras/onboarding.webp',
+    width: 1600,
+    height: 1000,
+    alt: 'Guía de cuatro pasos para preparar el primer mes de un presupuesto nuevo',
+    title: 'Una guía que no estorba',
+    caption: 'Onboarding contextual de cuatro pasos para el primer presupuesto, sin bloquear el resto de la app.',
   },
 ];
 
-const stack = [
-  { k: 'Monorepo', v: 'TypeScript · pnpm workspaces' },
-  { k: 'Frontend', v: 'Vite · React 19 · TanStack Router/Query' },
-  { k: 'API', v: 'Hono · capas routes → services → repositories' },
-  { k: 'Datos', v: 'SQLite · Drizzle ORM · migraciones versionadas' },
-  { k: 'Auth', v: 'Better Auth · contraseña + passkeys' },
-  { k: 'Design system', v: '@cc/ui · Tailwind 4 sobre tokens' },
-  { k: 'Calidad', v: 'Vitest · Playwright e2e · Biome · presupuesto de bundle' },
-  { k: 'Infraestructura', v: 'Docker · Dokploy en VPS propio · Traefik' },
+const phones = [
+  { src: '/cuentas-claras/m-home.webp', alt: 'Inicio en el celular', caption: 'PWA instalable: el uso diario es desde el celular.' },
+  { src: '/cuentas-claras/m-mes-actual.webp', alt: 'Vista del mes en el celular', caption: 'Marcar un pago es un toque.' },
 ];
+
+const stack = ['TypeScript', 'React 19', 'TanStack', 'Hono', 'SQLite + Drizzle', 'Better Auth · passkeys', 'Vitest · Playwright', 'Docker · Dokploy'];
 
 const decisions = [
   {
     title: 'Cero lógica de negocio en el front',
-    desc: 'Prorrateos, valoraciones, desvíos y clonación de periodos viven en los services de la API. El front pide y pinta, y consume la API con un contrato tipado de punta a punta (Hono RPC): nunca un fetch a mano.',
+    desc: 'Prorrateos, valoraciones y cierres de mes viven en la API. El front solo pinta, con un contrato tipado de punta a punta (Hono RPC).',
   },
   {
-    title: 'Sin fallback silencioso entre APIs de precios',
-    desc: 'Cada símbolo declara su proveedor (Yahoo, CoinGecko, TRM de datos.gov.co). Si un proveedor falla, se conserva el último precio y se marca como desactualizado. Prefiero mostrar un dato viejo marcado como viejo antes que mezclar fuentes sin avisar.',
-  },
-  {
-    title: 'Backups que se verifican, migraciones que se ensayan',
-    desc: 'Copias diarias de SQLite con VACUUM INTO, un manifest con sha256 e integrity_check, retención escalonada (7 diarios, 8 semanales, 12 mensuales) y copia cifrada fuera del VPS con restic. Cada migración se ensaya primero sobre una copia, y hay un runbook de restauración.',
+    title: 'Sin fallback silencioso entre precios',
+    desc: 'Cada activo tiene un proveedor fijo. Si falla, muestro el último precio marcado como viejo antes que mezclar fuentes sin avisar.',
   },
   {
     title: 'Solo se entra por invitación',
-    desc: 'El registro público está cerrado. Los tokens de invitación son de un solo uso, vencen en 7 días y se guardan hasheados. Cualquier token inválido devuelve el mismo 404, para no dar pistas a quien prueba tokens. Emitir invitaciones tiene un cupo por persona.',
-  },
-  {
-    title: 'Una réplica, a propósito',
-    desc: 'SQLite en volumen, jobs en proceso y migraciones al arrancar implican que nunca puede haber dos contenedores a la vez: despliegue stop-first, aceptando unos segundos sin servicio. El contenedor corre como usuario sin privilegios bajo tini, con el código de solo lectura.',
-  },
-  {
-    title: 'El design system lo vigila el linter',
-    desc: 'Ninguna página define su propio botón, tabla o input: Biome prohíbe esos elementos fuera de @cc/ui, y todo componente nuevo se cataloga en /ui-kit en el mismo PR. La PWA nunca cachea /api: mostrar plata vieja como si fuera de hoy es peor que no mostrar nada.',
+    desc: 'Registro cerrado: tokens de un solo uso, hasheados, que vencen en 7 días. Cualquier token inválido responde el mismo 404.',
   },
 ];
 
-const built = [
-  'Presupuesto mensual personal y compartido',
-  'Onboarding guiado del primer presupuesto',
-  'Inversiones, valoración y evolución del patrimonio',
-  'Simulador de créditos con abonos a capital',
-  'Invitaciones, roles y passkeys',
-  'Backups verificados, restic y runbook de restauración',
-  'CI: lint → typecheck → test → build → size → e2e',
-];
-const next = [
-  'Suscripciones y su costo anual real',
-  'Seguimiento de un crédito ya adquirido',
-  'Compromisos recurrentes y activos físicos (vivienda, carro)',
-];
+const built = ['Presupuesto personal y compartido', 'Inversiones y evolución del patrimonio', 'Simulador de créditos', 'Invitaciones, roles y passkeys'];
+const next = ['Suscripciones y su costo anual real', 'Seguimiento de un crédito ya adquirido', 'Activos físicos: vivienda y carro'];
 
 const appSchema = {
   '@context': 'https://schema.org',
@@ -102,7 +100,8 @@ const appSchema = {
     <title>Cuentas Claras · Presupuesto compartido e inversiones (caso de estudio)</title>
     <meta name="description" content="Caso de estudio de Cuentas Claras: app self-hosted de presupuesto personal y compartido e inversiones que reemplazó un Google Sheet. TypeScript, Hono, SQLite y PWA. Proyecto de Juan Manuel Armero Viveros." />
     <meta name="author" content="Juan Manuel Armero Viveros" />
-    <meta name="theme-color" content="#3a2015" />
+    <meta name="theme-color" content="#fbf6ee" />
+    <link rel="icon" href="/cuentas-claras/logo.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content="Cuentas Claras · Presupuesto compartido e inversiones" />
     <meta property="og:description" content="Planear el mes en pareja, ver el margen y seguir el patrimonio. App self-hosted en uso real." />
@@ -113,37 +112,45 @@ const appSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   </head>
 
-  <body class="world-cc">
-    <header class="nav">
-      <a class="brand" href="#top">Cuentas <em>Claras</em></a>
-      <nav class="nav-links">
-        <span class="status">● En uso</span>
-        <a href="/" class="ghost">← Portafolio</a>
-      </nav>
+  <body>
+    <header class="nav-wrap">
+      <div class="nav">
+        <a class="brand" href="#top">
+          <img src="/cuentas-claras/logo.svg" alt="" width="32" height="32" />
+          <span>Cuentas Claras</span>
+        </a>
+        <nav class="nav-links">
+          <span class="status">● En uso</span>
+          <a href="/" class="ghost">← Portafolio</a>
+        </nav>
+      </div>
     </header>
 
     <main id="top">
       <!-- HERO -->
       <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow rise" style="--d: 0ms">Caso de estudio · producto self-hosted</p>
-          <h1 class="rise" style="--d: 90ms">Planear el mes <em>en pareja</em>, sin un sheet de por medio.</h1>
-          <p class="lede rise" style="--d: 180ms">
-            Cuentas Claras reemplazó el Google Sheet con el que mi familia planeaba el presupuesto
-            cada mes. Sirve para repartir el dinero del mes, saber quién tiene qué asignado, actuar
-            antes de quedarse sin margen y, como segunda capa, seguir las inversiones y el patrimonio.
-          </p>
-          <ul class="meta rise" style="--d: 270ms">
-            <li><span>Rol</span>Producto, diseño, arquitectura, desarrollo y operación</li>
-            <li><span>Stack</span>TypeScript · React · Hono · SQLite</li>
-            <li><span>Estado</span>En uso real · repositorio privado</li>
-          </ul>
-        </div>
+        <img class="hero-logo rise" style="--d: 0ms" src="/cuentas-claras/logo.svg" alt="" width="72" height="72" />
+        <p class="eyebrow rise" style="--d: 60ms">Caso de estudio · producto self-hosted</p>
+        <h1 class="rise" style="--d: 120ms">Las cuentas claras <em>y el chocolate espeso.</em></h1>
+        <p class="tagline rise" style="--d: 180ms">Planear el mes en pareja, sin un sheet de por medio.</p>
+        <p class="lede rise" style="--d: 240ms">
+          Reemplazó el Google Sheet con el que planeábamos el presupuesto familiar. Reparte lo que
+          entra cada mes, muestra quién paga qué y cuánto margen queda y, como segunda capa, sigue
+          inversiones y patrimonio.
+        </p>
+        <ul class="meta rise" style="--d: 300ms">
+          <li><span>Rol</span>Producto, diseño, desarrollo y operación</li>
+          <li><span>Stack</span>TypeScript · React · Hono · SQLite</li>
+          <li><span>Estado</span>En uso real · repo privado</li>
+        </ul>
+      </section>
 
-        <figure class="hero-shot rise" style="--d: 280ms">
+      <section class="showcase rise" style="--d: 360ms">
+        <button type="button" class="frame zoomable" data-group="hero" aria-label="Ampliar captura">
           <img src="/cuentas-claras/home.webp" alt="Inicio de Cuentas Claras: cuánto queda libre en el mes, por persona y por grupo" width="1600" height="1000" loading="eager" />
-          <figcaption>Capturas de una instancia local con datos ficticios</figcaption>
-        </figure>
+          <span class="zoom-hint" aria-hidden="true">Ampliar ⤢</span>
+        </button>
+        <p class="note">Capturas de una instancia local con datos ficticios.</p>
       </section>
 
       <!-- PROBLEMA -->
@@ -151,124 +158,112 @@ const appSchema = {
         <p class="kicker">El problema</p>
         <h2>Un sheet sirve para <em>anotar</em> lo que pasó. Lo difícil es <em>decidir</em> qué va a pasar.</h2>
         <p class="sub">
-          Cada mes había que copiar la hoja, ajustar fórmulas a mano y adivinar quién ya había pagado qué.
-          Las inversiones vivían en otra pestaña con precios copiados uno por uno. Funcionaba, pero
-          dependía de que nadie rompiera una fórmula.
+          Cada mes había que copiar la hoja, arreglar fórmulas a mano y adivinar quién ya había pagado
+          qué. Funcionaba mientras nadie rompiera una fórmula.
         </p>
       </section>
 
-      <!-- PRODUCTO -->
-      <section class="block">
-        <p class="kicker center">El producto</p>
-        <h2 class="center">Cuatro principios, en este orden</h2>
-        <div class="pillars">
-          {pillars.map((p) => (
-            <article class="pillar">
-              <span class="p-tag">{p.tag}</span>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-            </article>
+      <!-- RECORRIDO -->
+      <section class="block tour" aria-labelledby="tour-title">
+        <p class="kicker center">Recorrido</p>
+        <h2 class="center" id="tour-title">Del plan del mes al patrimonio</h2>
+        <p class="sub center">Ana y Luis, un presupuesto compartido, una abuela que participa sin cuenta y tres meses de historia.</p>
+
+        <div class="carousel" aria-roledescription="carrusel" aria-label="Pantallas de Cuentas Claras">
+          <div class="tabs" role="group" aria-label="Elegir pantalla">
+            {slides.map((s, i) => (
+              <button type="button" class="tab" data-i={i} aria-current={i === 0 ? 'true' : undefined}>{s.tab}</button>
+            ))}
+          </div>
+          <div class="viewport">
+            <button type="button" class="arrow prev" aria-label="Pantalla anterior" disabled>‹</button>
+            <div class="track" tabindex="0" aria-label="Capturas, usa las flechas para cambiar">
+              {slides.map((s, i) => (
+                <figure class="slide" role="group" aria-roledescription="diapositiva" aria-label={`${i + 1} de ${slides.length}: ${s.tab}`}>
+                  <button type="button" class="frame zoomable" data-group="tour" aria-label={`Ampliar captura: ${s.tab}`}>
+                    <img src={s.src} alt={s.alt} width={s.width} height={s.height} loading={i === 0 ? 'eager' : 'lazy'} />
+                    <span class="zoom-hint" aria-hidden="true">Ver completa ⤢</span>
+                  </button>
+                  <figcaption>
+                    <strong>{s.title}</strong>
+                    <span>{s.caption}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+            <button type="button" class="arrow next" aria-label="Pantalla siguiente">›</button>
+          </div>
+          <p class="sr-only" aria-live="polite"></p>
+        </div>
+
+        <div class="phones">
+          {phones.map((p) => (
+            <figure class="phone">
+              <button type="button" class="frame zoomable" data-group="mobile" aria-label={`Ampliar captura: ${p.alt}`}>
+                <img src={p.src} alt={p.alt} width="780" height="1688" loading="lazy" />
+              </button>
+              <figcaption>{p.caption}</figcaption>
+            </figure>
           ))}
         </div>
       </section>
 
-      <!-- PANTALLAS -->
-      <section class="block">
-        <p class="kicker center">Recorrido</p>
-        <h2 class="center">Del plan del mes al patrimonio</h2>
-        <p class="sub center">Una pareja ficticia (Ana y Luis) con un presupuesto compartido, una abuela que participa sin cuenta y tres meses de historia.</p>
-        <figure class="shot">
-          <img src="/cuentas-claras/mes-actual.webp" alt="Vista del mes con gastos por grupo, pagados, pendientes en ámbar y un sobregasto en rojo" width="1600" height="1316" loading="lazy" />
-          <figcaption>El mes: quién paga cada gasto, qué falta y dónde hay sobregasto. Lo pendiente va en ámbar y el rojo solo aparece cuando hay un gasto por encima de lo presupuestado.</figcaption>
-        </figure>
-        <div class="shot-pair">
-          <figure class="shot">
-            <img src="/cuentas-claras/inversiones.webp" alt="Inversiones: composición por tipo de activo y posiciones valoradas en COP" width="1600" height="1772" loading="lazy" />
-            <figcaption>Inversiones valoradas en el server con TRM y precios por proveedor explícito.</figcaption>
-          </figure>
-          <figure class="shot">
-            <img src="/cuentas-claras/evolucion.webp" alt="Evolución del patrimonio mes a mes, por tipo de activo" width="1600" height="1000" loading="lazy" />
-            <figcaption>Evolución del patrimonio a partir de snapshots mensuales.</figcaption>
-          </figure>
-        </div>
-        <div class="shot-pair">
-          <figure class="shot">
-            <img src="/cuentas-claras/credito-detalle.webp" alt="Simulador de crédito hipotecario con cuota, intereses y seguros" width="1600" height="1000" loading="lazy" />
-            <figcaption>Simulador de créditos con los supuestos a la vista y abonos a capital.</figcaption>
-          </figure>
-          <figure class="shot">
-            <img src="/cuentas-claras/onboarding.webp" alt="Guía de cuatro pasos para preparar el primer mes de un presupuesto nuevo" width="1600" height="1000" loading="lazy" />
-            <figcaption>Onboarding guiado del primer presupuesto, contextual y no bloqueante.</figcaption>
-          </figure>
-        </div>
-        <div class="phones">
-          <figure class="shot">
-            <img src="/cuentas-claras/m-home.webp" alt="Inicio en el celular" width="780" height="1688" loading="lazy" />
-            <figcaption>PWA instalable: el uso diario es desde el celular.</figcaption>
-          </figure>
-          <figure class="shot">
-            <img src="/cuentas-claras/m-mes-actual.webp" alt="Vista del mes en el celular" width="780" height="1688" loading="lazy" />
-            <figcaption>Marcar un pago es un toque.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <!-- ARQUITECTURA -->
-      <section class="block tech">
+      <!-- POR DENTRO -->
+      <section class="block inside">
         <p class="kicker center">Por dentro</p>
         <h2 class="center">Pequeña en usuarios, seria en ingeniería</h2>
-        <p class="sub center">
-          Hoy la usan dos personas, pero maneja dinero real. Por eso se construyó y se opera como
-          un sistema de producción: un SPA estático y una API con toda la lógica, en un solo contenedor.
-        </p>
-        <div class="stack-grid">
-          {stack.map((s) => (
-            <div class="stack-row"><span class="sk">{s.k}</span><span class="sv">{s.v}</span></div>
-          ))}
-        </div>
-
-        <h3 class="dec-title">Decisiones de ingeniería</h3>
+        <p class="sub center">La usan dos personas, pero maneja dinero real: un SPA y una API en un solo contenedor, operados como producción.</p>
+        <ul class="chips">{stack.map((s) => <li>{s}</li>)}</ul>
         <div class="decisions">
           {decisions.map((d) => (
             <article class="decision">
-              <h4>{d.title}</h4>
+              <h3>{d.title}</h3>
               <p>{d.desc}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <!-- ESTADO -->
-      <section class="block">
-        <p class="kicker center">Estado actual</p>
-        <h2 class="center">En producción, con roadmap propio</h2>
+      <!-- ESTADO + CTA -->
+      <section class="block closing">
         <div class="status-cols">
-          <div class="status-col done">
-            <h3>✓ Ya en uso</h3>
+          <div>
+            <h3>Ya en uso</h3>
             <ul>{built.map((b) => <li>{b}</li>)}</ul>
           </div>
-          <div class="status-col todo">
-            <h3>→ Siguiente</h3>
-            <ul>{next.map((n) => <li>{n}</li>)}</ul>
+          <div>
+            <h3>Siguiente</h3>
+            <ul class="todo">{next.map((n) => <li>{n}</li>)}</ul>
           </div>
         </div>
-      </section>
-
-      <!-- CTA -->
-      <section class="cta-band block">
-        <h2>Software que uso todos los meses, construido como si fuera para muchos.</h2>
-        <p>El repositorio es privado porque contiene la operación de un producto en uso. Si quieres ver el código o hablar de cómo lo construí, conversemos.</p>
-        <a class="btn" href="/#contacto">Hablemos →</a>
+        <div class="cta">
+          <h2>Software que uso todos los meses, construido como si fuera para muchos.</h2>
+          <p>El repositorio es privado porque contiene la operación de un producto en uso. Si quieres ver el código o hablar de cómo lo construí, conversemos.</p>
+          <a class="btn" href="/#contacto">Hablemos →</a>
+        </div>
       </section>
     </main>
 
     <footer class="foot">
-      <span>Cuentas Claras · self-hosted · en uso</span>
+      <span class="foot-brand"><img src="/cuentas-claras/logo.svg" alt="" width="20" height="20" />Cuentas Claras · self-hosted · en uso</span>
       <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
     </footer>
 
+    <!-- Captura ampliada: se abre al pulsar una captura; ‹ › recorren su grupo, Esc o clic fuera cierra. -->
+    <dialog class="lightbox" aria-label="Captura ampliada">
+      <div class="lb-inner">
+        <img alt="" />
+      </div>
+      <button type="button" class="lb-close" aria-label="Cerrar">✕</button>
+      <button type="button" class="lb-nav lb-prev" aria-label="Captura anterior">‹</button>
+      <button type="button" class="lb-nav lb-next" aria-label="Captura siguiente">›</button>
+      <p class="lb-count" aria-live="polite"></p>
+    </dialog>
+
     <script>
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Reveal al hacer scroll
       const reveals = document.querySelectorAll('.block');
       if (reduce || !('IntersectionObserver' in window)) {
         reveals.forEach((el) => el.classList.add('in'));
@@ -279,38 +274,122 @@ const appSchema = {
         );
         reveals.forEach((el) => io.observe(el));
       }
+
+      // Carrusel (scroll-snap nativo; el JS solo sincroniza tabs, flechas y teclado)
+      const track = document.querySelector<HTMLElement>('.track');
+      const slideEls = Array.from(document.querySelectorAll<HTMLElement>('.slide'));
+      const tabEls = Array.from(document.querySelectorAll<HTMLButtonElement>('.tab'));
+      const prev = document.querySelector<HTMLButtonElement>('.arrow.prev');
+      const next = document.querySelector<HTMLButtonElement>('.arrow.next');
+      const live = document.querySelector<HTMLElement>('.carousel .sr-only');
+      let current = 0;
+
+      const setActive = (i: number) => {
+        current = i;
+        tabEls.forEach((t, j) => (j === i ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current')));
+        if (prev) prev.disabled = i === 0;
+        if (next) next.disabled = i === slideEls.length - 1;
+        if (live) live.textContent = slideEls[i]?.getAttribute('aria-label') ?? '';
+      };
+      const go = (i: number) => {
+        if (!track) return;
+        const clamped = Math.max(0, Math.min(slideEls.length - 1, i));
+        track.scrollTo({ left: clamped * track.clientWidth, behavior: reduce ? 'auto' : 'smooth' });
+        setActive(clamped);
+      };
+      tabEls.forEach((t) => t.addEventListener('click', () => go(Number(t.dataset.i))));
+      prev?.addEventListener('click', () => go(current - 1));
+      next?.addEventListener('click', () => go(current + 1));
+      track?.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1); }
+      });
+      let scrollTimer = 0;
+      track?.addEventListener('scroll', () => {
+        window.clearTimeout(scrollTimer);
+        scrollTimer = window.setTimeout(() => {
+          const i = Math.round(track.scrollLeft / track.clientWidth);
+          if (i !== current) setActive(i);
+        }, 80);
+      });
+
+      // Lightbox con navegación dentro del grupo de la captura
+      const dialog = document.querySelector<HTMLDialogElement>('.lightbox');
+      const lbImg = dialog?.querySelector('img');
+      const lbCount = dialog?.querySelector<HTMLElement>('.lb-count');
+      const lbPrev = dialog?.querySelector<HTMLButtonElement>('.lb-prev');
+      const lbNext = dialog?.querySelector<HTMLButtonElement>('.lb-next');
+      let group: HTMLButtonElement[] = [];
+      let idx = 0;
+      let opener: HTMLButtonElement | null = null;
+
+      const show = (i: number) => {
+        if (!dialog || !lbImg) return;
+        idx = Math.max(0, Math.min(group.length - 1, i));
+        const img = group[idx]?.querySelector('img');
+        if (!img) return;
+        lbImg.src = img.currentSrc || img.src;
+        lbImg.alt = img.alt;
+        dialog.scrollTop = 0;
+        // Capturas de celular: caben completas en la pantalla, sin scroll ni zoom gigante.
+        dialog.classList.toggle('fit', group[idx]?.dataset.group === 'mobile');
+        const multi = group.length > 1;
+        if (lbPrev) { lbPrev.hidden = !multi; lbPrev.disabled = idx === 0; }
+        if (lbNext) { lbNext.hidden = !multi; lbNext.disabled = idx === group.length - 1; }
+        if (lbCount) lbCount.textContent = multi ? `${idx + 1} / ${group.length}` : '';
+      };
+      document.querySelectorAll<HTMLButtonElement>('.zoomable').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (!dialog) return;
+          group = Array.from(document.querySelectorAll<HTMLButtonElement>(`.zoomable[data-group="${btn.dataset.group}"]`));
+          opener = btn;
+          show(group.indexOf(btn));
+          dialog.showModal();
+        });
+      });
+      lbPrev?.addEventListener('click', () => show(idx - 1));
+      lbNext?.addEventListener('click', () => show(idx + 1));
+      dialog?.querySelector('.lb-close')?.addEventListener('click', () => dialog.close());
+      dialog?.addEventListener('click', (e) => {
+        const t = e.target as HTMLElement;
+        if (t === dialog || t.classList.contains('lb-inner')) dialog.close();
+      });
+      dialog?.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') show(idx + 1);
+        if (e.key === 'ArrowLeft') show(idx - 1);
+      });
+      dialog?.addEventListener('close', () => {
+        const target = group[idx] ?? opener;
+        if (target?.dataset.group === 'tour') go(group.indexOf(target));
+        target?.focus({ preventScroll: true });
+      });
     </script>
 
     <style is:global>
       :root {
-        --bg: #e9dac4;
-        --card: #fffdf8;
-        --border: #e8dfce;
+        --bg: #fbf6ee;
+        --surface: #f3eadc;
+        --card: #ffffff;
+        --border: #eadfcf;
+        --frame: #e2d4bf;
         --fg: #2b1d16;
         --muted: #574436;
         --faint: #6f5b4c;
-        --primary: #3a2015;
-        --primary-ink: #fff8ec;
+        --choco: #3a2015;
+        --choco-2: #5a3423;
+        --cocoa: #8a5a3c;
+        --cream: #fff8ec;
         --positive: #17643f;
         --positive-bg: #e3f0e8;
-        --warning: #a6710e;
-        --warning-strong: #7f5100;
-        --warning-bg: #f7ecd4;
-        --band-from: #5a3423;
-        --band-to: #3f2416;
-        --band-muted: #e6d8c6;
-        --band-track: #6f4a36;
-        --band-accent: #b9d47a;
-        --band-warning: #e8b04a;
         --serif: 'Fraunces Variable', Georgia, serif;
-        --sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+        --sans: 'Schibsted Grotesk Variable', system-ui, sans-serif;
         --mono: 'JetBrains Mono', monospace;
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       html { scroll-behavior: smooth; }
       body {
         background: var(--bg); color: var(--fg); font-family: var(--sans);
-        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+        line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: clip;
       }
       a { color: inherit; }
       img { max-width: 100%; height: auto; display: block; }
@@ -320,104 +399,174 @@ const appSchema = {
       main { max-width: 1080px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 1.5rem); }
       .block { padding: 4.5rem 0; }
       .center { text-align: center; }
-      h1, h2, h3, h4 { font-family: var(--serif); color: var(--primary); font-weight: 600; }
-      h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.18; letter-spacing: -0.01em; }
-      em { font-style: italic; color: var(--positive); }
+      h1, h2, h3 { font-family: var(--serif); color: var(--choco); font-weight: 500; }
+      h2 { font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.18; letter-spacing: -0.01em; }
+      em { font-style: italic; color: var(--cocoa); }
       .kicker, .eyebrow {
         font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em;
-        text-transform: uppercase; color: var(--muted); margin-bottom: 0.9rem;
+        text-transform: uppercase; color: var(--faint); margin-bottom: 0.9rem;
       }
-      .sub { color: var(--muted); font-size: 1.05rem; max-width: 60ch; margin: 1rem auto 0; }
+      .sub { color: var(--muted); font-size: 1.05rem; max-width: 58ch; margin: 1rem auto 0; }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
       /* NAV */
-      .nav {
-        position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
-        justify-content: space-between; gap: 1rem; max-width: 1080px; margin: 0 auto;
-        padding: 0.7rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
-        background: rgba(233, 218, 196, 0.88); backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(58, 32, 21, 0.12);
+      .nav-wrap {
+        position: sticky; top: 0; z-index: 20;
+        background: rgba(251, 246, 238, 0.9); backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
       }
-      .brand { font-family: var(--serif); font-weight: 600; font-size: 1.25rem;
-        color: var(--primary); text-decoration: none; white-space: nowrap; }
+      .nav {
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        max-width: 1080px; margin: 0 auto; padding: 0.6rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
+      }
+      .brand { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none;
+        font-family: var(--serif); font-weight: 500; font-size: 1.2rem; color: var(--choco); white-space: nowrap; }
+      .brand img { border-radius: 8px; box-shadow: 0 0 0 1px var(--border); }
       .nav-links { display: flex; align-items: center; gap: 0.65rem; white-space: nowrap; }
       .status { font-size: 0.78rem; font-weight: 600; color: var(--positive);
         background: var(--positive-bg); padding: 0.3rem 0.6rem; border-radius: 999px; }
       .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
         text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-      .ghost:hover { color: var(--primary); }
+      .ghost:hover { color: var(--choco); }
 
       /* HERO */
-      .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center; padding: 4rem 0 3rem; }
-      .hero h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.08; letter-spacing: -0.02em; }
-      .lede { margin: 1.3rem 0 1.8rem; font-size: 1.08rem; color: var(--muted); max-width: 50ch; }
-      .meta { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-      .meta li { font-size: 0.92rem; }
-      .meta li span { display: inline-block; min-width: 70px; color: var(--faint);
-        font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-right: 0.6rem; }
+      .hero { text-align: center; padding: 4rem 0 2.2rem; display: flex; flex-direction: column; align-items: center; }
+      .hero-logo { border-radius: 18px; box-shadow: 0 0 0 1px var(--border), 0 12px 30px rgba(58, 32, 21, 0.12); margin-bottom: 1.6rem; }
+      .hero h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 460; max-width: 16ch; }
+      .tagline { font-family: var(--serif); font-size: clamp(1.15rem, 2.4vw, 1.4rem); color: var(--choco-2); margin-top: 1rem; }
+      .lede { margin: 1.1rem auto 1.6rem; font-size: 1.05rem; color: var(--muted); max-width: 56ch; }
+      .meta { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.6rem; font-size: 0.9rem; }
+      .meta li span { color: var(--faint); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em;
+        font-weight: 600; margin-right: 0.45rem; }
 
-      /* SHOTS */
-      .hero-shot img, .shot img { border-radius: 14px; border: 1px solid rgba(58, 32, 21, 0.12);
-        box-shadow: 0 30px 70px rgba(58, 32, 21, 0.18); }
-      .hero-shot figcaption { text-align: center; font-size: 0.75rem; color: var(--faint); margin-top: 0.8rem; }
-      .shot { margin: 2.6rem 0 0; }
-      .shot figcaption { text-align: center; color: var(--muted); font-size: 0.9rem; margin: 1rem auto 0; max-width: 60ch; }
-      .shot-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.6rem; }
-      .shot-pair .shot { margin: 0; }
-      .phones { display: flex; justify-content: center; gap: 2rem; margin-top: 2.6rem; flex-wrap: wrap; }
-      .phones .shot { margin: 0; width: min(300px, 100%); }
-      .phones img { border-radius: 28px; }
+      /* MARCOS Y ZOOM (mismo patrón que pdf-tool) */
+      .showcase { padding: 1rem 0 2rem; }
+      .showcase .frame { max-width: 940px; margin: 0 auto; }
+      .note { text-align: center; font-size: 0.78rem; color: var(--faint); margin-top: 0.9rem; }
+      .frame {
+        position: relative; display: block; width: 100%; padding: 0; overflow: hidden;
+        background: var(--card); border: 1px solid var(--frame); border-radius: 14px;
+        box-shadow: 0 24px 50px rgba(58, 32, 21, 0.14);
+        font: inherit; color: inherit; cursor: zoom-in;
+      }
+      .frame img { width: 100%; }
+      .zoomable:focus-visible { outline: 3px solid var(--cocoa); outline-offset: 4px; }
+      .zoom-hint {
+        position: absolute; right: 12px; bottom: 12px; padding: 0.35rem 0.75rem;
+        border-radius: 999px; background: rgba(43, 29, 22, 0.82); color: var(--cream);
+        font-size: 0.8rem; font-weight: 600; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+      }
+      .zoomable:hover .zoom-hint, .zoomable:focus-visible .zoom-hint { opacity: 1; }
+      @media (hover: none) { .zoom-hint { opacity: 1; } }
 
       /* PROBLEMA */
-      .problem { text-align: center; background: var(--card); border: 1px solid var(--border);
-        border-radius: 24px; padding: 4rem clamp(1.2rem, 4vw, 2.5rem); }
+      .problem { text-align: center; }
       .problem h2 { max-width: 24ch; margin: 0 auto; }
 
-      /* PILARES */
-      .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2.6rem; }
-      .pillar { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.7rem; }
-      .p-tag { font-family: var(--mono); font-size: 0.75rem; color: var(--positive); }
-      .pillar h3 { font-size: 1.25rem; margin: 0.4rem 0 0.5rem; }
-      .pillar p { color: var(--muted); font-size: 0.95rem; }
+      /* CARRUSEL */
+      .tour { border-top: 1px solid var(--border); }
+      .carousel { margin-top: 2.4rem; }
+      .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin-bottom: 1.4rem; }
+      .tab {
+        border: 1px solid var(--border); background: var(--card); color: var(--muted);
+        border-radius: 999px; padding: 0.45rem 1rem; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+        transition: background 0.2s, color 0.2s, border-color 0.2s;
+      }
+      .tab:hover { border-color: var(--frame); color: var(--choco); }
+      .tab[aria-current='true'] { background: var(--choco); border-color: var(--choco); color: var(--cream); }
+      .viewport { position: relative; min-width: 0; }
+      .track {
+        display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+        scrollbar-width: none; padding: 0.5rem 0 1rem;
+      }
+      .track::-webkit-scrollbar { display: none; }
+      .track:focus-visible { outline: 3px solid var(--cocoa); outline-offset: 2px; border-radius: 14px; }
+      .slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: center; padding: 0 clamp(0rem, 4vw, 3.4rem); }
+      .slide .frame { box-shadow: 0 14px 30px rgba(58, 32, 21, 0.12); }
+      .slide img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+      .slide .frame::after {
+        content: ''; position: absolute; inset: auto 0 0; height: 56px; pointer-events: none;
+        background: linear-gradient(to top, rgba(251, 246, 238, 0.9), transparent);
+      }
+      .slide .zoom-hint { z-index: 1; }
+      .slide figcaption { max-width: 60ch; margin: 1.2rem auto 0; text-align: center; }
+      .slide figcaption strong { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.2rem; color: var(--choco); }
+      .slide figcaption span { display: block; color: var(--muted); font-size: 0.95rem; margin-top: 0.3rem; }
+      .arrow {
+        position: absolute; top: calc(0.5rem + (100% - 9rem) / 2); z-index: 2; transform: translateY(-50%);
+        width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--frame);
+        background: var(--card); color: var(--choco); font-size: 1.5rem; line-height: 1; cursor: pointer;
+        box-shadow: 0 6px 16px rgba(58, 32, 21, 0.12); transition: opacity 0.2s;
+      }
+      .arrow.prev { left: 0; }
+      .arrow.next { right: 0; }
+      .arrow:disabled { opacity: 0.3; cursor: default; }
 
-      /* TECH */
-      .tech { background: var(--primary); border-radius: 24px; padding: 4rem clamp(1.2rem, 4vw, 2.5rem); color: var(--primary-ink); }
-      .tech h2, .tech .dec-title { color: var(--primary-ink); }
-      .tech .kicker, .tech .sub { color: var(--band-muted); }
-      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; max-width: 780px; margin: 2.6rem auto 0; }
-      .stack-row { display: flex; flex-direction: column; gap: 0.15rem; background: rgba(255, 248, 236, 0.06);
-        border: 1px solid rgba(255, 248, 236, 0.14); border-radius: 10px; padding: 0.85rem 1.1rem; }
-      .sk { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--band-accent); font-weight: 600; }
-      .sv { font-family: var(--mono); font-size: 0.85rem; }
-      .dec-title { text-align: center; font-size: 1.35rem; margin: 3rem 0 0; }
-      .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.6rem; }
-      .decision { background: var(--card); color: var(--fg); border-radius: 12px; padding: 1.3rem 1.4rem; }
-      .decision h4 { font-size: 1.05rem; margin-bottom: 0.45rem; }
+      .phones { display: flex; justify-content: center; gap: 2rem; margin-top: 3rem; flex-wrap: wrap; }
+      .phone { width: min(260px, 100%); }
+      .phone .frame { border-radius: 28px; }
+      .phone figcaption { text-align: center; color: var(--muted); font-size: 0.9rem; margin-top: 0.9rem; }
+
+      /* POR DENTRO */
+      .inside { border-top: 1px solid var(--border); }
+      .chips { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 2rem auto 0; max-width: 760px; }
+      .chips li { font-family: var(--mono); font-size: 0.8rem; color: var(--choco); background: var(--surface);
+        border-radius: 999px; padding: 0.35rem 0.85rem; }
+      .decisions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.4rem; }
+      .decision { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+      .decision h3 { font-size: 1.1rem; margin-bottom: 0.45rem; }
       .decision p { color: var(--muted); font-size: 0.92rem; }
 
-      /* ESTADO */
-      .status-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2.6rem; }
-      .status-col { border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; }
-      .status-col.done { background: var(--positive-bg); }
-      .status-col.todo { background: var(--warning-bg); }
-      .status-col h3 { font-size: 1.15rem; margin-bottom: 1rem; }
-      .status-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-      .status-col li { font-size: 0.95rem; }
-
-      /* CTA */
-      .cta-band { text-align: center; padding: 4.5rem clamp(1.2rem, 4vw, 2rem); margin: 0 0 3rem;
-        background: linear-gradient(160deg, var(--band-from), var(--band-to)); border-radius: 24px; }
-      .cta-band h2 { color: var(--primary-ink); max-width: 26ch; margin: 0 auto; }
-      .cta-band p { color: var(--band-muted); margin: 0.9rem auto 1.8rem; max-width: 52ch; }
-      .btn { display: inline-flex; align-items: center; text-decoration: none; font-weight: 700;
-        color: var(--primary); background: var(--band-accent); padding: 0.85rem 1.6rem; border-radius: 10px;
-        transition: transform 0.2s ease; }
-      .btn:hover { transform: translateY(-2px); }
+      /* CIERRE */
+      .closing { border-top: 1px solid var(--border); }
+      .status-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 760px; margin: 0 auto; }
+      .status-cols h3 { font-size: 1.15rem; margin-bottom: 0.8rem; }
+      .status-cols ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+      .status-cols li { font-size: 0.95rem; color: var(--muted); padding-left: 1.4rem; position: relative; }
+      .status-cols li::before { content: '✓'; position: absolute; left: 0; color: var(--positive); font-weight: 700; }
+      .status-cols .todo li::before { content: '→'; color: var(--cocoa); }
+      .cta { text-align: center; margin-top: 4rem; }
+      .cta h2 { max-width: 26ch; margin: 0 auto; }
+      .cta p { color: var(--muted); margin: 0.9rem auto 1.8rem; max-width: 52ch; }
+      .btn { display: inline-flex; align-items: center; text-decoration: none; font-weight: 600;
+        color: var(--cream); background: var(--choco-2); padding: 0.85rem 1.6rem; border-radius: 10px;
+        transition: transform 0.2s ease, background 0.2s ease; }
+      .btn:hover { transform: translateY(-2px); background: var(--choco); }
 
       /* FOOTER */
       .foot { max-width: 1080px; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 1.5rem) 3rem;
-        display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
-        border-top: 1px solid rgba(58, 32, 21, 0.15); color: var(--muted); font-size: 0.85rem; }
-      .foot a { color: var(--primary); font-weight: 600; text-decoration: none; }
+        display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;
+        border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
+      .foot-brand { display: inline-flex; align-items: center; gap: 0.5rem; }
+      .foot-brand img { border-radius: 5px; }
+      .foot a { color: var(--choco); font-weight: 600; text-decoration: none; }
+
+      /* LIGHTBOX */
+      .lightbox {
+        border: 0; padding: 0; background: transparent; color: var(--cream);
+        width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0;
+        overflow-y: auto; overscroll-behavior: contain;
+      }
+      .lightbox::backdrop { background: rgba(28, 18, 12, 0.86); backdrop-filter: blur(4px); }
+      .lb-inner { min-height: 100%; display: flex; align-items: flex-start; justify-content: center; padding: 4rem 4.5rem 3.5rem; }
+      .lb-inner img {
+        width: min(100%, 1400px); height: auto; margin: auto 0;
+        border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      }
+      .lightbox.fit .lb-inner { align-items: center; }
+      .lightbox.fit .lb-inner img { width: auto; max-width: 100%; max-height: calc(100dvh - 7.5rem); border-radius: 24px; }
+      .lb-close, .lb-nav {
+        position: fixed; z-index: 1; border: 0; border-radius: 50%; background: var(--cream); color: var(--choco);
+        cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      }
+      .lb-close { top: 14px; right: 14px; width: 40px; height: 40px; font-size: 1rem; }
+      .lb-nav { top: 50%; transform: translateY(-50%); width: 48px; height: 48px; font-size: 1.6rem; line-height: 1; }
+      .lb-prev { left: 12px; }
+      .lb-next { right: 12px; }
+      .lb-nav:disabled { opacity: 0.3; cursor: default; }
+      .lb-count { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+        font-family: var(--mono); font-size: 0.8rem; background: rgba(0, 0, 0, 0.5); padding: 0.2rem 0.7rem; border-radius: 999px; }
+      .lb-count:empty { display: none; }
 
       /* MOTION */
       .rise { opacity: 0; transform: translateY(14px);
@@ -428,8 +577,17 @@ const appSchema = {
       .block.in { opacity: 1; transform: translateY(0); }
 
       @media (max-width: 880px) {
-        .hero { grid-template-columns: 1fr; gap: 2.2rem; }
-        .pillars, .stack-grid, .decisions, .status-cols, .shot-pair { grid-template-columns: 1fr; }
+        .decisions { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 720px) {
+        .slide { padding: 0; }
+        .arrow { display: none; }
+        .status-cols { grid-template-columns: 1fr; }
+        .lb-inner { padding: 3.8rem 0.75rem 4.5rem; }
+        .lightbox.fit .lb-inner img { max-height: calc(100dvh - 8.3rem); }
+        .lb-nav { top: auto; bottom: 10px; transform: none; width: 44px; height: 44px; }
+        .lb-prev { left: 16px; }
+        .lb-next { right: 16px; }
       }
       @media (max-width: 420px) {
         .nav-links .status { display: none; }
