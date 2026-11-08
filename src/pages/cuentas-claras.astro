@@ -108,7 +108,7 @@ const appSchema = {
     <meta property="og:description" content="Planear el mes en pareja, ver el margen y seguir el patrimonio. App self-hosted en uso real." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content="https://juanmaav92.github.io/og.png" />
+    <meta property="og:image" content="https://juanmaav92.github.io/cuentas-claras/og.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   </head>
@@ -140,23 +140,9 @@ const appSchema = {
           </ul>
         </div>
 
-        <figure class="mock rise" style="--d: 280ms" aria-label="Ilustración del resumen del mes con datos de ejemplo">
-          <div class="band">
-            <p class="band-label">Noviembre · Hogar</p>
-            <div class="band-row">
-              <div><span class="b-k">Por asignar</span><span class="b-v">$ 320.000</span></div>
-              <div><span class="b-k">Por pagar</span><span class="b-v warn">$ 1.150.000</span></div>
-            </div>
-            <div class="track" aria-hidden="true"><span style="width: 63%"></span></div>
-            <p class="band-foot">63% del mes ya pagado</p>
-          </div>
-          <ul class="rows">
-            <li><span>arriendo</span><span class="pill ok">pagado</span><span class="amt">$ 1.400.000</span></li>
-            <li><span>mercado</span><span class="pill pend">pendiente</span><span class="amt">$ 900.000</span></li>
-            <li><span>servicios</span><span class="pill pend">pendiente</span><span class="amt">$ 250.000</span></li>
-            <li><span>ahorro</span><span class="pill ok">pagado</span><span class="amt">$ 600.000</span></li>
-          </ul>
-          <figcaption>Ilustración con datos de ejemplo</figcaption>
+        <figure class="hero-shot rise" style="--d: 280ms">
+          <img src="/cuentas-claras/home.webp" alt="Inicio de Cuentas Claras: cuánto queda libre en el mes, por persona y por grupo" width="1600" height="1000" loading="eager" />
+          <figcaption>Capturas de una instancia local con datos ficticios</figcaption>
         </figure>
       </section>
 
@@ -183,6 +169,47 @@ const appSchema = {
               <p>{p.desc}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <!-- PANTALLAS -->
+      <section class="block">
+        <p class="kicker center">Recorrido</p>
+        <h2 class="center">Del plan del mes al patrimonio</h2>
+        <p class="sub center">Una pareja ficticia (Ana y Luis) con un presupuesto compartido, una abuela que participa sin cuenta y tres meses de historia.</p>
+        <figure class="shot">
+          <img src="/cuentas-claras/mes-actual.webp" alt="Vista del mes con gastos por grupo, pagados, pendientes en ámbar y un sobregasto en rojo" width="1600" height="1316" loading="lazy" />
+          <figcaption>El mes: quién paga cada gasto, qué falta y dónde hay sobregasto. Lo pendiente va en ámbar y el rojo solo aparece cuando hay un gasto por encima de lo presupuestado.</figcaption>
+        </figure>
+        <div class="shot-pair">
+          <figure class="shot">
+            <img src="/cuentas-claras/inversiones.webp" alt="Inversiones: composición por tipo de activo y posiciones valoradas en COP" width="1600" height="1772" loading="lazy" />
+            <figcaption>Inversiones valoradas en el server con TRM y precios por proveedor explícito.</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="/cuentas-claras/evolucion.webp" alt="Evolución del patrimonio mes a mes, por tipo de activo" width="1600" height="1000" loading="lazy" />
+            <figcaption>Evolución del patrimonio a partir de snapshots mensuales.</figcaption>
+          </figure>
+        </div>
+        <div class="shot-pair">
+          <figure class="shot">
+            <img src="/cuentas-claras/credito-detalle.webp" alt="Simulador de crédito hipotecario con cuota, intereses y seguros" width="1600" height="1000" loading="lazy" />
+            <figcaption>Simulador de créditos con los supuestos a la vista y abonos a capital.</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="/cuentas-claras/onboarding.webp" alt="Guía de cuatro pasos para preparar el primer mes de un presupuesto nuevo" width="1600" height="1000" loading="lazy" />
+            <figcaption>Onboarding guiado del primer presupuesto, contextual y no bloqueante.</figcaption>
+          </figure>
+        </div>
+        <div class="phones">
+          <figure class="shot">
+            <img src="/cuentas-claras/m-home.webp" alt="Inicio en el celular" width="780" height="1688" loading="lazy" />
+            <figcaption>PWA instalable: el uso diario es desde el celular.</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="/cuentas-claras/m-mes-actual.webp" alt="Vista del mes en el celular" width="780" height="1688" loading="lazy" />
+            <figcaption>Marcar un pago es un toque.</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -286,6 +313,7 @@ const appSchema = {
         line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
       }
       a { color: inherit; }
+      img { max-width: 100%; height: auto; display: block; }
     </style>
 
     <style>
@@ -327,30 +355,17 @@ const appSchema = {
       .meta li span { display: inline-block; min-width: 70px; color: var(--faint);
         font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-right: 0.6rem; }
 
-      /* MOCK */
-      .mock { background: var(--card); border: 1px solid var(--border); border-radius: 20px;
-        padding: 1rem; box-shadow: 0 30px 70px rgba(58, 32, 21, 0.18); }
-      .band { background: linear-gradient(160deg, var(--band-from), var(--band-to));
-        color: var(--primary-ink); border-radius: 16px; padding: 1.3rem 1.4rem; }
-      .band-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em;
-        text-transform: uppercase; color: var(--band-muted); }
-      .band-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0.8rem 0 1rem; }
-      .b-k { display: block; font-size: 0.78rem; color: var(--band-muted); }
-      .b-v { display: block; font-family: var(--serif); font-size: clamp(1.3rem, 3vw, 1.7rem);
-        font-variant-numeric: tabular-nums; color: var(--band-accent); }
-      .b-v.warn { color: var(--band-warning); }
-      .track { height: 8px; border-radius: 999px; background: var(--band-track); overflow: hidden; }
-      .track span { display: block; height: 100%; background: var(--band-accent); border-radius: 999px; }
-      .band-foot { font-size: 0.78rem; color: var(--band-muted); margin-top: 0.5rem; }
-      .rows { list-style: none; margin-top: 0.6rem; }
-      .rows li { display: grid; grid-template-columns: 1fr auto auto; gap: 0.8rem; align-items: center;
-        padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
-      .rows li:last-child { border-bottom: 0; }
-      .amt { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; min-width: 8ch; }
-      .pill { font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.55rem; border-radius: 999px; }
-      .pill.ok { color: var(--positive); background: var(--positive-bg); }
-      .pill.pend { color: var(--warning-strong); background: var(--warning-bg); }
-      .mock figcaption { text-align: center; font-size: 0.75rem; color: var(--faint); margin-top: 0.4rem; }
+      /* SHOTS */
+      .hero-shot img, .shot img { border-radius: 14px; border: 1px solid rgba(58, 32, 21, 0.12);
+        box-shadow: 0 30px 70px rgba(58, 32, 21, 0.18); }
+      .hero-shot figcaption { text-align: center; font-size: 0.75rem; color: var(--faint); margin-top: 0.8rem; }
+      .shot { margin: 2.6rem 0 0; }
+      .shot figcaption { text-align: center; color: var(--muted); font-size: 0.9rem; margin: 1rem auto 0; max-width: 60ch; }
+      .shot-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.6rem; }
+      .shot-pair .shot { margin: 0; }
+      .phones { display: flex; justify-content: center; gap: 2rem; margin-top: 2.6rem; flex-wrap: wrap; }
+      .phones .shot { margin: 0; width: min(300px, 100%); }
+      .phones img { border-radius: 28px; }
 
       /* PROBLEMA */
       .problem { text-align: center; background: var(--card); border: 1px solid var(--border);
@@ -414,12 +429,10 @@ const appSchema = {
 
       @media (max-width: 880px) {
         .hero { grid-template-columns: 1fr; gap: 2.2rem; }
-        .pillars, .stack-grid, .decisions, .status-cols { grid-template-columns: 1fr; }
+        .pillars, .stack-grid, .decisions, .status-cols, .shot-pair { grid-template-columns: 1fr; }
       }
       @media (max-width: 420px) {
         .nav-links .status { display: none; }
-        .rows li { grid-template-columns: 1fr auto; }
-        .rows .pill { display: none; }
       }
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
