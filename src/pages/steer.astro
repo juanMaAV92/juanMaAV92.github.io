@@ -24,6 +24,7 @@ const stack = [
   { k: 'Config', v: 'TOML: accounts, roles, envs, naming' },
   { k: 'Release', v: 'GoReleaser · Homebrew · direct download' },
   { k: 'Quality', v: 'TDD per component, deterministic renders' },
+  { k: 'Reference infra', v: 'keel-infra: Terraform modules (VPC, ECR, ECS, ALB, service)' },
 ];
 
 const decisions = [
@@ -41,7 +42,7 @@ const decisions = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%B5%3C/text%3E%3C/svg%3E" />
     <title>Steer · The simplicity of a PaaS, on your own AWS · case study</title>
-    <meta name="description" content="Case study of Steer: an open-source Go CLI + TUI that brings PaaS-like deploys to your own AWS account. Guardrails, interactive deploys, single binary. A work-in-progress project by Juan Manuel Armero Viveros." />
+    <meta name="description" content="Case study of Steer: an open-source Go CLI + TUI that brings PaaS-like deploys to your own AWS account. Guardrails, interactive deploys, single binary. Alpha v0.1 released, by Juan Manuel Armero Viveros." />
     <meta name="author" content="Juan Manuel Armero Viveros" />
     <meta name="theme-color" content="#0b0f14" />
     <link rel="canonical" href={canonical} />
@@ -65,7 +66,7 @@ const decisions = [
     <header class="nav">
       <a class="brand" href="#top"><span class="sail">⛵</span> steer</a>
       <nav class="nav-links">
-        <span class="status">● Work in progress</span>
+        <span class="status">● Alpha · v0.1.1</span>
         <a href="/steer/docs" class="ghost">Docs</a>
         <a href={repo} class="ghost" target="_blank" rel="noopener">GitHub ↗</a>
         <a href="/" class="ghost">← Portfolio</a>
@@ -188,8 +189,8 @@ const decisions = [
 
       <!-- ── CTA ───────────────────────────────────── -->
       <section class="cta-band">
-        <h2>One of the projects I’m building right now.</h2>
-        <p>It’s open source and a work in progress. Take a look, or reach out if you want to talk.</p>
+        <h2>Alpha, released and usable today.</h2>
+        <p>The service vertical (deploy, scale, rollback, status, logs, events) ships in v0.1. Registry, databases and more capabilities stay on the public roadmap. It’s open source: take a look, or reach out if you want to talk.</p>
         <div class="cta center-cta">
           <a class="btn" href={repo} target="_blank" rel="noopener">View on GitHub ↗</a>
           <a class="btn btn-ghost" href="/#contacto">Get in touch →</a>
@@ -198,7 +199,7 @@ const decisions = [
     </main>
 
     <footer class="foot">
-      <span>Steer · open source (MIT) · work in progress</span>
+      <span>Steer · open source (MIT) · alpha v0.1</span>
       <span>By <a href="/">Juan Manuel Armero Viveros</a></span>
     </footer>
 

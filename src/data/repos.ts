@@ -78,36 +78,6 @@ export const experience: Job[] = [
 // ─────────────────────────────────────────────────────────────
 export const projects: Repo[] = [
   {
-    name: 'mermaid-styler',
-    description:
-      'Local-first presentation layer for AI-generated Mermaid: paste the source, tune the visual system, and export a shareable SVG or PNG without sending the diagram away.',
-    url: 'https://github.com/juanMaAV92/mermaid-styler',
-    tags: ['Astro', 'Mermaid', 'SVG/PNG'],
-    featured: true,
-    page: '/mermaid-styler',
-    context: 'Developer tool · local-first · MVP deployed',
-  },
-  {
-    name: 'steer',
-    description:
-      'Open-source CLI + TUI (in progress) that brings PaaS-like deploys to your own AWS. Single Go binary, guardrails and interactive deploys; capability-driven core with AWS as the first target.',
-    url: '/steer',
-    tags: ['Go', 'AWS', 'CLI/TUI', 'DevOps'],
-    featured: true,
-    page: '/steer',
-    context: 'Dev tool · teams on AWS · in progress',
-  },
-  {
-    name: 'pulso',
-    description:
-      'B2B SaaS (in progress): an AI bot books appointments, re-engages customers and handles WhatsApp conversations for local service businesses. Go + Next.js, event-driven architecture.',
-    url: '/pulso',
-    tags: ['Go', 'Next.js', 'AI', 'WhatsApp'],
-    featured: true,
-    page: '/pulso',
-    context: 'Product · local service businesses · in progress',
-  },
-  {
     name: 'pdf-tool',
     description:
       'Desktop app and CLI in Python + Flet. Plugin architecture, logic/UI split, pytest, automated macOS/Windows releases, published on PyPI, and a Claude Code plugin for AI agents.',
@@ -116,6 +86,44 @@ export const projects: Repo[] = [
     featured: true,
     page: '/pdf-tool',
     context: 'Desktop app + CLI · private PDF workflows · open source',
+  },
+  {
+    name: 'steer',
+    description:
+      'Open-source CLI + TUI that brings PaaS-like deploys to your own AWS. Deploy, scale, rollback, status and logs on ECS from a single Go binary, with guardrails built into the core.',
+    url: '/steer',
+    tags: ['Go', 'AWS', 'CLI/TUI', 'DevOps'],
+    featured: true,
+    page: '/steer',
+    context: 'Dev tool · teams on AWS · alpha v0.1 released',
+  },
+  {
+    name: 'cuentas-claras',
+    description:
+      'Self-hosted budgeting and investments app that replaced a family spreadsheet. TypeScript monorepo: React SPA + Hono API, SQLite with rehearsed migrations, verified backups and invite-only auth with passkeys.',
+    url: '/cuentas-claras',
+    tags: ['TypeScript', 'Hono', 'SQLite', 'PWA'],
+    featured: true,
+    page: '/cuentas-claras',
+    context: 'Product · personal & shared finances · in real use',
+  },
+  {
+    name: 'mermaid-styler',
+    description:
+      'Local-first presentation layer for AI-generated Mermaid: paste the source, tune the visual system, and export a shareable SVG or PNG without sending the diagram away.',
+    url: 'https://github.com/juanMaAV92/mermaid-styler',
+    tags: ['Astro', 'Mermaid', 'SVG/PNG'],
+    page: '/mermaid-styler',
+    context: 'Developer tool · local-first · deployed',
+  },
+  {
+    name: 'pulso',
+    description:
+      'B2B SaaS MVP: an AI bot that books appointments and handles WhatsApp conversations for local service businesses. Go + Next.js, event-driven architecture.',
+    url: '/pulso',
+    tags: ['Go', 'Next.js', 'AI', 'WhatsApp'],
+    page: '/pulso',
+    context: 'Product · local service businesses · MVP, paused',
   },
 ];
 
