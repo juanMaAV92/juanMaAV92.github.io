@@ -1,30 +1,33 @@
 ---
 import type { Repo } from '../data/repos';
+import { localePath, type Lang } from '../i18n/site';
 
 interface Props {
   items: Repo[];
+  lang: Lang;
 }
-const { items } = Astro.props;
+const { items, lang } = Astro.props;
+const pageBadge = lang === 'es' ? 'página' : 'page';
 ---
 
 <ul class="repo-list">
   {items.map((repo) => {
     const internal = !!repo.page;
-    const href = repo.page ?? repo.url;
+    const href = repo.page ? localePath(lang, repo.page) : repo.url;
     return (
       <li class="repo reveal" data-featured={repo.featured} data-internal={internal}>
         <a class="repo-link" href={href} {...(internal ? {} : { target: '_blank', rel: 'noopener' })}>
           <div class="repo-top">
             <span class="arrow" aria-hidden="true">▸</span>
             <span class="repo-name">{repo.name}</span>
-            {internal && <span class="repo-badge">page</span>}
+            {internal && <span class="repo-badge">{pageBadge}</span>}
             <span class="tags">
               {repo.tags.map((t) => <span class="tag">{t}</span>)}
             </span>
             <span class="goto" aria-hidden="true">{internal ? '→' : '↗'}</span>
           </div>
-          <p class="repo-desc">{repo.description}</p>
-          {repo.context && <p class="repo-context">{repo.context}</p>}
+          <p class="repo-desc">{repo.description[lang]}</p>
+          {repo.context && <p class="repo-context">{repo.context[lang]}</p>}
         </a>
       </li>
     );

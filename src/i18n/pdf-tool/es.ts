@@ -134,7 +134,7 @@ const es: PdfToolDict = {
   footer: {
     madeWithHtml:
       'Hecho con 🐍 Python + <a href="https://flet.dev" target="_blank" rel="noopener">Flet</a> · Licencia MIT',
-    byHtml: 'Por <a href="/">Juan Manuel Armero Viveros</a>',
+    byHtml: 'Por <a href="/es/">Juan Manuel Armero Viveros</a>',
   },
 };
 

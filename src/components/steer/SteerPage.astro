@@ -1,0 +1,411 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource-variable/fraunces';
+import '../../styles/interaction.css';
+import I18nHead from '../I18nHead.astro';
+import LangSwitch from '../LangSwitch.astro';
+import { localePath, type Lang } from '../../i18n/site';
+import { steerDict } from '../../i18n/steer';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = steerDict(lang);
+const repo = 'https://github.com/juanMaAV92/steer';
+const path = '/steer';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%B5%3C/text%3E%3C/svg%3E" />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+    <meta name="author" content="Juan Manuel Armero Viveros" />
+    <meta name="theme-color" content="#0b0f14" />
+    <I18nHead lang={lang} path={path} />
+    <meta property="og:title" content={t.meta.ogTitle} />
+    <meta property="og:description" content={t.meta.ogDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://juanmaav92.github.io/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.meta.ogTitle} />
+    <meta name="twitter:description" content={t.meta.twitterDescription} />
+  </head>
+
+  <body class="world-steer">
+    <div class="bg" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="grid-lines"></div>
+      <div class="grain"></div>
+    </div>
+
+    <header class="nav">
+      <a class="brand" href="#top"><span class="sail">⛵</span> steer</a>
+      <nav class="nav-links">
+        <span class="status">{t.nav.status}</span>
+        <a href={localePath(lang, '/steer/docs')} class="ghost">{t.nav.docs}</a>
+        <a href={repo} class="ghost" target="_blank" rel="noopener">{t.nav.github}</a>
+        <a href={localePath(lang, '/')} class="ghost">{t.nav.portfolio}</a>
+        <LangSwitch lang={lang} path={path} />
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ── HERO ──────────────────────────────────── -->
+      <section class="hero">
+        <p class="eyebrow rise" style="--d: 0ms">{t.hero.eyebrow}</p>
+        <h1 class="rise" style="--d: 90ms">{t.hero.titleLine1}<br /><span class="hl">{t.hero.titleHl}</span>{t.hero.titleEnd}</h1>
+        <p class="lede rise" style="--d: 180ms">
+          {t.hero.lede}
+        </p>
+        <div class="cta rise" style="--d: 260ms">
+          <a class="btn" href={repo} target="_blank" rel="noopener">{t.hero.ctaGithub}</a>
+          <a class="btn btn-ghost" href={localePath(lang, '/steer/docs')}>{t.hero.ctaDocs}</a>
+          <a class="btn btn-ghost" href="#how">{t.hero.ctaHow}</a>
+        </div>
+
+        <div class="term rise" style="--d: 360ms" aria-label={t.hero.termLabel}>
+          <div class="term-bar"><i></i><i></i><i></i><span>steer · tui</span></div>
+          <pre class="tui"><span class="topbar">⛵ steer · <span class="c">aws</span> · <span class="c">staging</span> <span class="dim">(cluster: staging-cluster)</span>                    <span class="ok">writable ●</span></span>
+<span class="row">
+<span class="side"><span class="sec">SERVICES        <span class="dim">(4)</span></span>
+<span class="item sel"><span class="up">●</span> api      2/2  <span class="c">v1.4</span></span>
+<span class="item"><span class="up">●</span> web      3/3  <span class="c">v2.0</span></span>
+<span class="item"><span class="warn">◐</span> worker   1/2  <span class="c">v1.1</span></span>
+<span class="item"><span class="off">○</span> cron     0/1  <span class="dim">—</span></span>
+
+<span class="sec">IMAGES          <span class="dim">(3)</span></span>
+<span class="item">▸ api</span>
+<span class="item">▸ web</span>
+<span class="item">▸ worker</span>
+
+<span class="sec dim">DATABASES       ···</span></span><span class="main"><span class="tabs"><span class="tab on">Details</span> <span class="tab">Events</span> <span class="tab">Logs</span></span>
+  running   <span class="hl">2/2</span>
+  pending   0
+  status    <span class="ok">ACTIVE</span>
+  tag       <span class="c">v1.4</span>
+
+  <span class="act">[d]</span> deploy   <span class="act">[s]</span> scale   <span class="act">[z]</span> resize   <span class="act">[R]</span> rollback</span></span>
+<span class="botbar">↑↓ select · tab switch panel · d deploy · s scale · z resize · R rollback · c context · ? help · q quit</span></pre>
+        </div>
+      </section>
+
+      <!-- ── HOW / TWO FACES ───────────────────────── -->
+      <section id="how" class="block">
+        <p class="kicker center">{t.how.kicker}</p>
+        <h2 class="center">{t.how.title}</h2>
+        <div class="faces">
+          <article class="face">
+            <h3>{t.how.cliTitle}</h3>
+            <pre class="cmd"><span class="p">$</span> steer --context stg service deploy <span class="c">-s</span> api <span class="c">-t</span> v1.2.3 -y
+<span class="dim">{t.how.cliComment}</span></pre>
+            <p>{t.how.cliBody}</p>
+          </article>
+          <article class="face">
+            <h3>{t.how.tuiTitle}</h3>
+            <pre class="cmd"><span class="p">$</span> steer tui
+<span class="dim">{t.how.tuiComment1}</span>
+<span class="dim">{t.how.tuiComment2}</span></pre>
+            <p>{t.how.tuiBody}</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── HIGHLIGHTS ────────────────────────────── -->
+      <section class="block">
+        <p class="kicker center">{t.highlights.kicker}</p>
+        <h2 class="center">{t.highlights.title}</h2>
+        <div class="grid-cards">
+          {t.highlights.items.map((h) => (
+            <article class="card">
+              <span class="card-ic" aria-hidden="true">{h.icon}</span>
+              <h3>{h.title}</h3>
+              <p>{h.desc}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── WHO ───────────────────────────────────── -->
+      <section class="block who">
+        <p class="kicker center">{t.who.kicker}</p>
+        <h2 class="center">{t.who.title}</h2>
+        <div class="roles">
+          <div class="role">
+            <span class="role-tag">{t.who.leadTag}</span>
+            <p set:html={t.who.leadHtml} />
+          </div>
+          <div class="role-arrow" aria-hidden="true">→</div>
+          <div class="role">
+            <span class="role-tag">{t.who.teamTag}</span>
+            <p set:html={t.who.teamHtml} />
+          </div>
+        </div>
+        <p class="honest">{t.who.honest}</p>
+      </section>
+
+      <!-- ── UNDER THE HOOD ────────────────────────── -->
+      <section class="block tech">
+        <p class="kicker center">{t.tech.kicker}</p>
+        <h2 class="center">{t.tech.title}</h2>
+        <p class="under-note center">{t.tech.note}</p>
+        <div class="stack-grid">
+          {t.tech.stack.map((s) => (
+            <div class="stack-row"><span class="sk">{s.k}</span><span class="sv">{s.v}</span></div>
+          ))}
+        </div>
+        <h3 class="dec-title">{t.tech.decisionsTitle}</h3>
+        <div class="decisions">
+          {t.tech.decisions.map((d) => (
+            <article class="decision"><h4>{d.title}</h4><p>{d.desc}</p></article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── CTA ───────────────────────────────────── -->
+      <section class="cta-band">
+        <h2>{t.cta.title}</h2>
+        <p>{t.cta.body}</p>
+        <div class="cta center-cta">
+          <a class="btn" href={repo} target="_blank" rel="noopener">{t.cta.github}</a>
+          <a class="btn btn-ghost" href={localePath(lang, '/#contacto')}>{t.cta.contact}</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>{t.foot.line}</span>
+      <span>{t.foot.by} <a href={localePath(lang, '/')}>Juan Manuel Armero Viveros</a></span>
+    </footer>
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.rise, .block, .cta-band');
+      if (reduce || !('IntersectionObserver' in window)) {
+        reveals.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.04 }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <style is:global>
+      :root {
+        --bg: #0a0e13;
+        --panel: #111923;
+        --panel-2: #0e151d;
+        --line: #1d2935;
+        --ink: #d7e2ee;
+        --muted: #8b97a8;
+        --accent: #2bc8e8;
+        --accent-deep: #1a9fc0;
+        --green: #4ade80;
+        --amber: #fbbf24;
+        --display: 'Fraunces Variable', Georgia, serif;
+        --mono: 'JetBrains Mono', monospace;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg); color: var(--ink); font-family: var(--mono);
+        line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      }
+      a { color: inherit; }
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+
+    <style>
+      .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+      .glow { position: absolute; width: min(700px, 100vw); height: 700px; top: -240px; left: 50%;
+        transform: translateX(-50%); border-radius: 50%; filter: blur(130px); opacity: 0.26;
+        background: radial-gradient(circle, rgba(43, 200, 232, 0.35), transparent 70%); }
+      .grid-lines { position: absolute; inset: 0; opacity: 0.24;
+        background-image: linear-gradient(rgba(43,200,232,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(43,200,232,0.025) 1px, transparent 1px);
+        background-size: 44px 44px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000, transparent 75%); }
+      .grain { position: absolute; inset: 0; opacity: 0.04; mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+      main { max-width: 1040px; margin: 0 auto; padding: 0 1.5rem; }
+      .block { padding: 5rem 0; }
+      .center { text-align: center; }
+      h2 { font-family: var(--display); font-weight: 440; color: #fff;
+        font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.12; letter-spacing: -0.015em; }
+      .hl { color: var(--accent); }
+      .kicker { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em;
+        text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; }
+      .block > .kicker.center + h2 { margin-bottom: 0.6rem; }
+      .block-sub { color: var(--muted); max-width: 52ch; margin: 0.8rem auto 0; }
+      .under-note { color: var(--muted); max-width: 58ch; margin: 0.75rem auto 0; font-size: 0.88rem; }
+
+      /* NAV */
+      .nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center;
+        justify-content: space-between; gap: 1rem; max-width: 1040px; margin: 0 auto;
+        padding: 0.7rem clamp(1rem, 4vw, 1.5rem); min-height: 64px;
+        background: rgba(10, 14, 19, 0.72); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+      .brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+        flex: 0 0 auto; white-space: nowrap; font-weight: 700; color: #fff; font-size: 1.1rem; }
+      .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 0.8rem;
+        min-width: 0; flex: 0 1 auto; flex-wrap: nowrap; white-space: nowrap; }
+      .status { font-size: 0.74rem; font-weight: 500; color: var(--accent);
+        background: rgba(43, 200, 232, 0.1); padding: 0.28rem 0.65rem; border-radius: 999px;
+        border: 1px solid rgba(43, 200, 232, 0.25); white-space: nowrap; }
+      .ghost { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted);
+        text-decoration: none; font-size: 0.86rem; white-space: nowrap; transition: color 0.2s; }
+      .ghost:hover { color: var(--ink); }
+      .nav-links :global(.lang-switch) { color: var(--muted); --ls-active: var(--accent); --ls-hover: var(--ink); }
+
+      /* HERO */
+      .hero { text-align: center; padding: 4rem 0 3rem; display: flex; flex-direction: column; align-items: center; }
+      .eyebrow { font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+      .hero h1 { font-family: var(--display); font-weight: 440; color: #fff;
+        font-size: clamp(2.2rem, 5.5vw, 3.7rem); line-height: 1.06; letter-spacing: -0.025em; }
+      .lede { margin: 1.4rem auto 2rem; font-size: 1.02rem; color: var(--muted); max-width: 60ch; line-height: 1.7; }
+
+      .cta { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
+      .btn { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
+        font-family: var(--mono); font-weight: 600; font-size: 0.9rem; color: #04222a;
+        background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+        min-height: 44px; padding: 0.7rem 1.2rem; border-radius: 9px; box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25);
+        transition: transform 0.2s ease, box-shadow 0.2s ease; }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32); }
+      .btn-ghost { background: transparent; color: var(--ink); box-shadow: none; border: 1px solid var(--line); }
+      .btn-ghost:hover { border-color: rgba(43, 200, 232, 0.5); background: rgba(43, 200, 232, 0.05); }
+
+      /* TERMINAL / TUI */
+      .term { width: 100%; max-width: 820px; margin: 3rem auto 0; text-align: left;
+        background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6); }
+      .term-bar { display: flex; align-items: center; gap: 0.45rem; padding: 0.7rem 0.9rem;
+        background: #0c131b; border-bottom: 1px solid var(--line); position: relative; }
+      .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #2a3642; }
+      .term-bar i:nth-child(1) { background: #ff5f57; } .term-bar i:nth-child(2) { background: #febc2e; } .term-bar i:nth-child(3) { background: #28c840; }
+      .term-bar span { position: absolute; left: 0; right: 0; text-align: center; color: var(--muted); font-size: 0.76rem; }
+      .tui { padding: 1rem 1.1rem; font-size: 0.78rem; line-height: 1.55; color: var(--ink);
+        white-space: pre; overflow-x: auto; }
+      .tui .topbar { display: block; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-bottom: 0.5rem; }
+      .tui .row { display: flex; gap: 1.4rem; }
+      .tui .side { display: block; border-right: 1px solid var(--line); padding-right: 1.2rem; }
+      .tui .main { display: block; flex: 1; }
+      .tui .sec { display: block; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.4rem; }
+      .tui .item { display: block; color: #9fb0c0; padding: 0.05rem 0.3rem; border-radius: 4px; }
+      .tui .item.sel { background: rgba(43, 200, 232, 0.12); color: #fff; }
+      .tui .tabs { display: block; margin-bottom: 0.6rem; }
+      .tui .tab { color: var(--muted); padding: 0.1rem 0.2rem; }
+      .tui .tab.on { color: var(--accent); border-bottom: 2px solid var(--accent); }
+      .tui .c { color: var(--accent); }
+      .tui .dim { color: #4a5662; }
+      .tui .ok, .tui .up { color: var(--green); }
+      .tui .warn { color: var(--amber); }
+      .tui .off { color: #56636f; }
+      .tui .act { color: var(--accent); }
+
+      /* FACES */
+      .faces { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2.4rem; }
+      .face { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem; }
+      .face h3 { color: #fff; font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; }
+      .cmd { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
+        padding: 0.9rem 1rem; font-size: 0.8rem; line-height: 1.7; overflow-x: auto; margin-bottom: 1rem; color: var(--ink); }
+      .cmd .p { color: var(--green); } .cmd .c { color: var(--accent); } .cmd .dim { color: #4a5662; }
+      .face p { color: var(--muted); font-size: 0.9rem; }
+
+      /* HIGHLIGHTS */
+      .grid-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.4rem; }
+      .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem;
+        transition: transform 0.25s ease, border-color 0.25s ease; }
+      .card:hover { transform: translateY(-4px); border-color: rgba(43, 200, 232, 0.4); }
+      .card-ic { font-size: 1.5rem; display: block; margin-bottom: 0.7rem; }
+      .card h3 { color: #fff; font-size: 1.02rem; font-weight: 600; margin-bottom: 0.4rem; }
+      .card p { color: var(--muted); font-size: 0.88rem; }
+
+      /* WHO */
+      .who { text-align: center; }
+      .roles { display: flex; align-items: stretch; justify-content: center; gap: 1.2rem; margin-top: 2.4rem; flex-wrap: wrap; }
+      .role { flex: 1; min-width: 240px; max-width: 360px; background: var(--panel); border: 1px solid var(--line);
+        border-radius: 14px; padding: 1.6rem; text-align: left; }
+      .role-tag { display: inline-block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--accent); background: rgba(43, 200, 232, 0.1); border: 1px solid rgba(43, 200, 232, 0.25);
+        padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.9rem; }
+      .role p { color: var(--muted); font-size: 0.92rem; }
+      .role code { color: var(--ink); background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 0.05rem 0.35rem; font-size: 0.85em; }
+      .role-arrow { display: flex; align-items: center; color: var(--accent); font-size: 1.5rem; }
+      .honest { color: var(--muted); font-size: 0.88rem; max-width: 64ch; margin: 2rem auto 0;
+        border-left: 1px solid var(--line); padding-left: 1rem; text-align: left; font-style: italic; }
+
+      /* TECH */
+      .tech { background: var(--panel-2); border: 1px solid var(--line); border-radius: 24px; padding: 4rem 2rem; }
+      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; max-width: 720px; margin: 2.4rem auto 0; }
+      .stack-row { display: flex; flex-direction: column; gap: 0.15rem; background: var(--panel);
+        border: 1px solid var(--line); border-radius: 10px; padding: 0.8rem 1rem; }
+      .sk { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); }
+      .sv { font-size: 0.85rem; color: var(--ink); }
+      .dec-title { text-align: center; font-family: var(--display); font-weight: 460; color: #fff; font-size: 1.4rem; margin: 3rem 0 0; }
+      .decisions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; margin-top: 1.6rem; }
+      .decision { background: var(--panel); border: 1px solid var(--line); border-left: 1px solid var(--accent);
+        border-radius: 10px; padding: 1.3rem 1.4rem; }
+      .decision h4 { color: #fff; font-size: 0.98rem; font-weight: 600; margin-bottom: 0.45rem; }
+      .decision p { color: var(--muted); font-size: 0.88rem; }
+
+      /* CTA */
+      .cta-band { text-align: center; padding: 5rem 1.5rem; margin: 1rem 0 3rem;
+        background: radial-gradient(circle at 50% 0%, rgba(43, 200, 232, 0.1), transparent 65%);
+        border: 1px solid var(--line); border-radius: 24px; }
+      .cta-band p { color: var(--muted); margin: 0.9rem auto 1.8rem; max-width: 50ch; }
+      .center-cta { justify-content: center; }
+
+      /* FOOTER */
+      .foot { max-width: 1040px; margin: 0 auto; padding: 2rem 1.5rem 3rem; display: flex;
+        justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid var(--line);
+        color: var(--muted); font-size: 0.82rem; }
+      .foot a { color: var(--accent); text-decoration: none; }
+
+      /* REVEAL */
+      .rise { opacity: 0; transform: translateY(14px);
+        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: var(--d, 0ms); }
+      @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+      .block, .cta-band { opacity: 0; transform: translateY(20px);
+        transition: opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1); }
+      .block.in, .cta-band.in { opacity: 1; transform: translateY(0); }
+
+      /* RESPONSIVE */
+      @media (max-width: 880px) {
+        .faces, .grid-cards, .stack-grid, .decisions { grid-template-columns: 1fr; }
+        .role-arrow { transform: rotate(90deg); }
+      }
+      @media (max-width: 600px) {
+        .nav { gap: 0.55rem; padding-block: 0.5rem; }
+        .brand { gap: 0.4rem; font-size: 1rem; }
+        .nav-links { gap: 0.1rem; overflow-x: auto; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .nav-links .status { display: none; }
+        .nav-links .ghost { padding-inline: 0.2rem; font-size: 0.76rem; }
+        .tui { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: hidden; }
+        .tui .topbar, .tui .botbar { white-space: normal; overflow-wrap: anywhere; }
+        .tui .row { display: block; }
+        .tui .side { border-right: 0; border-bottom: 1px solid var(--line); padding: 0 0 0.8rem; }
+        .tui .main { margin-top: 0.8rem; }
+        .roles { flex-direction: column; align-items: stretch; }
+        .role { min-width: 0; max-width: none; }
+        .role-arrow { width: 100%; height: 2rem; justify-content: center; }
+        .face { padding: 1.2rem; }
+        /* Let CLI commands wrap instead of overflowing / scrolling sideways on phones */
+        .cmd { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word;
+          overflow-x: visible; font-size: 0.75rem; padding: 0.8rem 0.85rem; line-height: 1.85; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .rise { animation: none; opacity: 1; transform: none; }
+        .block, .cta-band { transition: none; opacity: 1; transform: none; }
+      }
+    </style>
+  </body>
+</html>
