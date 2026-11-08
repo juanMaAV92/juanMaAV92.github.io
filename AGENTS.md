@@ -14,6 +14,7 @@ Toda captura de pantalla de una página de proyecto debe abrirse en grande al ha
   - Si la imagen es más alta que la pantalla, se ve completa con scroll vertical, nunca recortada.
   - Cierra con Esc, con el botón ✕ o con un clic fuera de la imagen. Un clic sobre la imagen o sobre las flechas no la cierra.
   - Al cerrar, el foco vuelve a la captura que estaba abierta.
+  - Las capturas de celular (verticales) se ajustan al alto de la pantalla y se ven completas, sin scroll ni zoom gigante. En `cuentas-claras.astro` se hace con `data-group="mobile"` y la clase `.fit`.
 - Implementación de referencia:
   - `src/pages/cuentas-claras.astro`: carrusel, grupos y lightbox con navegación.
   - `src/pages/mermaid-styler.astro`: un solo grupo.

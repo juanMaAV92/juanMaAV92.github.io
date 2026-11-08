@@ -331,6 +331,8 @@ const appSchema = {
         lbImg.src = img.currentSrc || img.src;
         lbImg.alt = img.alt;
         dialog.scrollTop = 0;
+        // Capturas de celular: caben completas en la pantalla, sin scroll ni zoom gigante.
+        dialog.classList.toggle('fit', group[idx]?.dataset.group === 'mobile');
         const multi = group.length > 1;
         if (lbPrev) { lbPrev.hidden = !multi; lbPrev.disabled = idx === 0; }
         if (lbNext) { lbNext.hidden = !multi; lbNext.disabled = idx === group.length - 1; }
@@ -551,6 +553,8 @@ const appSchema = {
         width: min(100%, 1400px); height: auto; margin: auto 0;
         border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
       }
+      .lightbox.fit .lb-inner { align-items: center; }
+      .lightbox.fit .lb-inner img { width: auto; max-width: 100%; max-height: calc(100dvh - 7.5rem); border-radius: 24px; }
       .lb-close, .lb-nav {
         position: fixed; z-index: 1; border: 0; border-radius: 50%; background: var(--cream); color: var(--choco);
         cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
@@ -580,6 +584,7 @@ const appSchema = {
         .arrow { display: none; }
         .status-cols { grid-template-columns: 1fr; }
         .lb-inner { padding: 3.8rem 0.75rem 4.5rem; }
+        .lightbox.fit .lb-inner img { max-height: calc(100dvh - 8.3rem); }
         .lb-nav { top: auto; bottom: 10px; transform: none; width: 44px; height: 44px; }
         .lb-prev { left: 16px; }
         .lb-next { right: 16px; }
